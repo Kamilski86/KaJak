@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:sbdh="http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader"
+            targetNamespace="http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader"
+            elementFormDefault="unqualified"
+            attributeFormDefault="unqualified">
+
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            Standard Business Document Header (SBDH) – minimal stub for EPCIS 1.2 compatibility.
+        </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:element name="StandardBusinessDocumentHeader" type="sbdh:StandardBusinessDocumentHeaderType"/>
+
+    <xsd:complexType name="StandardBusinessDocumentHeaderType">
+        <xsd:sequence>
+            <xsd:element name="HeaderVersion"         type="xsd:string"              minOccurs="0"/>
+            <xsd:element name="Sender"                type="sbdh:PartnerType"         minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="Receiver"              type="sbdh:PartnerType"         minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="DocumentIdentification" type="sbdh:DocumentIdentificationType" minOccurs="0"/>
+            <xsd:element name="Manifest"              type="sbdh:ManifestType"        minOccurs="0"/>
+            <xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:anyAttribute processContents="lax"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="PartnerType">
+        <xsd:sequence>
+            <xsd:element name="Identifier"  type="sbdh:PartnerIdentificationType" minOccurs="0"/>
+            <xsd:element name="ContactInformation" type="sbdh:ContactInformationType" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:anyAttribute processContents="lax"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="PartnerIdentificationType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="Authority" type="xsd:string" use="optional"/>
+                <xsd:anyAttribute processContents="lax"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="ContactInformationType">
+        <xsd:sequence>
+            <xsd:element name="Contact"          type="xsd:string" minOccurs="0"/>
+            <xsd:element name="EmailAddress"     type="xsd:string" minOccurs="0"/>
+            <xsd:element name="FaxNumber"        type="xsd:string" minOccurs="0"/>
+            <xsd:element name="TelephoneNumber"  type="xsd:string" minOccurs="0"/>
+            <xsd:element name="ContactTypeIdentifier" type="xsd:string" minOccurs="0"/>
+            <xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:anyAttribute processContents="lax"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="DocumentIdentificationType">
+        <xsd:sequence>
+            <xsd:element name="Standard"              type="xsd:string"   minOccurs="0"/>
+            <xsd:element name="TypeVersion"           type="xsd:string"   minOccurs="0"/>
+            <xsd:element name="InstanceIdentifier"    type="xsd:string"   minOccurs="0"/>
+            <xsd:element name="Type"                  type="xsd:string"   minOccurs="0"/>
+            <xsd:element name="MultipleType"          type="xsd:boolean"  minOccurs="0"/>
+            <xsd:element name="CreationDateAndTime"   type="xsd:dateTime" minOccurs="0"/>
+            <xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:anyAttribute processContents="lax"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="ManifestType">
+        <xsd:sequence>
+            <xsd:element name="NumberOfItems" type="xsd:integer"         minOccurs="0"/>
+            <xsd:element name="ManifestItem"  type="sbdh:ManifestItemType" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:anyAttribute processContents="lax"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="ManifestItemType">
+        <xsd:sequence>
+            <xsd:element name="MimeTypeQualifierCode" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="UniformResourceIdentifier" type="xsd:anyURI" minOccurs="0"/>
+            <xsd:element name="Description"           type="xsd:string" minOccurs="0"/>
+            <xsd:element name="LanguageCode"          type="xsd:string" minOccurs="0"/>
+            <xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:anyAttribute processContents="lax"/>
+    </xsd:complexType>
+
+</xsd:schema>
