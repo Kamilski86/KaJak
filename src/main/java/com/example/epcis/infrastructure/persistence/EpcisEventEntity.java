@@ -10,16 +10,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.OffsetDateTime;
 
-/**
- * JPA Entity – repräsentiert ein konvertiertes EPCIS 2.0 Event in der Datenbank.
- *
- * Tabelle: epcis_events
- */
 @Entity
-@Table(name = "epcis_events")
+@Table(name = "epcis_event")
 @Getter
 @Builder
 @NoArgsConstructor
@@ -30,19 +26,16 @@ public class EpcisEventEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /** ObjectEvent oder AggregationEvent */
     @Column(name = "event_type", nullable = false, length = 50)
     private String eventType;
 
-    /** Zeitstempel des Events aus dem EPCIS-Dokument */
     @Column(name = "event_time")
     private OffsetDateTime eventTime;
 
-    /** Vollständiges EPCIS 2.0 JSON */
-    @Column(name = "payload", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "payload", nullable = false, columnDefinition = "jsonb")
     private String payload;
 
-    /** Zeitstempel wann der Datensatz gespeichert wurde */
-    @Column(name = "created_at", nullable = false)
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;
 }

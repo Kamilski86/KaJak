@@ -1,82 +1,95 @@
-package api;
+package com.example.epcis.api;
 
-import application.ConvertEventUseCase;
-import infrastructure.xml.EpcisValidationException;
+import com.example.epcis.application.ConvertEventUseCase;
+import com.example.epcis.infrastructure.json.EpcisDocumentDto;
+import com.example.epcis.infrastructure.persistence.EpcisEventEntity;
+import com.example.epcis.infrastructure.persistence.EpcisEventRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
-/**
- * REST Controller – Eingang für EPCIS 1.2 XML Events.
- *
- * POST /api/events/convert
- *   Content-Type: application/xml
- *   Body: EPCIS 1.2 XML
- *
- * Response:
- *   200 → Liste der konvertierten EPCIS 2.0 JSON Events
- *   400 → Validierungsfehler (ungültiges XML oder Schema-Verletzung)
- *   500 → Interner Fehler
- */
 @RestController
 @RequestMapping("/api/events")
 public class EpcisEventController {
 
     private static final Logger log = LoggerFactory.getLogger(EpcisEventController.class);
+    private static final int MAX_PAGE_SIZE = 100;
 
     private final ConvertEventUseCase convertEventUseCase;
+    private final EpcisEventRepository repository;
+    private final ObjectMapper objectMapper;
 
-    public EpcisEventController(ConvertEventUseCase convertEventUseCase) {
+    public EpcisEventController(ConvertEventUseCase convertEventUseCase,
+                                EpcisEventRepository repository,
+                                ObjectMapper objectMapper) {
         this.convertEventUseCase = convertEventUseCase;
+        this.repository = repository;
+        this.objectMapper = objectMapper;
     }
 
-    /**
-     * Nimmt EPCIS 1.2 XML entgegen, konvertiert zu EPCIS 2.0 JSON.
-     *
-     * @param xml EPCIS 1.2 XML als String im Request Body
-     * @return Liste der konvertierten JSON-Events
-     */
-    @PostMapping(
-        value = "/convert",
-        consumes = MediaType.APPLICATION_XML_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public ResponseEntity<List<String>> convert(@RequestBody String xml) {
-        log.info("POST /api/events/convert empfangen ({} Zeichen)", xml.length());
-        List<String> results = convertEventUseCase.convert(xml);
-        return ResponseEntity.ok(results);
+    @PostMapping(value = "/convert", consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<EpcisDocumentDto> convert(@RequestBody String xml) {
+        log.info("POST /api/events/convert received ({} chars)", xml.length());
+        return ResponseEntity.ok(convertEventUseCase.convert(xml));
     }
 
-    /**
-     * Fängt Validierungsfehler und gibt HTTP 400 zurück.
-     * Kein Stack-Trace an den Client — nur die Fehlermeldung.
-     */
-    @ExceptionHandler(EpcisValidationException.class)
-    public ResponseEntity<Map<String, String>> handleValidationException(EpcisValidationException ex) {
-        log.warn("Validierungsfehler: {}", ex.getMessage());
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(Map.of("error", ex.getMessage()));
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Page<EpcisEventResponse>> search(
+            @ModelAttribute EventSearchCriteria criteria,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+
+        Page<EpcisEventResponse> response = repository
+                .search(criteria.getType(), criteria.getAction(), criteria.getBizStep(),
+                        criteria.getDisposition(), criteria.getReadPoint(), criteria.getBizLocation(),
+                        criteria.getParentId(), criteria.getEpc(), criteria.getGln(),
+                        criteria.getEventTimeFrom(), criteria.getEventTimeTo(),
+                        PageRequest.of(page, Math.min(size, MAX_PAGE_SIZE)))
+                .map(this::toResponse);
+
+        log.info("GET /api/events → {} results (page {}/{})",
+                response.getNumberOfElements(), page, response.getTotalPages());
+        return ResponseEntity.ok(response);
     }
 
-    /**
-     * Fängt alle anderen Fehler und gibt HTTP 500 zurück.
-     */
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, String>> handleGenericException(Exception ex) {
-        log.error("Unerwarteter Fehler: {}", ex.getMessage(), ex);
-        return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(Map.of("error", "Interner Fehler: " + ex.getMessage()));
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<EpcisEventResponse> getById(@PathVariable Long id) {
+        Optional<EpcisEventEntity> entity = repository.findById(id);
+        if (entity.isEmpty()) {
+            log.warn("GET /api/events/{} → not found", id);
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(toResponse(entity.get()));
+    }
+
+    private EpcisEventResponse toResponse(EpcisEventEntity entity) {
+        Object parsedPayload;
+        try {
+            parsedPayload = objectMapper.readValue(entity.getPayload(), Object.class);
+        } catch (Exception e) {
+            log.warn("Could not parse payload for id={}", entity.getId());
+            parsedPayload = entity.getPayload();
+        }
+        return EpcisEventResponse.builder()
+                .id(entity.getId())
+                .eventType(entity.getEventType())
+                .eventTime(entity.getEventTime())
+                .createdAt(entity.getCreatedAt())
+                .payload(parsedPayload)
+                .build();
     }
 }

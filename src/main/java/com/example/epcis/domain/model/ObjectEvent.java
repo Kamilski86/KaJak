@@ -1,7 +1,6 @@
-package com.example.epcis.model;
+package com.example.epcis.domain.model;
 
 import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
@@ -11,21 +10,19 @@ import java.util.List;
  * Beispiel: Ware wird gescannt, versendet oder empfangen.
  */
 @Getter
-@Setter
 @SuperBuilder
 public class ObjectEvent extends EpcisEvent {
+
+    @Override
+    public String getEventTypeName() {
+        return "ObjectEvent";
+    }
 
     /**
      * Liste der betroffenen EPCs (Electronic Product Codes).
      * Beispiel: "urn:epc:id:sgtin:0614141.107346.2017"
      */
     private List<String> epcList;
-
-    /**
-     * Aktion die mit den EPCs durchgeführt wurde.
-     * Erlaubte Werte: ADD, OBSERVE, DELETE
-     */
-    private Action action;
 
     /**
      * Optionale Mengenliste für Produkte ohne Serien-EPC.

@@ -1,4 +1,4 @@
-package infrastructure.xml;
+package com.example.epcis.infrastructure.xml;
 
 /**
  * Wird geworfen wenn eingehendes XML nicht gegen das EPCIS 1.2 XSD-Schema validiert.

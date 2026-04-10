@@ -1,7 +1,6 @@
-package com.example.epcis.model;
+package com.example.epcis.domain.model;
 
 import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
@@ -11,9 +10,13 @@ import java.util.List;
  * Beispiel: Einzelne SGTINs werden auf eine SSCC-Palette gepackt.
  */
 @Getter
-@Setter
 @SuperBuilder
 public class AggregationEvent extends EpcisEvent {
+
+    @Override
+    public String getEventTypeName() {
+        return "AggregationEvent";
+    }
 
     /**
      * Der übergeordnete EPC – z.B. die Palette (SSCC).
@@ -25,14 +28,6 @@ public class AggregationEvent extends EpcisEvent {
      * Liste der untergeordneten EPCs – z.B. die einzelnen Kartons auf der Palette.
      */
     private List<String> childEpcs;
-
-    /**
-     * Aktion die durchgeführt wurde.
-     * ADD    = Objekte werden dem Parent hinzugefügt (Palettieren)
-     * OBSERVE = Aggregation wird beobachtet
-     * DELETE = Objekte werden vom Parent entfernt (Depalettieren)
-     */
-    private Action action;
 
     /**
      * Optionale Mengenliste für Kinder ohne Serien-EPC.

@@ -1,20 +1,22 @@
-package com.example.epcis.model;
+package com.example.epcis.domain.model;
 
 import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+
+
 
 /**
  * Basisklasse für alle EPCIS Event-Typen.
  * Enthält alle Felder die ObjectEvent und AggregationEvent gemeinsam haben.
  */
 @Getter
-@Setter
 @SuperBuilder
 public abstract class EpcisEvent {
+
+    public abstract String getEventTypeName();
 
     /** Eindeutige Event-ID (wird in EPCIS 2.0 als @context-konformes Feld gesetzt) */
     private String eventId;
@@ -48,4 +50,6 @@ public abstract class EpcisEvent {
 
     /** Liste der Geschäftstransaktionen die mit diesem Event verbunden sind */
     private List<BusinessTransaction> bizTransactionList;
+
+    private Action action;
 }

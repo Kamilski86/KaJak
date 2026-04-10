@@ -1,4 +1,4 @@
-package infrastructure.persistence;
+package com.example.epcis.infrastructure.persistence;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,15 +10,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.Instant;
+import java.util.UUID;
 
 /**
- * Schreibt konvertierte EPCIS 2.0 JSON Events in Dateien.
- *
- * Jedes Event bekommt eine eigene Datei mit Timestamp im Namen.
- * Ausgabeverzeichnis wird aus application.yml gelesen: epcis.output.directory
- *
- * Später: wird durch ein PostgreSQL-Repository ersetzt.
+ * Writes converted EPCIS 2.0 JSON events to files as a best-effort audit log.
+ * Database persistence is handled by JsonDatabaseWriter.
  */
 @Component
 public class JsonFileWriter {
@@ -32,32 +28,23 @@ public class JsonFileWriter {
         createDirectoryIfNotExists();
     }
 
-    /**
-     * Schreibt einen JSON-String als Datei.
-     * Dateiname: epcis-event-{timestamp}.json
-     *
-     * @param json EPCIS 2.0 JSON als String
-     */
     public void write(String json) {
-        String filename = "epcis-event-" + Instant.now().toEpochMilli() + ".json";
+        String filename = "epcis-event-" + UUID.randomUUID() + ".json";
         Path target = outputDirectory.resolve(filename);
-
         try {
             Files.writeString(target, json, StandardCharsets.UTF_8);
-            log.info("Event gespeichert: {}", target.toAbsolutePath());
+            log.info("Event written to file: {}", target.toAbsolutePath());
         } catch (IOException e) {
-            throw new RuntimeException("JSON-Datei konnte nicht geschrieben werden: " + target, e);
+            throw new RuntimeException("Failed to write JSON file: " + target, e);
         }
     }
 
     private void createDirectoryIfNotExists() {
         try {
-            if (!Files.exists(outputDirectory)) {
-                Files.createDirectories(outputDirectory);
-                log.info("Output-Verzeichnis erstellt: {}", outputDirectory.toAbsolutePath());
-            }
+            Files.createDirectories(outputDirectory); // idempotent — no-ops if already exists
+            log.info("Output directory ready: {}", outputDirectory.toAbsolutePath());
         } catch (IOException e) {
-            throw new IllegalStateException("Output-Verzeichnis konnte nicht erstellt werden: " + outputDirectory, e);
+            throw new IllegalStateException("Failed to create output directory: " + outputDirectory, e);
         }
     }
 }

@@ -2,14 +2,21 @@ spring:
   application:
     name: epcis-event-handler
 
+  datasource:
+    url: jdbc:postgresql://localhost:5432/kamiljasinski
+    username: kamiljasinski
+    password:
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
 server:
   port: 8080
 
 epcis:
   output:
-    # Pfad wo die konvertierten JSON-Dateien gespeichert werden
-    # Passe diesen Pfad auf deinen lokalen Rechner an
     directory: ./output/events
   schema:
-    # Pfad zur XSD-Datei für EPCIS 1.2 Validierung
     path: classpath:xsd/EPCglobal-epcis-1_2.xsd

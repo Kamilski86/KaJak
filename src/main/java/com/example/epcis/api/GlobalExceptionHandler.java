@@ -19,15 +19,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EpcisValidationException.class)
     public ResponseEntity<Map<String, String>> handleValidationException(EpcisValidationException ex) {
         log.warn("Schema validation error: {}", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(Map.of("error", ex.getMessage()));
+        return badRequest(ex.getMessage());
     }
 
     @ExceptionHandler(EpcisParsingException.class)
     public ResponseEntity<Map<String, String>> handleParsingException(EpcisParsingException ex) {
         log.warn("XML parsing error: {}", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(Map.of("error", ex.getMessage()));
+        return badRequest(ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
@@ -35,5 +33,9 @@ public class GlobalExceptionHandler {
         log.error("Unexpected error: {}", ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(Map.of("error", "Internal error: " + ex.getMessage()));
+    }
+
+    private static ResponseEntity<Map<String, String>> badRequest(String message) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", message));
     }
 }

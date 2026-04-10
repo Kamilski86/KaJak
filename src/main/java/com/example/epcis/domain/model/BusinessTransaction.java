@@ -1,4 +1,4 @@
-package com.example.epcis.model;
+package com.example.epcis.domain.model;
 
 import lombok.Builder;
 import lombok.Getter;

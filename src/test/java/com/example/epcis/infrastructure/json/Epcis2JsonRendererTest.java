@@ -23,6 +23,7 @@ class Epcis2JsonRendererTest {
     void setUp() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         renderer = new Epcis2JsonRenderer(objectMapper);
     }

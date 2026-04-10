@@ -1,4 +1,4 @@
-package com.example.epcis.model;
+package com.example.epcis.domain.model;
 
 /**
  * EPCIS Action – definiert was mit einem EPC oder einer Aggregation passiert ist.

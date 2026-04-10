@@ -1,4 +1,4 @@
-package infrastructure.json;
+package com.example.epcis.infrastructure.json;
 
 /**
  * Wird geworfen wenn ein Domain-Event nicht in EPCIS 2.0 JSON gerendert werden kann.
