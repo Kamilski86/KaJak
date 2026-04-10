@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Golden-master fixture: ObjectEvent DELETE with errorDeclaration
+  Covers: correcting a previously reported event that did not actually occur.
+  Note: no ILMD allowed on DELETE (CBV rule enforced by CbvVocabularyValidator).
+-->
+<epcis:EPCISDocument xmlns:epcis="urn:epcglobal:epcis:xsd:1"
+                     schemaVersion="1.2"
+                     creationDate="2024-01-16T00:00:00Z">
+  <EPCISBody>
+    <EventList>
+      <ObjectEvent>
+        <eventTime>2024-01-16T09:00:00+02:00</eventTime>
+        <eventTimeZoneOffset>+02:00</eventTimeZoneOffset>
+        <epcList>
+          <epc>urn:epc:id:sgtin:0614141.107346.9999</epc>
+        </epcList>
+        <action>DELETE</action>
+        <bizStep>urn:epcglobal:cbv:bizstep:shipping</bizStep>
+        <disposition>urn:epcglobal:cbv:disp:inactive</disposition>
+        <readPoint><id>urn:epc:id:sgln:0614141.07346.1234</id></readPoint>
+        <errorDeclaration>
+          <declaringTime>2024-01-16T09:05:00+02:00</declaringTime>
+          <reason>urn:epcglobal:cbv:er:did_not_occur</reason>
+          <correctingEventIDs>
+            <correctingEventID>urn:uuid:deadbeef-0000-0000-0000-000000000001</correctingEventID>
+          </correctingEventIDs>
+        </errorDeclaration>
+      </ObjectEvent>
+    </EventList>
+  </EPCISBody>
+</epcis:EPCISDocument>

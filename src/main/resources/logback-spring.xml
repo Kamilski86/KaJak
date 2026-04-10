@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="epcis-event-handler"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!--
+                Pattern includes %X{correlationId} from MDC so every log line
+                carries the request correlation ID set by CorrelationIdFilter.
+                Falls back to "-" when not set (e.g., background threads).
+            -->
+            <pattern>%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %5level [${appName}] [%thread] [%X{correlationId:--}] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+    <!-- Reduce noise from Hibernate SQL logging in non-debug profiles -->
+    <logger name="org.hibernate.SQL" level="WARN"/>
+    <logger name="org.hibernate.orm.jdbc.bind" level="WARN"/>
+
+</configuration>

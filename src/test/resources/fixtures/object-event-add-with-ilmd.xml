@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Golden-master fixture: ObjectEvent ADD with ILMD and quantityList
+  Covers: quantityList (class-level), ILMD payload, commissioning step.
+-->
+<epcis:EPCISDocument xmlns:epcis="urn:epcglobal:epcis:xsd:1"
+                     schemaVersion="1.2"
+                     creationDate="2024-01-20T00:00:00Z">
+  <EPCISBody>
+    <EventList>
+      <ObjectEvent>
+        <eventTime>2024-01-20T08:00:00+01:00</eventTime>
+        <eventTimeZoneOffset>+01:00</eventTimeZoneOffset>
+        <epcList/>
+        <action>ADD</action>
+        <bizStep>urn:epcglobal:cbv:bizstep:commissioning</bizStep>
+        <disposition>urn:epcglobal:cbv:disp:active</disposition>
+        <readPoint><id>urn:epc:id:sgln:0614141.07346.5678</id></readPoint>
+        <quantityList>
+          <quantityElement>
+            <epcClass>urn:epc:class:lgtin:0614141.107346.LOT-2024-001</epcClass>
+            <quantity>150</quantity>
+            <uom>EA</uom>
+          </quantityElement>
+        </quantityList>
+        <ilmd>
+          <lotNumber>LOT-2024-001</lotNumber>
+          <itemExpirationDate>2025-12-31</itemExpirationDate>
+        </ilmd>
+      </ObjectEvent>
+    </EventList>
+  </EPCISBody>
+</epcis:EPCISDocument>
