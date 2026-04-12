@@ -1,0 +1,3 @@
+[submodule "KaJak"]
+	path = KaJak
+	url = https://github.com/Kamilski86/KaJak.git
