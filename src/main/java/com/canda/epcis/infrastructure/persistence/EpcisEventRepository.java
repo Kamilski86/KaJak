@@ -77,4 +77,9 @@ public interface EpcisEventRepository extends JpaRepository<EpcisEventEntity, Lo
             @Param("to")   OffsetDateTime to,
             Pageable pageable
     );
+
+    /** Finds a single event by its EPCIS eventID field stored in the payload JSON. */
+    @Query(value = "SELECT * FROM epcis_event WHERE payload::jsonb ->> 'eventID' = :eventId LIMIT 1",
+           nativeQuery = true)
+    java.util.Optional<EpcisEventEntity> findByEventId(@Param("eventId") String eventId);
 }
