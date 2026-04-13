@@ -25,6 +25,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -52,9 +53,9 @@ class CaptureEventUseCaseTest {
                 xmlValidator, xmlParser, epcFilterService,
                 jsonRenderer, databaseWriter, fileWriter, auditRepository);
 
-        when(auditRepository.save(any(CaptureAuditEntity.class)))
+        lenient().when(auditRepository.save(any(CaptureAuditEntity.class)))
                 .thenAnswer(inv -> inv.getArgument(0));
-        when(jsonRenderer.renderEvent(any())).thenReturn("{\"type\":\"ObjectEvent\"}");
+        lenient().when(jsonRenderer.renderEvent(any())).thenReturn("{\"type\":\"ObjectEvent\"}");
     }
 
     // ─────────────────────────────────────────────

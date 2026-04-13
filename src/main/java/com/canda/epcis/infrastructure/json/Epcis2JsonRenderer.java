@@ -75,8 +75,8 @@ public class Epcis2JsonRenderer implements EventRenderer {
                 .eventTimeZoneOffset(event.getEventTimeZoneOffset())
                 .recordTime(event.getRecordTime())
                 .action(event.getAction())
-                .bizStep(cbvShortForm(event.getBizStep()))
-                .disposition(cbvShortForm(event.getDisposition()))
+                .bizStep(event.getBizStep())
+                .disposition(event.getDisposition())
                 .readPoint(mapIdObject(event.getReadPoint()))
                 .bizLocation(mapIdObject(event.getBizLocation()))
                 .bizTransactionList(mapBizTransactions(event.getBizTransactionList()))
@@ -126,7 +126,7 @@ public class Epcis2JsonRenderer implements EventRenderer {
         if (list == null || list.isEmpty()) return null;
         return list.stream()
                 .map(bt -> Epcis2EventDto.BizTransactionDto.builder()
-                        .type(cbvShortForm(bt.getType())).bizTransaction(bt.getValue())
+                        .type(bt.getType()).bizTransaction(bt.getValue())
                         .build())
                 .toList();
     }
@@ -135,7 +135,7 @@ public class Epcis2JsonRenderer implements EventRenderer {
         if (list == null || list.isEmpty()) return null;
         return list.stream()
                 .map(s -> Epcis2EventDto.SourceDto.builder()
-                        .type(cbvShortForm(s.getType())).source(s.getValue())
+                        .type(s.getType()).source(s.getValue())
                         .build())
                 .toList();
     }
@@ -144,7 +144,7 @@ public class Epcis2JsonRenderer implements EventRenderer {
         if (list == null || list.isEmpty()) return null;
         return list.stream()
                 .map(d -> Epcis2EventDto.DestinationDto.builder()
-                        .type(cbvShortForm(d.getType())).destination(d.getValue())
+                        .type(d.getType()).destination(d.getValue())
                         .build())
                 .toList();
     }
@@ -153,22 +153,9 @@ public class Epcis2JsonRenderer implements EventRenderer {
         if (ed == null) return null;
         return Epcis2EventDto.ErrorDeclarationDto.builder()
                 .declaringTime(ed.getDeclaringTime())
-                .reason(cbvShortForm(ed.getReason()))
+                .reason(ed.getReason())
                 .correctingEventIDs(ed.getCorrectingEventIds())
                 .build();
     }
 
-    /**
-     * Converts a GS1 CBV 1.2 full URN to the EPCIS 2.0 short-form vocabulary value.
-     *
-     * Mapping rule: urn:epcglobal:cbv:<type>:<value> → <value>
-     * Non-GS1 URIs (user-defined extensions) are passed through unchanged.
-     * Null is returned as-is.
-     */
-    private String cbvShortForm(String uri) {
-        if (uri == null) return null;
-        if (!uri.startsWith("urn:epcglobal:cbv:")) return uri;
-        int lastColon = uri.lastIndexOf(':');
-        return uri.substring(lastColon + 1);
-    }
 }

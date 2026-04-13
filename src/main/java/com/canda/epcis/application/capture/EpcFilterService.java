@@ -36,7 +36,7 @@ public class EpcFilterService {
         List<String> epcs = event.getEpcList() != null ? event.getEpcList() : List.of();
         FilterOutcome outcome = filterEpcList(epcs, event.getEventId(), "ObjectEvent");
 
-        boolean drop = outcome.accepted().isEmpty();
+        boolean drop = !epcs.isEmpty() && outcome.accepted().isEmpty();
         return FilterResult.builder()
                 .acceptedEpcs(outcome.accepted())
                 .filteredEpcs(outcome.filtered())
