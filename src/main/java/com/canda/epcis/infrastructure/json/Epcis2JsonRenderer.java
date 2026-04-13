@@ -16,9 +16,37 @@ import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class Epcis2JsonRenderer implements EventRenderer {
+
+    /**
+     * Maps EPCIS 1.2 CBV URN prefixes to their EPCIS 2.0 short-name equivalents.
+     * EPCIS 2.0 JSON Schema requires short names (e.g. "receiving") not URNs.
+     * Reference: GS1 EPCIS 2.0 standard, section on CBV vocabulary.
+     */
+    private static final Map<String, String> CBV_URN_PREFIXES = Map.of(
+            "urn:epcglobal:cbv:bizstep:", "",
+            "urn:epcglobal:cbv:disp:",    "",
+            "urn:epcglobal:cbv:btt:",     "",
+            "urn:epcglobal:cbv:sdt:",     "",
+            "urn:epcglobal:cbv:er:",      ""
+    );
+
+    /**
+     * Converts an EPCIS 1.2 CBV URN to its EPCIS 2.0 short name.
+     * Non-standard (user-defined) URIs are passed through unchanged.
+     */
+    private static String normalizeCbv(String uri) {
+        if (uri == null) return null;
+        for (Map.Entry<String, String> entry : CBV_URN_PREFIXES.entrySet()) {
+            if (uri.startsWith(entry.getKey())) {
+                return uri.substring(entry.getKey().length());
+            }
+        }
+        return uri;
+    }
 
     private static final Logger log = LoggerFactory.getLogger(Epcis2JsonRenderer.class);
     private static final String EPCIS2_CONTEXT = "https://ref.gs1.org/standards/epcis/epcis-context.jsonld";
@@ -75,8 +103,8 @@ public class Epcis2JsonRenderer implements EventRenderer {
                 .eventTimeZoneOffset(event.getEventTimeZoneOffset())
                 .recordTime(event.getRecordTime())
                 .action(event.getAction())
-                .bizStep(event.getBizStep())
-                .disposition(event.getDisposition())
+                .bizStep(normalizeCbv(event.getBizStep()))
+                .disposition(normalizeCbv(event.getDisposition()))
                 .readPoint(mapIdObject(event.getReadPoint()))
                 .bizLocation(mapIdObject(event.getBizLocation()))
                 .bizTransactionList(mapBizTransactions(event.getBizTransactionList()))
@@ -126,7 +154,7 @@ public class Epcis2JsonRenderer implements EventRenderer {
         if (list == null || list.isEmpty()) return null;
         return list.stream()
                 .map(bt -> Epcis2EventDto.BizTransactionDto.builder()
-                        .type(bt.getType()).bizTransaction(bt.getValue())
+                        .type(normalizeCbv(bt.getType())).bizTransaction(bt.getValue())
                         .build())
                 .toList();
     }
@@ -135,7 +163,7 @@ public class Epcis2JsonRenderer implements EventRenderer {
         if (list == null || list.isEmpty()) return null;
         return list.stream()
                 .map(s -> Epcis2EventDto.SourceDto.builder()
-                        .type(s.getType()).source(s.getValue())
+                        .type(normalizeCbv(s.getType())).source(s.getValue())
                         .build())
                 .toList();
     }
@@ -144,7 +172,7 @@ public class Epcis2JsonRenderer implements EventRenderer {
         if (list == null || list.isEmpty()) return null;
         return list.stream()
                 .map(d -> Epcis2EventDto.DestinationDto.builder()
-                        .type(d.getType()).destination(d.getValue())
+                        .type(normalizeCbv(d.getType())).destination(d.getValue())
                         .build())
                 .toList();
     }
@@ -153,7 +181,7 @@ public class Epcis2JsonRenderer implements EventRenderer {
         if (ed == null) return null;
         return Epcis2EventDto.ErrorDeclarationDto.builder()
                 .declaringTime(ed.getDeclaringTime())
-                .reason(ed.getReason())
+                .reason(normalizeCbv(ed.getReason()))
                 .correctingEventIDs(ed.getCorrectingEventIds())
                 .build();
     }

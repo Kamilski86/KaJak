@@ -44,7 +44,7 @@ class Epcis2JsonRendererTest {
         assertThat(json).contains("\"type\" : \"ObjectEvent\"");
         assertThat(json).contains("\"eventID\" : \"urn:uuid:test-event-id\"");
         assertThat(json).contains("\"action\" : \"OBSERVE\"");
-        assertThat(json).contains("\"bizStep\" : \"urn:epcglobal:cbv:bizstep:shipping\"");
+        assertThat(json).contains("\"bizStep\" : \"shipping\"");
         assertThat(json).contains("urn:epc:id:sgtin:0614141.107346.2017");
         // @context must NOT appear on individual events
         assertThat(json).doesNotContain("@context");
@@ -123,7 +123,7 @@ class Epcis2JsonRendererTest {
 
         String json = renderer.renderEvent(event);
 
-        assertThat(json).contains("urn:epcglobal:cbv:btt:po");
+        assertThat(json).contains("\"type\" : \"po\"");
         assertThat(json).contains("bizTransactionList");
     }
 }
