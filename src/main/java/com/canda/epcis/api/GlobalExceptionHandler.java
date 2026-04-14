@@ -1,5 +1,6 @@
 package com.canda.epcis.api;
 
+import com.canda.epcis.application.inventory.EpcNotFoundException;
 import com.canda.epcis.application.query.EpcisQueryException;
 import com.canda.epcis.domain.service.CbvValidationException;
 import com.canda.epcis.domain.service.Epcis2SchemaValidationException;
@@ -59,6 +60,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> handleIllegalArgument(IllegalArgumentException ex) {
         log.warn("Invalid argument: {}", ex.getMessage());
         return badRequest(ex.getMessage());
+    }
+
+    @ExceptionHandler(EpcNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleEpcNotFoundException(EpcNotFoundException ex) {
+        log.warn("EPC not found: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("error", ex.getMessage()));
     }
 
     @ExceptionHandler(EpcisQueryException.class)
