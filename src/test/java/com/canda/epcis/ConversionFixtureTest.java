@@ -65,8 +65,8 @@ class ConversionFixtureTest {
         assertThat(node.path("type").asText()).isEqualTo("ObjectEvent");
         assertThat(node.path("action").asText()).isEqualTo("OBSERVE");
         assertThat(node.path("eventID").asText()).isEqualTo("urn:uuid:a1b2c3d4-e5f6-7890-abcd-ef1234567890");
-        assertThat(node.path("bizStep").asText()).isEqualTo("urn:epcglobal:cbv:bizstep:shipping");
-        assertThat(node.path("disposition").asText()).isEqualTo("urn:epcglobal:cbv:disp:in_transit");
+        assertThat(node.path("bizStep").asText()).isEqualTo("shipping");
+        assertThat(node.path("disposition").asText()).isEqualTo("in_transit");
         assertThat(node.path("readPoint").path("id").asText())
                 .isEqualTo("urn:epc:id:sgln:0614141.07346.1234");
         assertThat(node.path("bizLocation").path("id").asText())
@@ -87,7 +87,7 @@ class ConversionFixtureTest {
         // sourceList and destinationList
         assertThat(node.path("sourceList").isArray()).isTrue();
         assertThat(node.path("sourceList").get(0).path("type").asText())
-                .isEqualTo("urn:epcglobal:cbv:sdt:owning_party");
+                .isEqualTo("owning_party");
         assertThat(node.path("destinationList").isArray()).isTrue();
 
         // No @context on individual events
@@ -112,7 +112,7 @@ class ConversionFixtureTest {
 
         assertThat(node.path("type").asText()).isEqualTo("ObjectEvent");
         assertThat(node.path("action").asText()).isEqualTo("ADD");
-        assertThat(node.path("bizStep").asText()).isEqualTo("urn:epcglobal:cbv:bizstep:commissioning");
+        assertThat(node.path("bizStep").asText()).isEqualTo("commissioning");
 
         // quantityList
         JsonNode qList = node.path("quantityList");
@@ -148,7 +148,7 @@ class ConversionFixtureTest {
 
         JsonNode ed = node.path("errorDeclaration");
         assertThat(ed.isMissingNode()).isFalse();
-        assertThat(ed.path("reason").asText()).isEqualTo("urn:epcglobal:cbv:er:did_not_occur");
+        assertThat(ed.path("reason").asText()).isEqualTo("did_not_occur");
 
         JsonNode correctingIds = ed.path("correctingEventIDs");
         assertThat(correctingIds.isArray()).isTrue();
@@ -175,7 +175,7 @@ class ConversionFixtureTest {
         assertThat(node.path("type").asText()).isEqualTo("AggregationEvent");
         assertThat(node.path("action").asText()).isEqualTo("ADD");
         assertThat(node.path("parentID").asText()).isEqualTo("urn:epc:id:sscc:0614141.1234567890");
-        assertThat(node.path("bizStep").asText()).isEqualTo("urn:epcglobal:cbv:bizstep:packing");
+        assertThat(node.path("bizStep").asText()).isEqualTo("packing");
 
         JsonNode childEpcs = node.path("childEPCs");
         assertThat(childEpcs.isArray()).isTrue();
@@ -201,7 +201,7 @@ class ConversionFixtureTest {
         assertThat(node.path("type").asText()).isEqualTo("AggregationEvent");
         assertThat(node.path("action").asText()).isEqualTo("DELETE");
         assertThat(node.path("parentID").asText()).isEqualTo("urn:epc:id:sscc:0614141.1234567890");
-        assertThat(node.path("bizStep").asText()).isEqualTo("urn:epcglobal:cbv:bizstep:unpacking");
+        assertThat(node.path("bizStep").asText()).isEqualTo("unpacking");
 
         // Empty childEPCs on DELETE is semantically valid (full disaggregation)
         JsonNode childEpcs = node.path("childEPCs");

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Fixture: ObjectEvent + AggregationEvent in einem Dokument.
+  Für CaptureEventUseCaseTest — gemischte Event-Typen in einer Session.
+-->
+<epcis:EPCISDocument xmlns:epcis="urn:epcglobal:epcis:xsd:1"
+                     schemaVersion="1.2"
+                     creationDate="2024-03-02T00:00:00Z">
+  <EPCISBody>
+    <EventList>
+      <ObjectEvent>
+        <eventTime>2024-03-02T09:00:00+01:00</eventTime>
+        <eventTimeZoneOffset>+01:00</eventTimeZoneOffset>
+        <eventID>urn:uuid:aaaabbbb-cccc-dddd-eeee-ffffaaaabbbb</eventID>
+        <epcList>
+          <epc>urn:epc:id:sgtin:0614141.107346.1001</epc>
+          <epc>urn:epc:id:sgtin:0614141.107346.1002</epc>
+        </epcList>
+        <action>ADD</action>
+        <bizStep>urn:epcglobal:cbv:bizstep:commissioning</bizStep>
+        <disposition>urn:epcglobal:cbv:disp:active</disposition>
+        <readPoint><id>urn:epc:id:sgln:0614141.07346.4000</id></readPoint>
+        <bizLocation><id>urn:epc:id:sgln:0614141.07346.4001</id></bizLocation>
+      </ObjectEvent>
+      <AggregationEvent>
+        <eventTime>2024-03-02T09:05:00+01:00</eventTime>
+        <eventTimeZoneOffset>+01:00</eventTimeZoneOffset>
+        <eventID>urn:uuid:11112222-3333-4444-5555-666677778888</eventID>
+        <parentID>urn:epc:id:sscc:0614141.9876543210</parentID>
+        <childEPCs>
+          <epc>urn:epc:id:sgtin:0614141.107346.1001</epc>
+          <epc>urn:epc:id:sgtin:0614141.107346.1002</epc>
+        </childEPCs>
+        <action>ADD</action>
+        <bizStep>urn:epcglobal:cbv:bizstep:packing</bizStep>
+        <disposition>urn:epcglobal:cbv:disp:in_progress</disposition>
+        <readPoint><id>urn:epc:id:sgln:0614141.07346.4000</id></readPoint>
+        <bizLocation><id>urn:epc:id:sgln:0614141.07346.4001</id></bizLocation>
+      </AggregationEvent>
+    </EventList>
+  </EPCISBody>
+</epcis:EPCISDocument>

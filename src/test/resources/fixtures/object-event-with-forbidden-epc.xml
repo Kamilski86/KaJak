@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Fixture: ObjectEvent mit verbotenen und erlaubten EPCs gemischt.
+  REQ216: GID-EPC muss gefiltert werden, SGTIN-EPCs bleiben erhalten.
+  Erwartung: totalFiltered=1, totalAccepted=1, Event wird behalten.
+-->
+<epcis:EPCISDocument xmlns:epcis="urn:epcglobal:epcis:xsd:1"
+                     schemaVersion="1.2"
+                     creationDate="2024-03-01T00:00:00Z">
+  <EPCISBody>
+    <EventList>
+      <ObjectEvent>
+        <eventTime>2024-03-01T08:00:00+01:00</eventTime>
+        <eventTimeZoneOffset>+01:00</eventTimeZoneOffset>
+        <eventID>urn:uuid:f1e2d3c4-b5a6-7890-fedc-ba9876543210</eventID>
+        <epcList>
+          <epc>urn:epc:id:sgtin:0614141.107346.9001</epc>
+          <epc>urn:epc:id:gid:0614141.107346.9999</epc>
+        </epcList>
+        <action>OBSERVE</action>
+        <bizStep>urn:epcglobal:cbv:bizstep:receiving</bizStep>
+        <disposition>urn:epcglobal:cbv:disp:in_progress</disposition>
+        <readPoint><id>urn:epc:id:sgln:0614141.07346.3000</id></readPoint>
+        <bizLocation><id>urn:epc:id:sgln:0614141.07346.3001</id></bizLocation>
+      </ObjectEvent>
+    </EventList>
+  </EPCISBody>
+</epcis:EPCISDocument>

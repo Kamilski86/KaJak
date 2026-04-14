@@ -11,6 +11,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+    open-in-view: false
 
   flyway:
     enabled: true
@@ -38,3 +39,8 @@ epcis:
     directory: ./output/events
   schema:
     path: classpath:xsd/EPCglobal-epcis-1_2.xsd
+  capture:
+    max-events-per-request: 1000
+    max-xml-size-kb: 10240
+    audit-enabled: true
+    file-writer-enabled: true

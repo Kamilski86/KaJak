@@ -1,5 +1,6 @@
 package com.canda.epcis.api;
 
+import com.canda.epcis.application.query.EpcisQueryException;
 import com.canda.epcis.domain.service.CbvValidationException;
 import com.canda.epcis.domain.service.Epcis2SchemaValidationException;
 import com.canda.epcis.infrastructure.xml.EpcisParsingException;
@@ -8,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
@@ -45,6 +47,25 @@ public class GlobalExceptionHandler {
         log.error("Rendered output failed GS1 EPCIS 2.0 schema validation [ref={}]: {}", ref, ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(Map.of("error", "Output schema validation failed. Reference: " + ref));
+    }
+
+    @ExceptionHandler(MissingRequestHeaderException.class)
+    public ResponseEntity<Map<String, String>> handleMissingHeader(MissingRequestHeaderException ex) {
+        log.warn("Missing required header: {}", ex.getHeaderName());
+        return badRequest(ex.getHeaderName() + " header is required");
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, String>> handleIllegalArgument(IllegalArgumentException ex) {
+        log.warn("Invalid argument: {}", ex.getMessage());
+        return badRequest(ex.getMessage());
+    }
+
+    @ExceptionHandler(EpcisQueryException.class)
+    public ResponseEntity<Map<String, String>> handleQueryNotFound(EpcisQueryException ex) {
+        log.warn("Query not found: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("error", ex.getMessage()));
     }
 
     @ExceptionHandler(NoResourceFoundException.class)
