@@ -44,3 +44,11 @@ epcis:
     max-xml-size-kb: 10240
     audit-enabled: true
     file-writer-enabled: true
+  inventory:
+    enabled: true
+    max-history-limit: 1000
+    default-history-limit: 100
+    rebuild-enabled: true
+    available-merchandise-dispositions:
+      - sellable_accessible
+      - sellable_not_accessible

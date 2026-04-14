@@ -1,5 +1,6 @@
 package com.canda.epcis.application.capture;
 
+import com.canda.epcis.application.inventory.InventoryProcessorService;
 import com.canda.epcis.domain.model.AggregationEvent;
 import com.canda.epcis.domain.model.CaptureResult;
 import com.canda.epcis.domain.model.EpcisEvent;
@@ -48,6 +49,7 @@ public class CaptureEventUseCase {
     private final JsonDatabaseWriter databaseWriter;
     private final JsonFileWriter fileWriter;
     private final CaptureAuditRepository auditRepository;
+    private final InventoryProcessorService inventoryProcessorService;
 
     public CaptureEventUseCase(EpcisXmlValidator xmlValidator,
                                EpcisXmlParser xmlParser,
@@ -55,7 +57,8 @@ public class CaptureEventUseCase {
                                Epcis2JsonRenderer jsonRenderer,
                                JsonDatabaseWriter databaseWriter,
                                JsonFileWriter fileWriter,
-                               CaptureAuditRepository auditRepository) {
+                               CaptureAuditRepository auditRepository,
+                               InventoryProcessorService inventoryProcessorService) {
         this.xmlValidator = xmlValidator;
         this.xmlParser = xmlParser;
         this.epcFilterService = epcFilterService;
@@ -63,6 +66,7 @@ public class CaptureEventUseCase {
         this.databaseWriter = databaseWriter;
         this.fileWriter = fileWriter;
         this.auditRepository = auditRepository;
+        this.inventoryProcessorService = inventoryProcessorService;
     }
 
     /**
@@ -118,6 +122,7 @@ public class CaptureEventUseCase {
                 String json = jsonRenderer.renderEvent(eventToSave);
                 databaseWriter.save(eventToSave, json);
                 fileWriter.write(json);
+                inventoryProcessorService.process(eventToSave);
 
                 captureIds.add(eventId != null ? eventId : "unknown");
                 accepted++;

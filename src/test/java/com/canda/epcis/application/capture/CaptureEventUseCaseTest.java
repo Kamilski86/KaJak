@@ -1,5 +1,6 @@
 package com.canda.epcis.application.capture;
 
+import com.canda.epcis.application.inventory.InventoryProcessorService;
 import com.canda.epcis.domain.model.AggregationEvent;
 import com.canda.epcis.domain.model.CaptureResult;
 import com.canda.epcis.domain.model.ObjectEvent;
@@ -32,12 +33,13 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class CaptureEventUseCaseTest {
 
-    @Mock EpcisXmlValidator    xmlValidator;
-    @Mock EpcisXmlParser       xmlParser;
-    @Mock Epcis2JsonRenderer   jsonRenderer;
-    @Mock JsonDatabaseWriter   databaseWriter;
-    @Mock JsonFileWriter       fileWriter;
-    @Mock CaptureAuditRepository auditRepository;
+    @Mock EpcisXmlValidator         xmlValidator;
+    @Mock EpcisXmlParser            xmlParser;
+    @Mock Epcis2JsonRenderer        jsonRenderer;
+    @Mock JsonDatabaseWriter        databaseWriter;
+    @Mock JsonFileWriter            fileWriter;
+    @Mock CaptureAuditRepository    auditRepository;
+    @Mock InventoryProcessorService inventoryProcessorService;
 
     // Real EpcFilterService — pure domain logic, no mocking needed
     private EpcFilterService epcFilterService;
@@ -51,7 +53,8 @@ class CaptureEventUseCaseTest {
         epcFilterService = new EpcFilterService();
         useCase = new CaptureEventUseCase(
                 xmlValidator, xmlParser, epcFilterService,
-                jsonRenderer, databaseWriter, fileWriter, auditRepository);
+                jsonRenderer, databaseWriter, fileWriter, auditRepository,
+                inventoryProcessorService);
 
         lenient().when(auditRepository.save(any(CaptureAuditEntity.class)))
                 .thenAnswer(inv -> inv.getArgument(0));
