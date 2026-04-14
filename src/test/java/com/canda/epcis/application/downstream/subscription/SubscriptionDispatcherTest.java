@@ -42,7 +42,7 @@ class SubscriptionDispatcherTest {
 
     @Test
     void dispatch_matchingSubscription_createsOutboxEntry() {
-        SubscriptionEntity sub = subscription("HALO-GENERAL", null, null, null, null, null);
+        SubscriptionEntity sub = subscription("ITEMOPTIX-GENERAL", null, null, null, null, null);
         when(subscriptionRepository.findByActiveTrue()).thenReturn(List.of(sub));
         when(outboxRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
         when(subscriptionRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
@@ -55,7 +55,7 @@ class SubscriptionDispatcherTest {
         OutboxEntity outbox = captor.getValue();
         assertThat(outbox.getTargetSystem()).isEqualTo("SUBSCRIPTION");
         assertThat(outbox.getMessageType()).isEqualTo("SUBSCRIPTION");
-        assertThat(outbox.getCorrelationId()).isEqualTo("HALO-GENERAL");
+        assertThat(outbox.getCorrelationId()).isEqualTo("ITEMOPTIX-GENERAL");
         assertThat(outbox.getStatus()).isEqualTo("PENDING");
         assertThat(outbox.getPayload()).isEqualTo("{\"event\":true}");
     }
@@ -158,7 +158,7 @@ class SubscriptionDispatcherTest {
 
     @Test
     void dispatch_multipleMatchingSubscriptions_createsOneOutboxEntryEach() {
-        SubscriptionEntity sub1 = subscription("HALO",  null, null, null, null, null);
+        SubscriptionEntity sub1 = subscription("ITEMOPTIX",  null, null, null, null, null);
         SubscriptionEntity sub2 = subscription("MULE-RSTO", null, "shipping", null, null, null);
         SubscriptionEntity sub3 = subscription("MULE-RECEIVING", null, "receiving", null, null, null);
         when(subscriptionRepository.findByActiveTrue()).thenReturn(List.of(sub1, sub2, sub3));

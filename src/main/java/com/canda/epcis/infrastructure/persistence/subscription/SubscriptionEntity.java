@@ -50,11 +50,11 @@ public class SubscriptionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /** Fachliche ID, z.B. "HALO-GENERAL", "MULE-RSTO". Muss eindeutig sein. */
+    /** Fachliche ID, z.B. "ITEMOPTIX-GENERAL", "MULE-RSTO". Muss eindeutig sein. */
     @Column(name = "subscription_id", nullable = false, unique = true, length = 100)
     private String subscriptionId;
 
-    /** Zielsystem-Name, z.B. "HALO", "MULE", "ITEMOPTIX". */
+    /** Zielsystem-Name, z.B. "ITEMOPTIX", "MULE". */
     @Column(name = "target_system", nullable = false, length = 100)
     private String targetSystem;
 

@@ -44,7 +44,7 @@ class SubscriptionControllerIntegrationTest {
     @Test
     void post_validSubscription_returns201() throws Exception {
         SubscriptionRegistration req = new SubscriptionRegistration(
-                "TEST-SUB-001", "HALO",
+                "TEST-SUB-001", "ITEMOPTIX",
                 "http://localhost:9001/callback",
                 "BEARER", "test-token",
                 "ObjectEvent", "shipping", null, null, null,
@@ -55,14 +55,14 @@ class SubscriptionControllerIntegrationTest {
                         .content(objectMapper.writeValueAsString(req)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.subscriptionId", is("TEST-SUB-001")))
-                .andExpect(jsonPath("$.targetSystem", is("HALO")))
+                .andExpect(jsonPath("$.targetSystem", is("ITEMOPTIX")))
                 .andExpect(jsonPath("$.active", is(true)));
     }
 
     @Test
     void post_duplicateSubscriptionId_returns400() throws Exception {
         SubscriptionRegistration req = new SubscriptionRegistration(
-                "TEST-DUP-001", "HALO", "http://localhost/cb",
+                "TEST-DUP-001", "ITEMOPTIX", "http://localhost/cb",
                 "NONE", null, null, null, null, null, null, true);
 
         mockMvc.perform(post("/epcis/subscriptions")
@@ -139,7 +139,7 @@ class SubscriptionControllerIntegrationTest {
     @Test
     void putActive_deactivatesSubscription() throws Exception {
         SubscriptionRegistration req = new SubscriptionRegistration(
-                "TEST-ACTIVE-001", "HALO", "http://localhost/halo",
+                "TEST-ACTIVE-001", "ITEMOPTIX", "http://localhost/itemoptix",
                 "NONE", null, null, null, null, null, null, true);
 
         mockMvc.perform(post("/epcis/subscriptions")

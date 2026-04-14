@@ -73,13 +73,13 @@ epcis:
       max-retries: 3
       cleanup-days: 30
     subscriptions:
-      - id: HALO-GENERAL
-        target: HALO
-        callback-url: ${HALO_CALLBACK_URL:http://localhost:9001/epcis/events}
+      - id: ITEMOPTIX-GENERAL
+        target: ITEMOPTIX
+        callback-url: ${ITEMOPTIX_CALLBACK_URL:http://localhost:9001/epcis/events}
         auth-type: BEARER
         event-types: ObjectEvent,AggregationEvent
         biz-steps: "receiving,storing,cycle_counting,inspecting,entering_exiting,retail_selling,accepting,staging_outbound,loading,departing,shipping,commissioning"
-        active: false   # true setzen wenn HALO_CALLBACK_URL konfiguriert
+        active: false   # true setzen wenn ITEMOPTIX_CALLBACK_URL konfiguriert
       - id: MULE-RSTO
         target: MULE
         callback-url: ${MULE_RSTO_URL:http://localhost:9002/rsto}

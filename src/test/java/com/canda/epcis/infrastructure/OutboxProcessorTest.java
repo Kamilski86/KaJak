@@ -124,11 +124,11 @@ class OutboxProcessorTest {
 
     @Test
     void resolveUrl_subscriptionNoRepository_returnsNull() {
-        when(subscriptionRepository.findBySubscriptionId("HALO-GENERAL"))
+        when(subscriptionRepository.findBySubscriptionId("ITEMOPTIX-GENERAL"))
                 .thenReturn(java.util.Optional.empty());
 
         OutboxEntity msg = pendingMessage("SUBSCRIPTION", "SUBSCRIPTION");
-        msg.setCorrelationId("HALO-GENERAL");
+        msg.setCorrelationId("ITEMOPTIX-GENERAL");
 
         String url = processor.resolveUrl(msg);
 
