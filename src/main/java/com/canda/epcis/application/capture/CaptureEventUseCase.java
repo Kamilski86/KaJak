@@ -1,5 +1,6 @@
 package com.canda.epcis.application.capture;
 
+import com.canda.epcis.application.downstream.subscription.SubscriptionDispatcher;
 import com.canda.epcis.application.inventory.InventoryProcessorService;
 import com.canda.epcis.domain.model.AggregationEvent;
 import com.canda.epcis.domain.model.CaptureResult;
@@ -50,6 +51,7 @@ public class CaptureEventUseCase {
     private final JsonFileWriter fileWriter;
     private final CaptureAuditRepository auditRepository;
     private final InventoryProcessorService inventoryProcessorService;
+    private final SubscriptionDispatcher subscriptionDispatcher;
 
     public CaptureEventUseCase(EpcisXmlValidator xmlValidator,
                                EpcisXmlParser xmlParser,
@@ -58,7 +60,8 @@ public class CaptureEventUseCase {
                                JsonDatabaseWriter databaseWriter,
                                JsonFileWriter fileWriter,
                                CaptureAuditRepository auditRepository,
-                               InventoryProcessorService inventoryProcessorService) {
+                               InventoryProcessorService inventoryProcessorService,
+                               SubscriptionDispatcher subscriptionDispatcher) {
         this.xmlValidator = xmlValidator;
         this.xmlParser = xmlParser;
         this.epcFilterService = epcFilterService;
@@ -67,6 +70,7 @@ public class CaptureEventUseCase {
         this.fileWriter = fileWriter;
         this.auditRepository = auditRepository;
         this.inventoryProcessorService = inventoryProcessorService;
+        this.subscriptionDispatcher = subscriptionDispatcher;
     }
 
     /**
@@ -123,6 +127,10 @@ public class CaptureEventUseCase {
                 databaseWriter.save(eventToSave, json);
                 fileWriter.write(json);
                 inventoryProcessorService.process(eventToSave);
+                subscriptionDispatcher.dispatch(eventToSave, json);
+                // TODO Phase 3 Schicht 3+4: arrivalNotificationService.onReceivingEvent(eventToSave)
+                // TODO Phase 3 Schicht 3+4: goodsReceiptNotificationService.onReceivingEvent(eventToSave)
+                // TODO Phase 3 Schicht 3+4: trolleyNotificationService.onTrolleyReadEvent(eventToSave)
 
                 captureIds.add(eventId != null ? eventId : "unknown");
                 accepted++;

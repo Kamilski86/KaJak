@@ -52,3 +52,45 @@ epcis:
     available-merchandise-dispositions:
       - sellable_accessible
       - sellable_not_accessible
+  downstream:
+    gspm:
+      base-url: ${GSPM_BASE_URL:http://localhost:9010}
+      inventory-interval-ms: 60000
+      shipping-interval-ms: 300000
+      enabled: false   # true setzen wenn GSPM-URL konfiguriert und erreichbar
+    erp:
+      base-url: ${ERP_BASE_URL:http://localhost:9011}
+      enabled: false
+    dwh:
+      base-url: ${DWH_BASE_URL:http://localhost:9012}
+      interval-ms: 300000
+      enabled: false
+    ewm:
+      base-url: ${EWM_BASE_URL:http://localhost:9013}
+      enabled: false
+    outbox:
+      poll-interval-ms: 30000
+      max-retries: 3
+      cleanup-days: 30
+    subscriptions:
+      - id: HALO-GENERAL
+        target: HALO
+        callback-url: ${HALO_CALLBACK_URL:http://localhost:9001/epcis/events}
+        auth-type: BEARER
+        event-types: ObjectEvent,AggregationEvent
+        biz-steps: "receiving,storing,cycle_counting,inspecting,entering_exiting,retail_selling,accepting,staging_outbound,loading,departing,shipping,commissioning"
+        active: false   # true setzen wenn HALO_CALLBACK_URL konfiguriert
+      - id: MULE-RSTO
+        target: MULE
+        callback-url: ${MULE_RSTO_URL:http://localhost:9002/rsto}
+        auth-type: BEARER
+        event-types: ObjectEvent
+        biz-steps: "shipping"
+        active: false
+      - id: MULE-RECEIVING
+        target: MULE
+        callback-url: ${MULE_RECEIVING_URL:http://localhost:9002/receiving}
+        auth-type: BEARER
+        event-types: ObjectEvent
+        biz-steps: "receiving"
+        active: false

@@ -1,5 +1,6 @@
 package com.canda.epcis.application.capture;
 
+import com.canda.epcis.application.downstream.subscription.SubscriptionDispatcher;
 import com.canda.epcis.application.inventory.InventoryProcessorService;
 import com.canda.epcis.domain.model.AggregationEvent;
 import com.canda.epcis.domain.model.CaptureResult;
@@ -40,6 +41,7 @@ class CaptureEventUseCaseTest {
     @Mock JsonFileWriter            fileWriter;
     @Mock CaptureAuditRepository    auditRepository;
     @Mock InventoryProcessorService inventoryProcessorService;
+    @Mock SubscriptionDispatcher    subscriptionDispatcher;
 
     // Real EpcFilterService — pure domain logic, no mocking needed
     private EpcFilterService epcFilterService;
@@ -54,7 +56,7 @@ class CaptureEventUseCaseTest {
         useCase = new CaptureEventUseCase(
                 xmlValidator, xmlParser, epcFilterService,
                 jsonRenderer, databaseWriter, fileWriter, auditRepository,
-                inventoryProcessorService);
+                inventoryProcessorService, subscriptionDispatcher);
 
         lenient().when(auditRepository.save(any(CaptureAuditEntity.class)))
                 .thenAnswer(inv -> inv.getArgument(0));
