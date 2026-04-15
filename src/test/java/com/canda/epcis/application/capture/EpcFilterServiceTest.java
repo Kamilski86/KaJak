@@ -71,6 +71,37 @@ class EpcFilterServiceTest {
     }
 
     // ─────────────────────────────────────────────
+    // EpcFormat.isValidSsccStructure — GS1 TDS 2.0 §6.3.2
+    // ─────────────────────────────────────────────
+
+    @Test
+    void ssccStructure_validNumeric17digits_returnsTrue() {
+        // company(7) + serialRef(10) = 17
+        assertThat(EpcFormat.isValidSsccStructure("urn:epc:id:sscc:4056019.0000000001")).isTrue();
+    }
+
+    @Test
+    void ssccStructure_serialRefWithLetters_returnsFalse() {
+        assertThat(EpcFormat.isValidSsccStructure("urn:epc:id:sscc:4056019.ABC1234567")).isFalse();
+    }
+
+    @Test
+    void ssccStructure_wrongTotalLength_returnsFalse() {
+        // company(7) + serialRef(5) = 12 — zu kurz
+        assertThat(EpcFormat.isValidSsccStructure("urn:epc:id:sscc:4056019.00001")).isFalse();
+    }
+
+    @Test
+    void ssccStructure_missingDot_returnsFalse() {
+        assertThat(EpcFormat.isValidSsccStructure("urn:epc:id:sscc:40560190000000001")).isFalse();
+    }
+
+    @Test
+    void ssccStructure_notSsccPrefix_returnsFalse() {
+        assertThat(EpcFormat.isValidSsccStructure("urn:epc:id:sgtin:4056019.010532.1")).isFalse();
+    }
+
+    // ─────────────────────────────────────────────
     // filterObjectEvent
     // ─────────────────────────────────────────────
 
@@ -162,6 +193,34 @@ class EpcFilterServiceTest {
         assertThat(result.getAcceptedEpcs()).hasSize(2);
         assertThat(result.getFilteredEpcs()).isEmpty();
         assertThat(result.isEventShouldBeDropped()).isFalse();
+    }
+
+    @Test
+    void filterObjectEvent_ssccWithLettersInSerial_filtered() {
+        ObjectEvent event = objectEvent(List.of(
+                "urn:epc:id:sscc:4056019.ABC1234567"
+        ));
+
+        FilterResult result = service.filterObjectEvent(event);
+
+        assertThat(result.getAcceptedEpcs()).isEmpty();
+        assertThat(result.getFilteredEpcs()).hasSize(1);
+        assertThat(result.getFilteredEpcs().get(0).getReason()).isEqualTo("INVALID_SSCC_STRUCTURE");
+        assertThat(result.isEventShouldBeDropped()).isTrue();
+    }
+
+    @Test
+    void filterAggregationEvent_parentIdSsccWithLetters_eventDropped() {
+        AggregationEvent event = aggregationEvent(
+                "urn:epc:id:sscc:4056019.ABC1234567",
+                List.of("urn:epc:id:sgtin:0614141.107346.0001")
+        );
+
+        FilterResult result = service.filterAggregationEvent(event);
+
+        assertThat(result.isEventShouldBeDropped()).isTrue();
+        assertThat(result.getFilteredEpcs()).extracting(FilterResult.FilteredEpc::getReason)
+                .containsExactly("INVALID_SSCC_STRUCTURE");
     }
 
     @Test

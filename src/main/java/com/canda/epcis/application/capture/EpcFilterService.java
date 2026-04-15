@@ -54,19 +54,36 @@ public class EpcFilterService {
         List<FilterResult.FilteredEpc> filteredEpcs = new ArrayList<>();
 
         // REQ216 Punkt 2: parentID muss SSCC sein
-        if (parentId != null && !parentId.isBlank() && !EpcFormat.isValidParentId(parentId)) {
-            log.warn("EPC_FILTERED epc={} eventId={} eventType={} reason={} filteredCount={}",
-                    parentId, event.getEventId(), "AggregationEvent", "INVALID_PARENT_ID_NOT_SSCC", 1);
-            filteredEpcs.add(FilterResult.FilteredEpc.builder()
-                    .epc(parentId)
-                    .reason("INVALID_PARENT_ID_NOT_SSCC")
-                    .build());
-            return FilterResult.builder()
-                    .acceptedEpcs(List.of())
-                    .filteredEpcs(filteredEpcs)
-                    .eventShouldBeDropped(true)
-                    .dropReason("parentID is not a valid SSCC: " + parentId)
-                    .build();
+        if (parentId != null && !parentId.isBlank()) {
+            if (!EpcFormat.isValidParentId(parentId)) {
+                log.warn("EPC_FILTERED epc={} eventId={} eventType={} reason={} filteredCount={}",
+                        parentId, event.getEventId(), "AggregationEvent", "INVALID_PARENT_ID_NOT_SSCC", 1);
+                filteredEpcs.add(FilterResult.FilteredEpc.builder()
+                        .epc(parentId)
+                        .reason("INVALID_PARENT_ID_NOT_SSCC")
+                        .build());
+                return FilterResult.builder()
+                        .acceptedEpcs(List.of())
+                        .filteredEpcs(filteredEpcs)
+                        .eventShouldBeDropped(true)
+                        .dropReason("parentID is not a valid SSCC: " + parentId)
+                        .build();
+            }
+            // GS1 TDS 2.0 §6.3.2: SSCC SerialReference muss rein numerisch sein, 17 Stellen gesamt
+            if (!EpcFormat.isValidSsccStructure(parentId)) {
+                log.warn("EPC_FILTERED epc={} eventId={} eventType={} reason={} filteredCount={}",
+                        parentId, event.getEventId(), "AggregationEvent", "INVALID_SSCC_STRUCTURE", 1);
+                filteredEpcs.add(FilterResult.FilteredEpc.builder()
+                        .epc(parentId)
+                        .reason("INVALID_SSCC_STRUCTURE")
+                        .build());
+                return FilterResult.builder()
+                        .acceptedEpcs(List.of())
+                        .filteredEpcs(filteredEpcs)
+                        .eventShouldBeDropped(true)
+                        .dropReason("parentID has invalid SSCC structure (non-numeric or wrong length): " + parentId)
+                        .build();
+            }
         }
 
         List<String> childEpcs = event.getChildEpcs() != null ? event.getChildEpcs() : List.of();
@@ -150,6 +167,11 @@ public class EpcFilterService {
                 log.warn("EPC_FILTERED epc={} eventId={} eventType={} reason={} filteredCount={}",
                         epc, eventId, eventType, "UNSUPPORTED_FORMAT", 1);
                 filtered.add(FilterResult.FilteredEpc.builder().epc(epc).reason("UNSUPPORTED_FORMAT").build());
+            } else if (epc.startsWith("urn:epc:id:sscc:") && !EpcFormat.isValidSsccStructure(epc)) {
+                // GS1 TDS 2.0 §6.3.2: SSCC SerialReference muss rein numerisch sein, 17 Stellen gesamt
+                log.warn("EPC_FILTERED epc={} eventId={} eventType={} reason={} filteredCount={}",
+                        epc, eventId, eventType, "INVALID_SSCC_STRUCTURE", 1);
+                filtered.add(FilterResult.FilteredEpc.builder().epc(epc).reason("INVALID_SSCC_STRUCTURE").build());
             } else {
                 accepted.add(epc);
             }
