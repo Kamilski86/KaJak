@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<epcis:EPCISDocument xmlns:epcis="urn:epcglobal:epcis:xsd:1" schemaVersion="1.2" creationDate="2021-10-21T09:16:27.317Z">
+  <EPCISBody>
+    <EventList>
+      <ObjectEvent>
+          <eventTime>2021-10-21T00:00:00.000+02:00</eventTime>
+          <eventTimeZoneOffset>+02:00</eventTimeZoneOffset>
+          <baseExtension>
+              <eventID>urn:uuid:0fa09b7d-89a1-46e2-9e04-68b351f6a461</eventID>
+          </baseExtension>
+          <epcList>
+              <epc>urn:epc:id:sscc:3047113.0000004565</epc>
+              <epc>urn:epc:id:sscc:3047113.0000004567</epc>
+              <epc>urn:epc:id:sscc:3047113.0000004568</epc>
+              <epc>urn:epc:id:sscc:3047113.0000004569</epc>
+              <epc>urn:epc:id:sscc:3047113.0000004570</epc>
+          </epcList>
+          <action>OBSERVE</action>
+          <bizStep>urn:epcglobal:cbv:bizstep:shipping</bizStep>
+          <disposition>urn:epcglobal:cbv:disp:in_transit</disposition>
+          <readPoint>
+              <id>http://epcis.canda.com/advice/sapBusinessPartnerId/123456</id>
+          </readPoint>
+          <bizTransactionList>
+              <bizTransaction type="urn:epcglobal:cbv:btt:po">urn:epc:id:gdti:082213300010</bizTransaction>
+          </bizTransactionList>
+          <extension>
+              <sourceList>
+                  <source type="urn:epcglobal:cbv:sdt:location">http://epcis.canda.com/advice/sapBusinessPartnerId/123456</source>
+              </sourceList>
+              <destinationList>
+                  <destination type="urn:epcglobal:cbv:sdt:location">urn:epc:id:sgln:4062847.00067.0</destination>
+              </destinationList>
+          </extension>
+        </ObjectEvent>
+      </EventList>
+  </EPCISBody>
+</epcis:EPCISDocument>>

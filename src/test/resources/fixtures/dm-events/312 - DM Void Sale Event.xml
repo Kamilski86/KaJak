@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<epcis:EPCISDocument schemaVersion="1.2" creationDate="2019-04-01T07:40:32.715Z" xmlns:epcis="urn:epcglobal:epcis:xsd:1" xmlns:epcismd="urn:epcglobal:epcis-masterdata:xsd:1" xmlns:sbdh="http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader" xmlns:canda="http://ns.canda.com/epcis" xmlns:epcisq="urn:epcglobal:epcis-query:xsd:1" xmlns:epcglobal="urn:epcglobal:xsd:1" xmlns:eecc="http://ns.eecc.info/epcis">
+	<EPCISBody>
+		<EventList>
+			<ObjectEvent>
+				<eventTime>2021-03-29T10:24:18.47Z</eventTime>
+				<eventTimeZoneOffset>+01:00</eventTimeZoneOffset>
+				<baseExtension>
+					<eventID>urn:uuid:0d9a7b81-cf69-4135-99bc-a8c2393ce079</eventID>
+					<errorDeclaration>
+						<declarationTime>2021-03-29T10:27:07.417Z</declarationTime>
+						<reason>urn:epcglobal:cbv:er:did_not_occur</reason>
+					</errorDeclaration>
+				</baseExtension>
+				<epcList>
+					<epc>urn:epc:id:sgtin:4061505.078699.111</epc>
+				</epcList>
+				<action>OBSERVE</action>
+				<bizStep>urn:epcglobal:cbv:bizstep:retail_selling</bizStep>
+				<disposition>urn:epcglobal:cbv:disp:retail_sold</disposition>
+				<readPoint>
+					<id>urn:epc:id:sgln:4056019.00334.0</id>
+				</readPoint>
+				<bizTransactionList>
+					<bizTransaction type="urn:epcglobal:cbv:btt:inv">urn:epcglobal:cbv:bt:4399901779365:438001_1_100_20210305172131</bizTransaction>
+				</bizTransactionList>
+				<canda:POSid>7</canda:POSid>
+			</ObjectEvent>
+		</EventList>
+	</EPCISBody>
+</epcis:EPCISDocument>>

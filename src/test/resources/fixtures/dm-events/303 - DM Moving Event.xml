@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<epcis:EPCISDocument schemaVersion="1.2" creationDate="2019-07-04T08:56:37.967Z" xmlns:epcis="urn:epcglobal:epcis:xsd:1" xmlns:epcismd="urn:epcglobal:epcis-masterdata:xsd:1" xmlns:sbdh="http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader" xmlns:canda="http://ns.canda.com/epcis" xmlns:epcisq="urn:epcglobal:epcis-query:xsd:1" xmlns:epcglobal="urn:epcglobal:xsd:1" xmlns:eecc="http://ns.eecc.info/epcis">
+	<EPCISBody>
+		<EventList>
+			<ObjectEvent>
+				<eventTime>2021-05-04T20:53:55.718+05:30</eventTime>
+				<recordTime>2021-05-04T15:15:47.511Z</recordTime>
+				<eventTimeZoneOffset>+05:30</eventTimeZoneOffset>
+				<baseExtension>
+					<eventID xmlns:canda="http://ns.canda.com/epcis">urn:uuid:17a78a5f-377c-4c6c-93cc-fd8e91f1064a</eventID>
+				</baseExtension>
+				<epcList>
+					<epc>urn:epc:id:sgtin:4056019.010532.4293918790</epc>
+				</epcList>
+				<action>OBSERVE</action>
+				<bizStep>urn:epcglobal:cbv:bizstep:storing</bizStep>
+				<disposition>urn:epcglobal:cbv:disp:sellable_accessible</disposition>
+				<readPoint>
+					<id>urn:epc:id:sgln:4056019.00115.SALESFLOOR</id>
+				</readPoint>
+				<bizLocation>
+					<id>urn:epc:id:sgln:4056019.00115.SALESFLOOR</id>
+				</bizLocation>
+			</ObjectEvent>
+		</EventList>
+	</EPCISBody>
+</epcis:EPCISDocument>>

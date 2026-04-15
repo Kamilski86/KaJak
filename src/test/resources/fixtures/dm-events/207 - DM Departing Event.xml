@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<epcis:EPCISDocument xmlns:epcis="urn:epcglobal:epcis:xsd:1" schemaVersion="1.1" creationDate="2015-04-14T10:35:38.116-04:00">
+<EPCISBody>
+<EventList>
+	<AggregationEvent>
+                  <eventTime>2021-05-12T12:40:00.04152Z</eventTime>                
+                  <eventTimeZoneOffset>+01:00</eventTimeZoneOffset>
+                  <baseExtension>
+					<eventID>urn:uuid:83e30e95-0f4d-45e6-bfff-ccf2d0780a43</eventID>
+                  </baseExtension>
+                  <parentID>urn:epc:id:sscc:7110000.4000004741</parentID>
+                  <childEPCs>
+                     <epc>urn:epc:id:sgtin:4063958.085500.91728566115</epc>
+                     <epc>urn:epc:id:sgtin:4063958.085500.235562241701</epc>
+                     <epc>urn:epc:id:sgtin:4063958.085497.13362553469</epc>
+                     <epc>urn:epc:id:sgtin:4063958.085497.219709869046</epc>
+                  </childEPCs>
+                  <action>OBSERVE</action>
+                  <bizStep>urn:epcglobal:cbv:bizstep:departing</bizStep>
+                  <disposition>urn:epcglobal:cbv:disp:in_transit</disposition>
+                  <readPoint>
+                     <id>urn:epc:id:sgln:4062847.00022.0</id>
+                  </readPoint>
+                  <bizTransactionList>
+                     <bizTransaction type="http://epcis.canda.com/btt/stock_transfer_order">4711000001</bizTransaction>
+                  </bizTransactionList>
+                  <extension>
+                     <sourceList>
+                        <source type="urn:epcglobal:cbv:sdt:location">urn:epc:id:sgln:4062847.00022.0</source>
+                     </sourceList>
+                     <destinationList>
+                        <destination type="urn:epcglobal:cbv:sdt:location">urn:epc:id:sgln:4056019.00044.0</destination>
+                     </destinationList>
+                  </extension>
+    </AggregationEvent>
+</EventList>
+</EPCISBody>
+</epcis:EPCISDocument>>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<epcis:EPCISDocument xmlns:epcis="urn:epcglobal:epcis:xsd:1" schemaVersion="1.1" creationDate="2015-04-14T10:35:38.116-04:00">
+<EPCISBody>
+<EventList>
+        <ObjectEvent>
+                  <eventTime>2021-06-01T16:51:28Z</eventTime>
+                  <eventTimeZoneOffset>+01:00</eventTimeZoneOffset>
+                  <baseExtension>
+                     <eventID>urn:uuid:aa986601-22a8-4fc8-9a9f-c44c4b391b34</eventID>
+                  </baseExtension>
+                  <epcList>
+                     <epc>urn:epc:id:sscc:4025019.0340000029</epc>
+                  </epcList>
+                  <action>OBSERVE</action>
+                  <bizStep>urn:epcglobal:cbv:bizstep:loading</bizStep>
+                  <disposition>urn:epcglobal:cbv:disp:container_closed</disposition>
+                  <readPoint>
+                     <id>urn:epc:id:sgln:4062847.00022.0</id>
+                  </readPoint>
+                  <bizTransactionList>
+                     <bizTransaction type="http://epcis.canda.com/btt/stock_transfer_order">9000000653</bizTransaction> <!-- either this or sales order number -->
+                     <!-- <bizTransaction type="http://epcis.canda.com/btt/sales_order_number">9000000653</bizTransaction> --> <!-- either this or stock transfer order number -->
+                     <bizTransaction type="http://epcis.canda.com/btt/transportation_unit">6100000163-01</bizTransaction>
+                  </bizTransactionList>
+                  <extension>
+                     <sourceList>
+                        <source type="urn:epcglobal:cbv:sdt:location">urn:epc:id:sgln:4062847.00022.0</source>
+                     </sourceList>
+                     <destinationList>
+                        <destination type="urn:epcglobal:cbv:sdt:location">urn:epc:id:sgln:4056019.00632.0</destination>
+                     </destinationList>
+                  </extension>
+        </ObjectEvent>
+</EventList>
+</EPCISBody>
+</epcis:EPCISDocument>>

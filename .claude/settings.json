@@ -1,0 +1,27 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "statusMessage": "Architektur-Check: infrastructure-Imports in domain/application?",
+            "command": "VIOLATIONS=$(grep -rn 'import com.canda.epcis.infrastructure' /Users/kamiljasinski/IdeaProjects/epcis-repository/src/main/java/com/canda/epcis/domain/ /Users/kamiljasinski/IdeaProjects/epcis-repository/src/main/java/com/canda/epcis/application/ 2>/dev/null); if [ -n \"$VIOLATIONS\" ]; then echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PostToolUse\",\"additionalContext\":\"ARCHITEKTUR-VERLETZUNG: infrastructure-Import in domain/ oder application/ gefunden:\\n'\"$VIOLATIONS\"'\"}}'; else true; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "statusMessage": "Kompiliere...",
+            "command": "ERRORS=$(cd /Users/kamiljasinski/IdeaProjects/epcis-repository && ./mvnw compile -q --no-transfer-progress 2>&1 | grep -E '^\\[ERROR\\]|error:' | head -10); if [ -n \"$ERRORS\" ]; then echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PostToolUse\",\"additionalContext\":\"COMPILE-FEHLER:\\n'\"$ERRORS\"'\"}}'; else true; fi",
+            "timeout": 60
+          }
+        ]
+      }
+    ]
+  }
+}

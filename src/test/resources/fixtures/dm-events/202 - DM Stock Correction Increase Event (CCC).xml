@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<epcis:EPCISDocument xmlns:epcis="urn:epcglobal:epcis:xsd:1" schemaVersion="1.1" creationDate="2015-04-14T10:35:38.116-04:00">
+	<EPCISBody>
+		<EventList>
+			<ObjectEvent>
+				<eventTime>2015-07-15T10:00:00.000-04:00</eventTime>
+				<eventTimeZoneOffset>-04:00</eventTimeZoneOffset>
+				<baseExtension>
+					<eventID>urn:uuid:70fcfa6a-62e9-4479-8022-a07a89cbe68e</eventID>
+				</baseExtension>
+				<epcList/>
+				<action>ADD</action>
+				<bizStep>urn:epcglobal:cbv:bizstep:creating_class_instance</bizStep>
+				<disposition>urn:epcglobal:cbv:disp:active</disposition>
+				<readPoint>
+					<id>urn:epc:id:sgln:4056019.XXXXX.0</id>
+					<!--statt der XXXXX die DC GLN -->
+				</readPoint>
+				<bizLocation>
+					<id>urn:epc:id:sgln:4056019.XXXXX.0</id>
+					<!--statt der XXXXX die DC GLN -->
+				</bizLocation>
+				<extension>
+					<quantityList>
+						<quantityElement>
+							<epcClass>urn:epc:idpat:sgtin:4060983.016853.*</epcClass>
+							<quantity>20</quantity>
+						</quantityElement>
+					</quantityList>
+				</extension>
+			</ObjectEvent>
+		</EventList>
+	</EPCISBody>
+</epcis:EPCISDocument>>

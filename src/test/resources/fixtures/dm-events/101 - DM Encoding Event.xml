@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<epcis:EPCISDocument xmlns:epcis="urn:epcglobal:epcis:xsd:1" schemaVersion="1.2" creationDate="2021-10-21T09:16:27.317Z">
+	<EPCISBody>
+		<EventList>
+			<ObjectEvent>
+				<eventTime>2021-05-04T20:53:55.718+05:30</eventTime>
+				<eventTimeZoneOffset>+05:30</eventTimeZoneOffset>
+				<baseExtension>
+					<eventID>urn:uuid:17a78a5f-377c-4c6c-93cc-fd8e91f1064a</eventID>
+				</baseExtension>
+				<epcList>
+					<epc>urn:epc:id:sgtin:4056019.010532.4293918790</epc>
+					<epc>urn:epc:id:sgtin:4056019.010532.4293918791</epc>
+					<epc>urn:epc:id:sgtin:4056019.010532.4293918792</epc>
+					<epc>urn:epc:id:sgtin:4056019.010532.4293918793</epc>
+					<epc>urn:epc:id:sgtin:4056019.010532.4293918794</epc>
+					<epc>urn:epc:id:sgtin:4056019.010532.4293918795</epc>
+				</epcList>
+				<action>ADD</action>
+				<bizStep>urn:epcglobal:cbv:bizstep:encoding</bizStep>
+				<disposition>urn:epcglobal:cbv:disp:encoded</disposition>
+				<readPoint>
+					<id>urn:epc:id:sgln:0822133.00001.0</id>
+				</readPoint>
+				<bizLocation>
+					<id>urn:epc:id:sgln:0822133.00001.0</id>
+				</bizLocation>
+				<bizTransactionList>
+					<bizTransaction type="urn:epcglobal:cbv:btt:po">urn:epc:id:gdti:0822133.00001.81349130</bizTransaction>
+					<bizTransaction type="http://epcis.canda.com/btt/po_line">urn:epc:id:gdti:0822133.00011.44</bizTransaction>
+				</bizTransactionList>
+			</ObjectEvent>
+		</EventList>
+	</EPCISBody>
+</epcis:EPCISDocument>>

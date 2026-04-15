@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<epcis:EPCISDocument xmlns:epcis="urn:epcglobal:epcis:xsd:1" schemaVersion="1.2" creationDate="2021-04-16T10:23:00.716Z">
+	<EPCISBody>
+		<EventList>
+			<AggregationEvent>
+				<eventTime>2021-08-03T10:01:38.159Z</eventTime>
+				<eventTimeZoneOffset>+02:00</eventTimeZoneOffset>
+				<baseExtension>
+					<eventID>urn:uuid:83a5f810-5b4a-4d9f-8264-06273b9cca83</eventID>
+				</baseExtension>
+				<parentID>urn:epc:id:sscc:0614141.0012345678</parentID>
+				<childEPCs> <!-- can be omitted to remove all SGTINs from the aggregation -->
+					<epc>urn:epc:id:sgtin:4061505.078699.1116</epc>
+				</childEPCs>
+				<action>DELETE</action>
+				<bizStep>urn:epcglobal:cbv:bizstep:unpacking</bizStep>
+				<disposition>urn:epcglobal:cbv:disp:in_progress</disposition>
+			</AggregationEvent>
+		</EventList>
+	</EPCISBody>
+</epcis:EPCISDocument>>

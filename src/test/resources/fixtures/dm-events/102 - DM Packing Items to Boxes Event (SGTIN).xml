@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<epcis:EPCISDocument xmlns:epcis="urn:epcglobal:epcis:xsd:1" schemaVersion="1.2" creationDate="2021-10-21T09:16:27.317Z">
+  <EPCISBody>
+    <EventList>
+      <AggregationEvent>
+          <eventTime>2021-10-21T00:00:00.000+02:00</eventTime>
+          <eventTimeZoneOffset>+02:00</eventTimeZoneOffset>
+          <baseExtension>
+              <eventID>urn:uuid:f4347f5e-a5cc-4f0a-9efe-8fcfda96bb7e</eventID>
+          </baseExtension>
+          <parentID>urn:epc:id:sscc:3047113.0000005249</parentID>
+          <childEPCs>
+              <epc>urn:epc:id:sgtin:4060983.016853.166094658494</epc>
+              <epc>urn:epc:id:sgtin:4060983.016853.166094658495</epc>
+              <epc>urn:epc:id:sgtin:4060983.016853.166094658496</epc>
+          </childEPCs>
+          <action>ADD</action>
+          <bizStep>urn:epcglobal:cbv:bizstep:packing</bizStep>
+          <disposition>urn:epcglobal:cbv:disp:in_progress</disposition>
+          <readPoint>
+              <id>urn:epc:id:sgln:4056019.00022.0</id>
+          </readPoint>
+          <bizLocation>
+              <id>urn:epc:id:sgln:4056019.00022.0</id>
+          </bizLocation>
+          <bizTransactionList>
+              <bizTransaction type="urn:epcglobal:cbv:btt:po">urn:epc:id:gdti:082213300010</bizTransaction>
+          </bizTransactionList>
+      </AggregationEvent>
+    </EventList>
+</EPCISBody>
+</epcis:EPCISDocument>>

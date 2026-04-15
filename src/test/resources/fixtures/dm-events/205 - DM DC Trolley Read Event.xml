@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<epcis:EPCISDocument xmlns:epcis="urn:epcglobal:epcis:xsd:1" schemaVersion="1.1" creationDate="2015-04-14T10:35:38.116-04:00">
+	<EPCISBody>
+		<EventList>
+			<ObjectEvent>
+				<eventTime>2021-06-01T12:19:41.726Z</eventTime>
+				<eventTimeZoneOffset>+00:00</eventTimeZoneOffset>
+				<baseExtension>
+					<eventID>urn:uuid:67fd193f-6abf-466f-82f4-d8d13a835017</eventID>
+				</baseExtension>
+				<epcList>
+					<epc>urn:epc:id:sgtin:7061599.076300.4293919076</epc>
+					<epc>urn:epc:id:sgtin:7061599.076300.4293919077</epc>
+					<epc>urn:epc:id:sgtin:7061599.076300.4293919078</epc>
+				</epcList>
+				<action>OBSERVE</action>
+				<bizStep>urn:epcglobal:cbv:bizstep:staging_outbound</bizStep>
+				<disposition>urn:epcglobal:cbv:disp:in_progress</disposition>
+				<readPoint>
+					<id>urn:epc:id:sgln:4056019.02001.TROLLEY_01</id>
+				</readPoint>
+				<bizLocation>
+					<id>urn:epc:id:sgln:4056019.02001.0</id>
+				</bizLocation>
+				<canda:trolleyID xmlns:canda="http://ns.canda.com/epcis">235487909</canda:trolleyID>
+			</ObjectEvent>
+		</EventList>
+	</EPCISBody>
+</epcis:EPCISDocument>>

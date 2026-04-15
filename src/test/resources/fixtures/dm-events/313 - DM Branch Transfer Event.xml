@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<epcis:EPCISDocument schemaVersion="1.2" creationDate="2019-07-04T08:56:37.967Z" xmlns:epcis="urn:epcglobal:epcis:xsd:1" xmlns:epcismd="urn:epcglobal:epcis-masterdata:xsd:1" xmlns:sbdh="http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader" xmlns:canda="http://ns.canda.com/epcis" xmlns:epcisq="urn:epcglobal:epcis-query:xsd:1" xmlns:epcglobal="urn:epcglobal:xsd:1" xmlns:eecc="http://ns.eecc.info/epcis">
+	<EPCISBody>
+		<EventList>
+			<AggregationEvent>
+				<eventTime>2021-05-04T10:31:37Z</eventTime>
+				<eventTimeZoneOffset>+03:00</eventTimeZoneOffset>
+				<baseExtension>
+					<eventID>urn:uuid:7d9a2c48-2788-4ab6-8342-6bde47efdf0e</eventID>
+				</baseExtension>
+				<parentID>urn:epc:id:sscc:3047113.0000005249</parentID>
+				<childEPCs>
+					<epc>urn:epc:id:sgtin:4060983.016853.166094658494</epc>
+					<epc>urn:epc:id:sgtin:4060983.016853.220771359293</epc>
+					<epc>urn:epc:id:sgtin:4060983.016853.241831158098</epc>
+					<epc>urn:epc:id:sgtin:4060983.016853.69446406956</epc>
+				</childEPCs>
+				<action>ADD</action>
+				<bizStep>urn:epcglobal:cbv:bizstep:shipping</bizStep>
+				<disposition>urn:epcglobal:cbv:disp:in_transit</disposition>
+				<readPoint>
+					<id>urn:epc:id:sgln:4056019.00663.0</id>
+				</readPoint>
+				<bizTransactionList>
+					<bizTransaction type="http://epcis.canda.com/btt/workOrder">123456789</bizTransaction>
+				</bizTransactionList>
+				<extension>
+					<sourceList>
+						<source type="urn:epcglobal:cbv:sdt:location">urn:epc:id:sgln:4056019.00663.0</source>
+					</sourceList>
+					<destinationList>
+						<destination type="urn:epcglobal:cbv:sdt:location">urn:epc:id:sgln:4056019.00033.0</destination>
+					</destinationList>
+				</extension>
+				<canda:packingReason xmlns:canda="http://ns.canda.com/epcis">Merchandise Return</canda:packingReason>
+				<canda:transportType xmlns:canda="http://ns.canda.com/epcis">laid</canda:transportType>
+			</AggregationEvent>
+		</EventList>
+	</EPCISBody>
+</epcis:EPCISDocument>>
