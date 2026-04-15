@@ -52,6 +52,13 @@ epcis:
     available-merchandise-dispositions:
       - sellable_accessible
       - sellable_not_accessible
+  cbv:
+    strict-mode: false       # false = log violations only; true = quarantine event
+    load-vocabulary: true    # load full CBV 2.0 vocabulary on startup
+    allow-deprecated: true   # accept deprecated CBV values (WARN logged)
+  digitallink:
+    base-url: ${DIGITAL_LINK_BASE_URL:https://id.canda.com}
+    enabled: true
   downstream:
     gspm:
       base-url: ${GSPM_BASE_URL:http://localhost:9010}

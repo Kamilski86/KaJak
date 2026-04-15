@@ -1,0 +1,995 @@
+{
+  "info": {
+    "name": "EPCIS Event Handler — Phase 4 (CBV + Digital Link)",
+    "description": "GS1 Digital Link Resolver und CBV Validator — vollständige Testkollektion für Phase 4.\n\nVoraussetzung: PostgreSQL läuft, App gestartet mit ./mvnw spring-boot:run\n\nC&A Testkonstanten:\n- Company Prefix: 4056019 (7 Stellen)\n- Item Reference: 010532 (6 Stellen)\n- GTIN-14: 40560190105322 (Prüfziffer=2)\n- SSCC-18: 040560190000000018 (Prüfziffer=8)\n- GLN-13: 4056019000001 (Prüfziffer=1)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "dlBase",
+      "value": "https://id.canda.com",
+      "type": "string"
+    },
+    {
+      "key": "gtin14",
+      "value": "40560190105322",
+      "type": "string"
+    },
+    {
+      "key": "sscc18",
+      "value": "040560190000000018",
+      "type": "string"
+    },
+    {
+      "key": "gln13",
+      "value": "4056019000001",
+      "type": "string"
+    },
+    {
+      "key": "serial",
+      "value": "12345",
+      "type": "string"
+    },
+    {
+      "key": "sgtinUrn",
+      "value": "urn:epc:id:sgtin:4056019.010532.12345",
+      "type": "string"
+    },
+    {
+      "key": "ssccUrn",
+      "value": "urn:epc:id:sscc:4056019.0000000001",
+      "type": "string"
+    },
+    {
+      "key": "sglnUrn",
+      "value": "urn:epc:id:sgln:4056019.00000.0",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Digital Link — Parse",
+      "item": [
+        {
+          "name": "Parse SGTIN (AI 01 + AI 21)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/digitallink/parse?uri={{dlBase}}/01/{{gtin14}}/21/{{serial}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["digitallink", "parse"],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{dlBase}}/01/{{gtin14}}/21/{{serial}}"
+                }
+              ]
+            },
+            "description": "Parst einen GS1 Digital Link mit GTIN (AI 01) und Seriennummer (AI 21).\nErwartet: primaryAi=01, primaryKey=gtin, epcUrn=urn:epc:id:sgtin:..."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('primaryAi = 01', () => {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.primaryAi).to.eql('01');",
+                  "});",
+                  "pm.test('primaryKey = gtin', () => {",
+                  "    pm.expect(pm.response.json().primaryKey).to.eql('gtin');",
+                  "});",
+                  "pm.test('primaryValue = GTIN-14', () => {",
+                  "    pm.expect(pm.response.json().primaryValue).to.eql(pm.collectionVariables.get('gtin14'));",
+                  "});",
+                  "pm.test('qualifier 21 = serial', () => {",
+                  "    pm.expect(pm.response.json().qualifiers['21']).to.eql(pm.collectionVariables.get('serial'));",
+                  "});",
+                  "pm.test('epcUrn present', () => {",
+                  "    pm.expect(pm.response.json().epcUrn).to.include('sgtin');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Parse SGTIN — Short Name (gtin/ser)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/digitallink/parse?uri={{dlBase}}/gtin/{{gtin14}}/ser/{{serial}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["digitallink", "parse"],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{dlBase}}/gtin/{{gtin14}}/ser/{{serial}}"
+                }
+              ]
+            },
+            "description": "Parst einen GS1 Digital Link mit Short Names statt numerischen AIs.\ngtin → 01, ser → 21"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Short name resolved to numeric AI 01', () => {",
+                  "    pm.expect(pm.response.json().primaryAi).to.eql('01');",
+                  "});",
+                  "pm.test('qualifier 21 present', () => {",
+                  "    pm.expect(pm.response.json().qualifiers['21']).to.exist;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Parse SSCC (AI 00)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/digitallink/parse?uri={{dlBase}}/00/{{sscc18}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["digitallink", "parse"],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{dlBase}}/00/{{sscc18}}"
+                }
+              ]
+            },
+            "description": "Parst einen GS1 Digital Link mit SSCC (AI 00).\nErwartet: primaryAi=00, primaryKey=sscc, epcUrn=urn:epc:id:sscc:..."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('primaryAi = 00', () => {",
+                  "    pm.expect(pm.response.json().primaryAi).to.eql('00');",
+                  "});",
+                  "pm.test('primaryKey = sscc', () => {",
+                  "    pm.expect(pm.response.json().primaryKey).to.eql('sscc');",
+                  "});",
+                  "pm.test('epcUrn contains sscc', () => {",
+                  "    pm.expect(pm.response.json().epcUrn).to.include('sscc');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Parse GLN (AI 414)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/digitallink/parse?uri={{dlBase}}/414/{{gln13}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["digitallink", "parse"],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{dlBase}}/414/{{gln13}}"
+                }
+              ]
+            },
+            "description": "Parst einen GS1 Digital Link mit GLN (AI 414).\nErwartet: primaryAi=414, primaryKey=gln"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('primaryAi = 414', () => {",
+                  "    pm.expect(pm.response.json().primaryAi).to.eql('414');",
+                  "});",
+                  "pm.test('primaryKey = gln', () => {",
+                  "    pm.expect(pm.response.json().primaryKey).to.eql('gln');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Parse GTIN + Lot (AI 01 + AI 10)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/digitallink/parse?uri={{dlBase}}/01/{{gtin14}}/10/LOT-ABC",
+              "host": ["{{baseUrl}}"],
+              "path": ["digitallink", "parse"],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{dlBase}}/01/{{gtin14}}/10/LOT-ABC"
+                }
+              ]
+            },
+            "description": "GTIN mit Lot-Nummer (AI 10)."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('qualifier 10 = LOT-ABC', () => {",
+                  "    pm.expect(pm.response.json().qualifiers['10']).to.eql('LOT-ABC');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Parse — Fehlerfall: kein Digital Link",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/digitallink/parse?uri=das-ist-kein-digital-link",
+              "host": ["{{baseUrl}}"],
+              "path": ["digitallink", "parse"],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "das-ist-kein-digital-link"
+                }
+              ]
+            },
+            "description": "Erwartet HTTP 400 mit Fehler-Body."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));",
+                  "pm.test('error field present', () => {",
+                  "    pm.expect(pm.response.json().error).to.exist;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Parse — Fehlerfall: leer",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/digitallink/parse?uri=",
+              "host": ["{{baseUrl}}"],
+              "path": ["digitallink", "parse"],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Leerer URI → HTTP 400."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Digital Link — Convert (EPC URN → URL)",
+      "item": [
+        {
+          "name": "Convert SGTIN URN",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/digitallink/convert?epc={{sgtinUrn}}&baseUrl={{dlBase}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["digitallink", "convert"],
+              "query": [
+                { "key": "epc", "value": "{{sgtinUrn}}" },
+                { "key": "baseUrl", "value": "{{dlBase}}" }
+              ]
+            },
+            "description": "Konvertiert EPC Pure Identity URN (SGTIN) → GS1 Digital Link URL.\nErwartet: /01/40560190105322/21/12345"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('digitalLinkUrl enthält AI 01', () => {",
+                  "    pm.expect(pm.response.json().digitalLinkUrl).to.include('/01/');",
+                  "});",
+                  "pm.test('digitalLinkUrl enthält GTIN-14', () => {",
+                  "    pm.expect(pm.response.json().digitalLinkUrl).to.include(pm.collectionVariables.get('gtin14'));",
+                  "});",
+                  "pm.test('epcUrn zurückgegeben', () => {",
+                  "    pm.expect(pm.response.json().epcUrn).to.include('sgtin');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Convert SSCC URN",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/digitallink/convert?epc={{ssccUrn}}&baseUrl={{dlBase}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["digitallink", "convert"],
+              "query": [
+                { "key": "epc", "value": "{{ssccUrn}}" },
+                { "key": "baseUrl", "value": "{{dlBase}}" }
+              ]
+            },
+            "description": "Konvertiert SSCC URN → GS1 Digital Link URL.\nErwartet: /00/040560190000000018"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('digitalLinkUrl enthält AI 00', () => {",
+                  "    pm.expect(pm.response.json().digitalLinkUrl).to.include('/00/');",
+                  "});",
+                  "pm.test('digitalLinkUrl enthält SSCC-18', () => {",
+                  "    pm.expect(pm.response.json().digitalLinkUrl).to.include(pm.collectionVariables.get('sscc18'));",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Convert SGLN URN",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/digitallink/convert?epc={{sglnUrn}}&baseUrl={{dlBase}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["digitallink", "convert"],
+              "query": [
+                { "key": "epc", "value": "{{sglnUrn}}" },
+                { "key": "baseUrl", "value": "{{dlBase}}" }
+              ]
+            },
+            "description": "Konvertiert SGLN URN → GS1 Digital Link URL.\nErwartet: /414/4056019000001"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('digitalLinkUrl enthält AI 414', () => {",
+                  "    pm.expect(pm.response.json().digitalLinkUrl).to.include('/414/');",
+                  "});",
+                  "pm.test('digitalLinkUrl enthält GLN-13', () => {",
+                  "    pm.expect(pm.response.json().digitalLinkUrl).to.include(pm.collectionVariables.get('gln13'));",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Convert — Fehlerfall: nicht unterstützter EPC-Typ",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/digitallink/convert?epc=urn:epc:id:grai:123.456.789&baseUrl={{dlBase}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["digitallink", "convert"],
+              "query": [
+                { "key": "epc", "value": "urn:epc:id:grai:123.456.789" },
+                { "key": "baseUrl", "value": "{{dlBase}}" }
+              ]
+            },
+            "description": "GRAI wird nicht unterstützt → HTTP 400."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Digital Link — Resolve (GS1 Link Sets)",
+      "item": [
+        {
+          "name": "Resolve SGTIN",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/digitallink/resolve?uri={{dlBase}}/01/{{gtin14}}/21/{{serial}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["digitallink", "resolve"],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{dlBase}}/01/{{gtin14}}/21/{{serial}}"
+                }
+              ]
+            },
+            "description": "Gibt GS1 Link Sets für ein SGTIN zurück.\nEnthält immer: gs1:epcis Link\nEnthält wenn im Inventory vorhanden: gs1:location Link"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('identifier vorhanden', () => {",
+                  "    pm.expect(pm.response.json().identifier).to.exist;",
+                  "});",
+                  "pm.test('identifierType = SGTIN', () => {",
+                  "    pm.expect(pm.response.json().identifierType).to.eql('SGTIN');",
+                  "});",
+                  "pm.test('linkSets vorhanden', () => {",
+                  "    pm.expect(pm.response.json().linkSets).to.be.an('array');",
+                  "});",
+                  "pm.test('gs1:epcis Link vorhanden', () => {",
+                  "    const links = pm.response.json().linkSets",
+                  "        .flatMap(ls => ls.links || []);",
+                  "    pm.expect(links.some(l => l.linkType === 'gs1:epcis')).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Resolve SSCC",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/digitallink/resolve?uri={{dlBase}}/00/{{sscc18}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["digitallink", "resolve"],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{dlBase}}/00/{{sscc18}}"
+                }
+              ]
+            },
+            "description": "Gibt GS1 Link Sets für ein SSCC zurück.\nEnthält: Pallet-Link (/inventory/pallet/...)"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('identifierType = SSCC', () => {",
+                  "    pm.expect(pm.response.json().identifierType).to.eql('SSCC');",
+                  "});",
+                  "pm.test('Pallet-Link vorhanden', () => {",
+                  "    const links = pm.response.json().linkSets",
+                  "        .flatMap(ls => ls.links || []);",
+                  "    pm.expect(links.some(l => l.href && l.href.includes('/inventory/pallet/'))).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Resolve — Fehlerfall: ungültiger URI",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/digitallink/resolve?uri=INVALID",
+              "host": ["{{baseUrl}}"],
+              "path": ["digitallink", "resolve"],
+              "query": [
+                { "key": "uri", "value": "INVALID" }
+              ]
+            },
+            "description": "Erwartet HTTP 400."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Digital Link — History & Location",
+      "item": [
+        {
+          "name": "Event History — SGTIN (leer ohne Events)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/digitallink/history?uri={{dlBase}}/01/{{gtin14}}/21/{{serial}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["digitallink", "history"],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{dlBase}}/01/{{gtin14}}/21/{{serial}}"
+                }
+              ]
+            },
+            "description": "Gibt die EPCIS-Event-Historie für ein SGTIN zurück.\nOhne vorher eingespielter Events: leeres Array []."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Response ist Array', () => {",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Current Location — unbekannter EPC (404)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/digitallink/location?uri={{dlBase}}/01/{{gtin14}}/21/{{serial}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["digitallink", "location"],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{dlBase}}/01/{{gtin14}}/21/{{serial}}"
+                }
+              ]
+            },
+            "description": "Gibt den aktuellen Standort (Inventory State) zurück.\nOhne Events im System: HTTP 404."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 404 (EPC nicht im Inventory)', () => {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 404]);",
+                  "    // 404 erwartet wenn keine Events eingespielt wurden",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "CBV — Vocabulary",
+      "item": [
+        {
+          "name": "Alle BizStep-Einträge",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/cbv/vocabulary/BIZ_STEP",
+              "host": ["{{baseUrl}}"],
+              "path": ["cbv", "vocabulary", "BIZ_STEP"]
+            },
+            "description": "Gibt alle 40 GS1 CBV 2.0 BizStep-Einträge zurück."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Mindestens 40 Einträge', () => {",
+                  "    pm.expect(pm.response.json().length).to.be.at.least(40);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Alle Disposition-Einträge",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/cbv/vocabulary/DISPOSITION",
+              "host": ["{{baseUrl}}"],
+              "path": ["cbv", "vocabulary", "DISPOSITION"]
+            },
+            "description": "Gibt alle 31 GS1 CBV 2.0 Disposition-Einträge zurück."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Mindestens 31 Einträge', () => {",
+                  "    pm.expect(pm.response.json().length).to.be.at.least(31);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "BizTransactionType-Einträge",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/cbv/vocabulary/BIZ_TRANSACTION_TYPE",
+              "host": ["{{baseUrl}}"],
+              "path": ["cbv", "vocabulary", "BIZ_TRANSACTION_TYPE"]
+            },
+            "description": "Gibt alle 12 GS1 CBV 2.0 BizTransactionType-Einträge zurück."
+          },
+          "response": []
+        },
+        {
+          "name": "SourceDestType-Einträge",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/cbv/vocabulary/SOURCE_DEST_TYPE",
+              "host": ["{{baseUrl}}"],
+              "path": ["cbv", "vocabulary", "SOURCE_DEST_TYPE"]
+            },
+            "description": "Gibt alle 3 GS1 CBV 2.0 SourceDestType-Einträge zurück."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "CBV — Validate",
+      "item": [
+        {
+          "name": "Validate — gültiger BizStep (URN)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/cbv/validate?uri=urn:epcglobal:cbv:bizstep:shipping&type=BIZ_STEP",
+              "host": ["{{baseUrl}}"],
+              "path": ["cbv", "validate"],
+              "query": [
+                { "key": "uri", "value": "urn:epcglobal:cbv:bizstep:shipping" },
+                { "key": "type", "value": "BIZ_STEP" }
+              ]
+            },
+            "description": "Bekannter CBV-Wert → valid=true"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('valid = true', () => {",
+                  "    pm.expect(pm.response.json().valid).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Validate — gültiger BizStep (HTTPS)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/cbv/validate?uri=https://ref.gs1.org/cbv/BizStep-shipping&type=BIZ_STEP",
+              "host": ["{{baseUrl}}"],
+              "path": ["cbv", "validate"],
+              "query": [
+                { "key": "uri", "value": "https://ref.gs1.org/cbv/BizStep-shipping" },
+                { "key": "type", "value": "BIZ_STEP" }
+              ]
+            },
+            "description": "HTTPS-Form des bekannten CBV-Werts → valid=true"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('valid = true', () => {",
+                  "    pm.expect(pm.response.json().valid).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Validate — gültige Disposition",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/cbv/validate?uri=urn:epcglobal:cbv:disp:in_transit&type=DISPOSITION",
+              "host": ["{{baseUrl}}"],
+              "path": ["cbv", "validate"],
+              "query": [
+                { "key": "uri", "value": "urn:epcglobal:cbv:disp:in_transit" },
+                { "key": "type", "value": "DISPOSITION" }
+              ]
+            },
+            "description": "Bekannte Disposition → valid=true"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('valid = true', () => {",
+                  "    pm.expect(pm.response.json().valid).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Validate — unbekannter BizStep",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/cbv/validate?uri=urn:epcglobal:cbv:bizstep:does_not_exist&type=BIZ_STEP",
+              "host": ["{{baseUrl}}"],
+              "path": ["cbv", "validate"],
+              "query": [
+                { "key": "uri", "value": "urn:epcglobal:cbv:bizstep:does_not_exist" },
+                { "key": "type", "value": "BIZ_STEP" }
+              ]
+            },
+            "description": "Unbekannter CBV-Wert → valid=false mit Fehlercode CBV_UNKNOWN_BIZ_STEP"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('valid = false', () => {",
+                  "    pm.expect(pm.response.json().valid).to.be.false;",
+                  "});",
+                  "pm.test('errorCode = CBV_UNKNOWN_BIZ_STEP', () => {",
+                  "    pm.expect(pm.response.json().errorCode).to.eql('CBV_UNKNOWN_BIZ_STEP');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Validate — Custom/Partner URI (immer gültig)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/cbv/validate?uri=https://custom.partner.com/vocab/myStep&type=BIZ_STEP",
+              "host": ["{{baseUrl}}"],
+              "path": ["cbv", "validate"],
+              "query": [
+                { "key": "uri", "value": "https://custom.partner.com/vocab/myStep" },
+                { "key": "type", "value": "BIZ_STEP" }
+              ]
+            },
+            "description": "Custom/Partner-URIs ohne CBV-Prefix werden nicht geprüft → valid=true"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('valid = true (Custom URI nicht geprüft)', () => {",
+                  "    pm.expect(pm.response.json().valid).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "CBV — Quarantine",
+      "item": [
+        {
+          "name": "Offene Quarantäne-Einträge",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/cbv/quarantine?resolved=false",
+              "host": ["{{baseUrl}}"],
+              "path": ["cbv", "quarantine"],
+              "query": [
+                { "key": "resolved", "value": "false" }
+              ]
+            },
+            "description": "Alle nicht-aufgelösten Quarantäne-Events."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Response ist Array', () => {",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Aufgelöste Quarantäne-Einträge",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/cbv/quarantine?resolved=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["cbv", "quarantine"],
+              "query": [
+                { "key": "resolved", "value": "true" }
+              ]
+            },
+            "description": "Alle bereits aufgelösten Quarantäne-Events."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Round-Trip Test",
+      "item": [
+        {
+          "name": "Round-Trip: SGTIN URN → DL → Parse → URN",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "// Schritt 1: Convert URN → Digital Link",
+                  "const baseUrl = pm.collectionVariables.get('baseUrl');",
+                  "const dlBase = pm.collectionVariables.get('dlBase');",
+                  "const sgtinUrn = pm.collectionVariables.get('sgtinUrn');",
+                  "",
+                  "pm.sendRequest(",
+                  "    `${baseUrl}/digitallink/convert?epc=${encodeURIComponent(sgtinUrn)}&baseUrl=${encodeURIComponent(dlBase)}`,",
+                  "    (err, res) => {",
+                  "        if (!err && res.code === 200) {",
+                  "            const dlUrl = res.json().digitalLinkUrl;",
+                  "            pm.collectionVariables.set('_roundTripDlUrl', dlUrl);",
+                  "        }",
+                  "    }",
+                  ");"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Round-Trip: epcUrn stimmt überein', () => {",
+                  "    const recovered = pm.response.json().epcUrn;",
+                  "    const original = pm.collectionVariables.get('sgtinUrn');",
+                  "    pm.expect(recovered).to.eql(original);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/digitallink/parse?uri={{_roundTripDlUrl}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["digitallink", "parse"],
+              "query": [
+                { "key": "uri", "value": "{{_roundTripDlUrl}}" }
+              ]
+            },
+            "description": "Vollständiger Round-Trip:\n1. Pre-request Script: SGTIN URN → Digital Link (convert)\n2. Request: Digital Link → parse → epcUrn\n3. Test: epcUrn === ursprüngliche URN"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

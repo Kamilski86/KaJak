@@ -2,6 +2,7 @@ package com.canda.epcis.api;
 
 import com.canda.epcis.application.inventory.EpcNotFoundException;
 import com.canda.epcis.application.query.EpcisQueryException;
+import com.canda.epcis.domain.model.digitallink.DigitalLinkParseException;
 import com.canda.epcis.domain.service.CbvValidationException;
 import com.canda.epcis.domain.service.Epcis2SchemaValidationException;
 import com.canda.epcis.infrastructure.xml.EpcisParsingException;
@@ -54,6 +55,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> handleMissingHeader(MissingRequestHeaderException ex) {
         log.warn("Missing required header: {}", ex.getHeaderName());
         return badRequest(ex.getHeaderName() + " header is required");
+    }
+
+    @ExceptionHandler(DigitalLinkParseException.class)
+    public ResponseEntity<Map<String, String>> handleDigitalLinkParseException(
+            DigitalLinkParseException ex) {
+        log.warn("Digital Link parse error: {}", ex.getMessage());
+        return badRequest(ex.getMessage());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
