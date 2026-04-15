@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="epcis-event-handler"/>
+    <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="epcis-repository"/>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>

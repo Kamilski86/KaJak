@@ -1,6 +1,6 @@
 spring:
   application:
-    name: epcis-event-handler
+    name: epcis-repository
 
   datasource:
     url: jdbc:postgresql://localhost:5432/kamiljasinski

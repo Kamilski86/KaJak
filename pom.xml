@@ -22,11 +22,11 @@
          PROJEKT-KOORDINATEN
     ═══════════════════════════════════════════ -->
     <groupId>com.example</groupId>
-    <artifactId>epcis-event-handler</artifactId>
+    <artifactId>epcis-repository</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>epcis-event-handler</name>
-    <description>EPCIS 1.2 XML to EPCIS 2.0 JSON Event Handler</description>
+    <name>epcis-repository</name>
+    <description>EPCIS 2.0 Repository — GS1-konformes EPCIS 2.0 Repository mit CBV-Validierung und GS1 Digital Link</description>
 
     <!-- ═══════════════════════════════════════════
          JAVA VERSION
