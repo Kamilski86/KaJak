@@ -118,7 +118,8 @@ public class CbvVocabularyValidator {
     private static final Set<String> ALLOWED_SDT = Set.of(
             "urn:epcglobal:cbv:sdt:owning_party",
             "urn:epcglobal:cbv:sdt:processing_party",
-            "urn:epcglobal:cbv:sdt:possessing_party"
+            "urn:epcglobal:cbv:sdt:possessing_party",
+            "urn:epcglobal:cbv:sdt:location"
     );
 
     // ─────────────────────────────────────────────

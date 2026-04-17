@@ -146,6 +146,30 @@ class CbvVocabularyValidatorTest {
                 .hasMessageContaining("destination type");
     }
 
+    @Test
+    void sdtLocation_isValidDestinationType() {
+        ObjectEvent event = ObjectEvent.builder()
+                .eventTime(OffsetDateTime.now()).action(Action.OBSERVE)
+                .destinationList(List.of(Destination.builder()
+                        .type("urn:epcglobal:cbv:sdt:location")
+                        .value("urn:epc:id:sgln:4056019.00334.BACKROOM")
+                        .build()))
+                .build();
+        assertThatNoException().isThrownBy(() -> validator.validate(event));
+    }
+
+    @Test
+    void sdtLocation_isValidSourceType() {
+        ObjectEvent event = ObjectEvent.builder()
+                .eventTime(OffsetDateTime.now()).action(Action.OBSERVE)
+                .sourceList(List.of(Source.builder()
+                        .type("urn:epcglobal:cbv:sdt:location")
+                        .value("urn:epc:id:sgln:4056019.00334.BACKROOM")
+                        .build()))
+                .build();
+        assertThatNoException().isThrownBy(() -> validator.validate(event));
+    }
+
     // ── ILMD on DELETE ────────────────────────────────────────────────────────
 
     @Test
