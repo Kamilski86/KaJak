@@ -79,6 +79,25 @@ class CbvVocabularyValidatorTest {
                 .hasMessageContaining("disposition");
     }
 
+    @Test
+    void missingCbv20Dispositions_allPass() {
+        List<String> missing = List.of(
+                "urn:epcglobal:cbv:disp:non_sellable_other",
+                "urn:epcglobal:cbv:disp:container_closed",
+                "urn:epcglobal:cbv:disp:container_open",
+                "urn:epcglobal:cbv:disp:mismatch_class",
+                "urn:epcglobal:cbv:disp:mismatch_instance",
+                "urn:epcglobal:cbv:disp:mismatch_quantity",
+                "urn:epcglobal:cbv:disp:no_pedigree_match",
+                "urn:epcglobal:cbv:disp:unshippable"
+        );
+        for (String disp : missing) {
+            assertThatNoException()
+                    .as("Expected disposition to be valid: " + disp)
+                    .isThrownBy(() -> validator.validate(minimalObjectEvent().disposition(disp).build()));
+        }
+    }
+
     // ── errorDeclaration.reason ───────────────────────────────────────────────
 
     @Test
