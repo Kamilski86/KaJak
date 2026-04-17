@@ -4,7 +4,7 @@ import com.canda.epcis.application.capture.CaptureEventUseCase;
 import com.canda.epcis.domain.model.CaptureResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,7 +49,7 @@ public class CaptureController {
 
         log.info("POST /epcis/capture/events sourceId={}", sourceId);
         CaptureResult result = captureEventUseCase.capture(xml, sourceId);
-        HttpStatus status = resolveStatus(result);
+        HttpStatusCode status = resolveStatus(result);
         return ResponseEntity.status(status).body(toResponse(result));
     }
 
@@ -57,14 +57,14 @@ public class CaptureController {
     // PRIVATE
     // ─────────────────────────────────────────────
 
-    private HttpStatus resolveStatus(CaptureResult result) {
+    private HttpStatusCode resolveStatus(CaptureResult result) {
         if (result.getTotalAccepted() == 0 && result.getTotalReceived() > 0) {
-            return HttpStatus.UNPROCESSABLE_ENTITY; // 422 — all events rejected
+            return HttpStatusCode.valueOf(422);
         }
         if (result.getTotalAccepted() < result.getTotalReceived()) {
-            return HttpStatus.MULTI_STATUS; // 207 — partial success
+            return HttpStatusCode.valueOf(207);
         }
-        return HttpStatus.CREATED; // 201 — all accepted
+        return HttpStatusCode.valueOf(201);
     }
 
     private CaptureResponse toResponse(CaptureResult result) {
