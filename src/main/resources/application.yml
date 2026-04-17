@@ -53,7 +53,7 @@ epcis:
       - sellable_accessible
       - sellable_not_accessible
   cbv:
-    strict-mode: false       # false = log violations only; true = quarantine event
+    strict-mode: true        # true = quarantine CBV violations; false = log only (non-conformant events would be stored)
     load-vocabulary: true    # load full CBV 2.0 vocabulary on startup
     allow-deprecated: true   # accept deprecated CBV values (WARN logged)
   digitallink:
