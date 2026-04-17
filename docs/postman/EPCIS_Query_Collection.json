@@ -1,0 +1,2045 @@
+{
+  "collection": {
+    "info": {
+      "_postman_id": "b72a81d3-3f77-4d10-8c10-868084f57550",
+      "name": "2 - EPCIS Query",
+      "description": "Vollständige Query Collection — EPCIS Event Handler C&A",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+      {
+        "key": "base_url",
+        "value": "http://localhost:8080",
+        "type": "string"
+      },
+      {
+        "key": "source_id",
+        "value": "DC-TEST",
+        "type": "string"
+      },
+      {
+        "key": "sgtin",
+        "value": "urn:epc:id:sgtin:4056019.010532.4293918790",
+        "type": "string"
+      },
+      {
+        "key": "sscc",
+        "value": "urn:epc:id:sscc:4290025.0111111122",
+        "type": "string"
+      },
+      {
+        "key": "sgln",
+        "value": "urn:epc:id:sgln:4056019.00115.SALESFLOOR",
+        "type": "string"
+      },
+      {
+        "key": "gln",
+        "value": "urn:epc:id:sgln:4056019.00115.0",
+        "type": "string"
+      },
+      {
+        "key": "event_id",
+        "value": "urn:uuid:17a78a5f-377c-4c6c-93cc-fd8e91f1064a",
+        "type": "string"
+      }
+    ],
+    "item": [
+      {
+        "name": "1 - EPCIS Query API",
+        "description": "",
+        "item": [
+          {
+            "name": "Query All Events",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/query/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "query",
+                  "events"
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Query by EventType — ObjectEvent",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/query/events?eventType=ObjectEvent",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "query",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "eventType",
+                    "value": "ObjectEvent",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Query by EventType — AggregationEvent",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/query/events?eventType=AggregationEvent",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "query",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "eventType",
+                    "value": "AggregationEvent",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Query by Action — ADD",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/query/events?action=ADD",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "query",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "action",
+                    "value": "ADD",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Query by Action — OBSERVE",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/query/events?action=OBSERVE",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "query",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "action",
+                    "value": "OBSERVE",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Query by Action — DELETE",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/query/events?action=DELETE",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "query",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "action",
+                    "value": "DELETE",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Query by BizStep — shipping",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/query/events?bizStep=urn:epcglobal:cbv:bizstep:shipping",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "query",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "bizStep",
+                    "value": "urn:epcglobal:cbv:bizstep:shipping",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Query by BizStep — receiving",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/query/events?bizStep=urn:epcglobal:cbv:bizstep:receiving",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "query",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "bizStep",
+                    "value": "urn:epcglobal:cbv:bizstep:receiving",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Query by BizStep — packing",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/query/events?bizStep=urn:epcglobal:cbv:bizstep:packing",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "query",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "bizStep",
+                    "value": "urn:epcglobal:cbv:bizstep:packing",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Query by BizStep — retail_selling",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/query/events?bizStep=urn:epcglobal:cbv:bizstep:retail_selling",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "query",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "bizStep",
+                    "value": "urn:epcglobal:cbv:bizstep:retail_selling",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Query by Disposition — in_transit",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/query/events?disposition=urn:epcglobal:cbv:disp:in_transit",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "query",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "disposition",
+                    "value": "urn:epcglobal:cbv:disp:in_transit",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Query by Disposition — sellable_accessible",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/query/events?disposition=urn:epcglobal:cbv:disp:sellable_accessible",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "query",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "disposition",
+                    "value": "urn:epcglobal:cbv:disp:sellable_accessible",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Query by EPC — SGTIN",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/query/events?epcMatch={{sgtin}}",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "query",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "epcMatch",
+                    "value": "{{sgtin}}",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Query by EPC — SSCC",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/query/events?epcMatch={{sscc}}",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "query",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "epcMatch",
+                    "value": "{{sscc}}",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Query by ParentID — SSCC",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/query/events?parentId={{sscc}}",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "query",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "parentId",
+                    "value": "{{sscc}}",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Query by ReadPoint",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/query/events?readPoint={{sgln}}",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "query",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "readPoint",
+                    "value": "{{sgln}}",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Query by BizLocation",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/query/events?bizLocation={{sgln}}",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "query",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "bizLocation",
+                    "value": "{{sgln}}",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Query by GLN",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/query/events?gln={{gln}}",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "query",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "gln",
+                    "value": "{{gln}}",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Query by EventTime — From",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/query/events?eventTimeGT=2021-01-01T00:00:00+00:00",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "query",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "eventTimeGT",
+                    "value": "2021-01-01T00:00:00+00:00",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Query by EventTime — Range",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/query/events?eventTimeGT=2021-01-01T00:00:00+00:00&eventTimeLT=2022-12-31T23:59:59+00:00",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "query",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "eventTimeGT",
+                    "value": "2021-01-01T00:00:00+00:00",
+                    "disabled": false
+                  },
+                  {
+                    "key": "eventTimeLT",
+                    "value": "2022-12-31T23:59:59+00:00",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Query with MaxEventCount",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/query/events?maxEventCount=10",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "query",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "maxEventCount",
+                    "value": "10",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Query — Combined (ObjectEvent + shipping)",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/query/events?eventType=ObjectEvent&bizStep=urn:epcglobal:cbv:bizstep:shipping&action=OBSERVE",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "query",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "eventType",
+                    "value": "ObjectEvent",
+                    "disabled": false
+                  },
+                  {
+                    "key": "bizStep",
+                    "value": "urn:epcglobal:cbv:bizstep:shipping",
+                    "disabled": false
+                  },
+                  {
+                    "key": "action",
+                    "value": "OBSERVE",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Query Single Event by ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/query/events/{{event_id}}",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "query",
+                  "events",
+                  "{{event_id}}"
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "2 - Legacy Query API",
+        "description": "",
+        "item": [
+          {
+            "name": "Get All Events",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/api/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "events"
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Get by EPC — SGTIN",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/api/events?epc={{sgtin}}",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "epc",
+                    "value": "{{sgtin}}",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Get by EPC — SSCC",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/api/events?epc={{sscc}}",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "epc",
+                    "value": "{{sscc}}",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Get by GLN",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/api/events?gln={{gln}}",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "gln",
+                    "value": "{{gln}}",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Get by Type — AggregationEvent",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/api/events?type=AggregationEvent",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "type",
+                    "value": "AggregationEvent",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Get by BizStep",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/api/events?bizStep=urn:epcglobal:cbv:bizstep:packing",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "bizStep",
+                    "value": "urn:epcglobal:cbv:bizstep:packing",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Get by Action — ADD",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/api/events?action=ADD",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "action",
+                    "value": "ADD",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Get by Timestamp Range",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/api/events?eventTimeFrom=2021-01-01T00:00:00+00:00&eventTimeTo=2023-12-31T23:59:59+00:00",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "events"
+                ],
+                "query": [
+                  {
+                    "key": "eventTimeFrom",
+                    "value": "2021-01-01T00:00:00+00:00",
+                    "disabled": false
+                  },
+                  {
+                    "key": "eventTimeTo",
+                    "value": "2023-12-31T23:59:59+00:00",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Get Single Event by DB-ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/api/events/1",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "events",
+                  "1"
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "3 - Inventory Service",
+        "description": "",
+        "item": [
+          {
+            "name": "EPC State — SGTIN",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/inventory/epc?epc={{sgtin}}",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "inventory",
+                  "epc"
+                ],
+                "query": [
+                  {
+                    "key": "epc",
+                    "value": "{{sgtin}}",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "EPC State — SSCC",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/inventory/epc?epc={{sscc}}",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "inventory",
+                  "epc"
+                ],
+                "query": [
+                  {
+                    "key": "epc",
+                    "value": "{{sscc}}",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Stock at Location — alle",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/inventory/stock?gln={{sgln}}&availableOnly=false",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "inventory",
+                  "stock"
+                ],
+                "query": [
+                  {
+                    "key": "gln",
+                    "value": "{{sgln}}",
+                    "disabled": false
+                  },
+                  {
+                    "key": "availableOnly",
+                    "value": "false",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Stock at Location — nur verfügbare Ware",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/inventory/stock?gln={{sgln}}&availableOnly=true",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "inventory",
+                  "stock"
+                ],
+                "query": [
+                  {
+                    "key": "gln",
+                    "value": "{{sgln}}",
+                    "disabled": false
+                  },
+                  {
+                    "key": "availableOnly",
+                    "value": "true",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Quantity by GTIN",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/inventory/quantity?gtin=urn:epc:id:sgtin:4056019.010532&availableOnly=true",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "inventory",
+                  "quantity"
+                ],
+                "query": [
+                  {
+                    "key": "gtin",
+                    "value": "urn:epc:id:sgtin:4056019.010532",
+                    "disabled": false
+                  },
+                  {
+                    "key": "availableOnly",
+                    "value": "true",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Quantity by GTIN — bestimmter Standort",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/inventory/quantity?gtin=urn:epc:id:sgtin:4056019.010532&gln={{sgln}}&availableOnly=true",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "inventory",
+                  "quantity"
+                ],
+                "query": [
+                  {
+                    "key": "gtin",
+                    "value": "urn:epc:id:sgtin:4056019.010532",
+                    "disabled": false
+                  },
+                  {
+                    "key": "gln",
+                    "value": "{{sgln}}",
+                    "disabled": false
+                  },
+                  {
+                    "key": "availableOnly",
+                    "value": "true",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Pallet Content — SSCC",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/inventory/pallet?sscc={{sscc}}",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "inventory",
+                  "pallet"
+                ],
+                "query": [
+                  {
+                    "key": "sscc",
+                    "value": "{{sscc}}",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Movement History — SGTIN",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/inventory/history?epc={{sgtin}}&limit=100",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "inventory",
+                  "history"
+                ],
+                "query": [
+                  {
+                    "key": "epc",
+                    "value": "{{sgtin}}",
+                    "disabled": false
+                  },
+                  {
+                    "key": "limit",
+                    "value": "100",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Movement History — mit Zeitraum",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/inventory/history?epc={{sgtin}}&from=2021-01-01T00:00:00+00:00&to=2023-12-31T23:59:59+00:00&limit=50",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "inventory",
+                  "history"
+                ],
+                "query": [
+                  {
+                    "key": "epc",
+                    "value": "{{sgtin}}",
+                    "disabled": false
+                  },
+                  {
+                    "key": "from",
+                    "value": "2021-01-01T00:00:00+00:00",
+                    "disabled": false
+                  },
+                  {
+                    "key": "to",
+                    "value": "2023-12-31T23:59:59+00:00",
+                    "disabled": false
+                  },
+                  {
+                    "key": "limit",
+                    "value": "50",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Available Quantity — GSPM Format",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/inventory/available-quantity",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "inventory",
+                  "available-quantity"
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Available Quantity — für Store",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/inventory/available-quantity?gln={{gln}}",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "inventory",
+                  "available-quantity"
+                ],
+                "query": [
+                  {
+                    "key": "gln",
+                    "value": "{{gln}}",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Rebuild Inventory",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/inventory/rebuild",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "inventory",
+                  "rebuild"
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "4 - CBV Validator",
+        "description": "",
+        "item": [
+          {
+            "name": "Vocabulary — BizStep",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/cbv/vocabulary/BIZ_STEP",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "cbv",
+                  "vocabulary",
+                  "BIZ_STEP"
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Vocabulary — Disposition",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/cbv/vocabulary/DISPOSITION",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "cbv",
+                  "vocabulary",
+                  "DISPOSITION"
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Vocabulary — BizTransactionType",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/cbv/vocabulary/BIZ_TRANSACTION_TYPE",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "cbv",
+                  "vocabulary",
+                  "BIZ_TRANSACTION_TYPE"
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Vocabulary — SourceDestType",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/cbv/vocabulary/SOURCE_DEST_TYPE",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "cbv",
+                  "vocabulary",
+                  "SOURCE_DEST_TYPE"
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Validate — gültiger bizStep",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/cbv/validate?uri=urn:epcglobal:cbv:bizstep:shipping&type=BIZ_STEP",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "cbv",
+                  "validate"
+                ],
+                "query": [
+                  {
+                    "key": "uri",
+                    "value": "urn:epcglobal:cbv:bizstep:shipping",
+                    "disabled": false
+                  },
+                  {
+                    "key": "type",
+                    "value": "BIZ_STEP",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Validate — ungültiger bizStep",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/cbv/validate?uri=urn:epcglobal:cbv:bizstep:typo&type=BIZ_STEP",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "cbv",
+                  "validate"
+                ],
+                "query": [
+                  {
+                    "key": "uri",
+                    "value": "urn:epcglobal:cbv:bizstep:typo",
+                    "disabled": false
+                  },
+                  {
+                    "key": "type",
+                    "value": "BIZ_STEP",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Validate — gültige disposition",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/cbv/validate?uri=urn:epcglobal:cbv:disp:in_transit&type=DISPOSITION",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "cbv",
+                  "validate"
+                ],
+                "query": [
+                  {
+                    "key": "uri",
+                    "value": "urn:epcglobal:cbv:disp:in_transit",
+                    "disabled": false
+                  },
+                  {
+                    "key": "type",
+                    "value": "DISPOSITION",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Validate — HTTPS-Form URI",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/cbv/validate?uri=https://ref.gs1.org/cbv/BizStep-shipping&type=BIZ_STEP",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "cbv",
+                  "validate"
+                ],
+                "query": [
+                  {
+                    "key": "uri",
+                    "value": "https://ref.gs1.org/cbv/BizStep-shipping",
+                    "disabled": false
+                  },
+                  {
+                    "key": "type",
+                    "value": "BIZ_STEP",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Quarantine — offene Events",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/cbv/quarantine?resolved=false",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "cbv",
+                  "quarantine"
+                ],
+                "query": [
+                  {
+                    "key": "resolved",
+                    "value": "false",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Quarantine — alle Events",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/cbv/quarantine",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "cbv",
+                  "quarantine"
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "5 - GS1 Digital Link",
+        "description": "",
+        "item": [
+          {
+            "name": "Parse — GTIN + Serial",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/digitallink/parse?uri=https://id.gs1.org/01/04056019105326/21/4293918790",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "digitallink",
+                  "parse"
+                ],
+                "query": [
+                  {
+                    "key": "uri",
+                    "value": "https://id.gs1.org/01/04056019105326/21/4293918790",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Parse — SSCC",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/digitallink/parse?uri=https://id.gs1.org/00/340290250111111220",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "digitallink",
+                  "parse"
+                ],
+                "query": [
+                  {
+                    "key": "uri",
+                    "value": "https://id.gs1.org/00/340290250111111220",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Convert — SGTIN zu Digital Link",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/digitallink/convert?epc={{sgtin}}&baseUrl=https://id.canda.com",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "digitallink",
+                  "convert"
+                ],
+                "query": [
+                  {
+                    "key": "epc",
+                    "value": "{{sgtin}}",
+                    "disabled": false
+                  },
+                  {
+                    "key": "baseUrl",
+                    "value": "https://id.canda.com",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Convert — SSCC zu Digital Link",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/digitallink/convert?epc={{sscc}}&baseUrl=https://id.canda.com",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "digitallink",
+                  "convert"
+                ],
+                "query": [
+                  {
+                    "key": "epc",
+                    "value": "{{sscc}}",
+                    "disabled": false
+                  },
+                  {
+                    "key": "baseUrl",
+                    "value": "https://id.canda.com",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Resolve — SGTIN",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/digitallink/resolve?uri=https://id.gs1.org/01/04056019105326/21/4293918790",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "digitallink",
+                  "resolve"
+                ],
+                "query": [
+                  {
+                    "key": "uri",
+                    "value": "https://id.gs1.org/01/04056019105326/21/4293918790",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Resolve — per AI direkt",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/digitallink/resolve/01/04056019105326",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "digitallink",
+                  "resolve",
+                  "01",
+                  "04056019105326"
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "History — Event History",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/digitallink/history?uri=https://id.gs1.org/01/04056019105326/21/4293918790",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "digitallink",
+                  "history"
+                ],
+                "query": [
+                  {
+                    "key": "uri",
+                    "value": "https://id.gs1.org/01/04056019105326/21/4293918790",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Location — aktueller Standort",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/digitallink/location?uri=https://id.gs1.org/01/04056019105326/21/4293918790",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "digitallink",
+                  "location"
+                ],
+                "query": [
+                  {
+                    "key": "uri",
+                    "value": "https://id.gs1.org/01/04056019105326/21/4293918790",
+                    "disabled": false
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "6 - Subscriptions",
+        "description": "",
+        "item": [
+          {
+            "name": "Get All Subscriptions",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/subscriptions",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "subscriptions"
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Get Single Subscription",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/subscriptions/HALO-GENERAL",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "subscriptions",
+                  "HALO-GENERAL"
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Create Subscription",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/epcis/subscriptions",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "subscriptions"
+                ]
+              },
+              "description": "",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"subscriptionId\": \"TEST-SUB-001\",\n  \"targetSystem\": \"TEST\",\n  \"callbackUrl\": \"http://localhost:9999/callback\",\n  \"authType\": \"NONE\",\n  \"eventTypes\": \"ObjectEvent\",\n  \"bizSteps\": \"urn:epcglobal:cbv:bizstep:shipping\",\n  \"active\": true\n}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Deactivate Subscription",
+            "request": {
+              "method": "PUT",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/subscriptions/TEST-SUB-001/active?active=false",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "subscriptions",
+                  "TEST-SUB-001",
+                  "active"
+                ],
+                "query": [
+                  {
+                    "key": "active",
+                    "value": "false"
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Activate Subscription",
+            "request": {
+              "method": "PUT",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/epcis/subscriptions/TEST-SUB-001/active?active=true",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "subscriptions",
+                  "TEST-SUB-001",
+                  "active"
+                ],
+                "query": [
+                  {
+                    "key": "active",
+                    "value": "true"
+                  }
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "7 - Outbox & Operations",
+        "description": "",
+        "item": [
+          {
+            "name": "Outbox Stats",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/ops/outbox/stats",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "ops",
+                  "outbox",
+                  "stats"
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Outbox Pending",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/ops/outbox/pending",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "ops",
+                  "outbox",
+                  "pending"
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Outbox Failed",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/ops/outbox/failed",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "ops",
+                  "outbox",
+                  "failed"
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Outbox Retry",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/ops/outbox/1/retry",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "ops",
+                  "outbox",
+                  "1",
+                  "retry"
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "8 - Health & Actuator",
+        "description": "",
+        "item": [
+          {
+            "name": "Health Check",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/actuator/health",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "actuator",
+                  "health"
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Health — DB",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/actuator/health/db",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "actuator",
+                  "health",
+                  "db"
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Info",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/actuator/info",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "actuator",
+                  "info"
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          },
+          {
+            "name": "Metrics",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/actuator/metrics",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "actuator",
+                  "metrics"
+                ]
+              },
+              "description": ""
+            },
+            "response": []
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -5,7 +5,6 @@ import com.canda.epcis.infrastructure.persistence.EpcisEventRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
@@ -73,8 +72,10 @@ public class QueryEventUseCase {
             Integer maxEventCount, String orderBy, String orderDirection) {
 
         int limit = clamp(maxEventCount);
-        Sort sort = buildSort(orderBy, orderDirection);
-        PageRequest pageRequest = PageRequest.of(0, limit, sort);
+        // Sort is handled by the hardcoded ORDER BY in the native query.
+        // Passing a Sort with a Java field name (e.g. "eventTime") to a native query
+        // causes Spring Data to append ", e.eventTime" which PostgreSQL rejects.
+        PageRequest pageRequest = PageRequest.of(0, limit);
 
         List<EpcisEventEntity> results = repository.search(
                 eqEventType, eqAction, eqBizStep, eqDisposition,
@@ -111,25 +112,4 @@ public class QueryEventUseCase {
         return Math.min(requested, HARD_MAX_EVENT_COUNT);
     }
 
-    private Sort buildSort(String orderBy, String orderDirection) {
-        String resolvedOrderBy        = orderBy        != null ? orderBy        : DEFAULT_ORDER_BY;
-        String resolvedOrderDirection = orderDirection != null ? orderDirection : DEFAULT_ORDER_DIRECTION;
-
-        if (!ALLOWED_ORDER_BY.contains(resolvedOrderBy)) {
-            throw new IllegalArgumentException(
-                    "Invalid orderBy value: '" + resolvedOrderBy + "'. Allowed: " + ALLOWED_ORDER_BY);
-        }
-        if (!ALLOWED_ORDER_DIRECTION.contains(resolvedOrderDirection.toUpperCase())) {
-            throw new IllegalArgumentException(
-                    "Invalid orderDirection value: '" + resolvedOrderDirection + "'. Allowed: " + ALLOWED_ORDER_DIRECTION);
-        }
-
-        // recordTime is inside the JSON payload — not a DB column.
-        // Phase 1: fall back to eventTime for both cases.
-        Sort.Direction direction = "ASC".equalsIgnoreCase(resolvedOrderDirection)
-                ? Sort.Direction.ASC
-                : Sort.Direction.DESC;
-
-        return Sort.by(direction, "eventTime");
-    }
 }

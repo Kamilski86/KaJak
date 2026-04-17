@@ -1,0 +1,1001 @@
+{
+  "collection": {
+    "info": {
+      "_postman_id": "8a316083-ea46-4fbc-a01a-6205b983b1e8",
+      "name": "EPCIS Event Handler — C&A Event Capture",
+      "description": "Capture-Requests für alle C&A EPCIS 1.2 Event-Typen.\n\nOrdner:\n- 100 - Supplier Events (101–106)\n- 200 - DC Events (201–208)\n- 300 - Store Events (301–313)\n\nVariablen:\n- base_url: http://localhost:8080\n- source_id: DC-TEST",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+      {
+        "key": "base_url",
+        "value": "http://localhost:8080",
+        "type": "string"
+      },
+      {
+        "key": "source_id",
+        "value": "DC-TEST",
+        "type": "string"
+      }
+    ],
+    "item": [
+      {
+        "name": "100 - Supplier Events",
+        "item": [
+          {
+            "name": "101 - DM Encoding Event",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                },
+                {
+                  "key": "X-EPCIS-Source-ID",
+                  "value": "{{source_id}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "<epcis:EPCISDocument xmlns:epcis=\"urn:epcglobal:epcis:xsd:1\" schemaVersion=\"1.2\" creationDate=\"2021-10-21T09:16:27.317Z\">\n\t<EPCISBody>\n\t\t<EventList>\n\t\t\t<ObjectEvent>\n\t\t\t\t<eventTime>2021-05-04T20:53:55.718+05:30</eventTime>\n\t\t\t\t<eventTimeZoneOffset>+05:30</eventTimeZoneOffset>\n\t\t\t\t<baseExtension>\n\t\t\t\t\t<eventID>urn:uuid:17a78a5f-377c-4c6c-93cc-fd8e91f1064a</eventID>\n\t\t\t\t</baseExtension>\n\t\t\t\t<epcList>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4056019.010532.4293918790</epc>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4056019.010532.4293918791</epc>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4056019.010532.4293918792</epc>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4056019.010532.4293918793</epc>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4056019.010532.4293918794</epc>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4056019.010532.4293918795</epc>\n\t\t\t\t</epcList>\n\t\t\t\t<action>ADD</action>\n\t\t\t\t<bizStep>urn:epcglobal:cbv:bizstep:encoding</bizStep>\n\t\t\t\t<disposition>urn:epcglobal:cbv:disp:encoded</disposition>\n\t\t\t\t<readPoint>\n\t\t\t\t\t<id>urn:epc:id:sgln:0822133.00001.0</id>\n\t\t\t\t</readPoint>\n\t\t\t\t<bizLocation>\n\t\t\t\t\t<id>urn:epc:id:sgln:0822133.00001.0</id>\n\t\t\t\t</bizLocation>\n\t\t\t\t<bizTransactionList>\n\t\t\t\t\t<bizTransaction type=\"urn:epcglobal:cbv:btt:po\">urn:epc:id:gdti:0822133.00001.81349130</bizTransaction>\n\t\t\t\t\t<bizTransaction type=\"http://epcis.canda.com/btt/po_line\">urn:epc:id:gdti:0822133.00011.44</bizTransaction>\n\t\t\t\t</bizTransactionList>\n\t\t\t</ObjectEvent>\n\t\t</EventList>\n\t</EPCISBody>\n</epcis:EPCISDocument>",
+                "options": {
+                  "raw": {
+                    "language": "xml"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/epcis/capture/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "capture",
+                  "events"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "102 - DM Packing Items to Boxes (SGTIN)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                },
+                {
+                  "key": "X-EPCIS-Source-ID",
+                  "value": "{{source_id}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "<epcis:EPCISDocument xmlns:epcis=\"urn:epcglobal:epcis:xsd:1\" schemaVersion=\"1.2\" creationDate=\"2021-10-21T09:16:27.317Z\">\n  <EPCISBody>\n    <EventList>\n      <AggregationEvent>\n          <eventTime>2021-10-21T00:00:00.000+02:00</eventTime>\n          <eventTimeZoneOffset>+02:00</eventTimeZoneOffset>\n          <baseExtension>\n              <eventID>urn:uuid:f4347f5e-a5cc-4f0a-9efe-8fcfda96bb7e</eventID>\n          </baseExtension>\n          <parentID>urn:epc:id:sscc:3047113.0000005249</parentID>\n          <childEPCs>\n              <epc>urn:epc:id:sgtin:4060983.016853.166094658494</epc>\n              <epc>urn:epc:id:sgtin:4060983.016853.166094658495</epc>\n              <epc>urn:epc:id:sgtin:4060983.016853.166094658496</epc>\n          </childEPCs>\n          <action>ADD</action>\n          <bizStep>urn:epcglobal:cbv:bizstep:packing</bizStep>\n          <disposition>urn:epcglobal:cbv:disp:in_progress</disposition>\n          <readPoint>\n              <id>urn:epc:id:sgln:4056019.00022.0</id>\n          </readPoint>\n          <bizLocation>\n              <id>urn:epc:id:sgln:4056019.00022.0</id>\n          </bizLocation>\n          <bizTransactionList>\n              <bizTransaction type=\"urn:epcglobal:cbv:btt:po\">urn:epc:id:gdti:082213300010</bizTransaction>\n          </bizTransactionList>\n      </AggregationEvent>\n    </EventList>\n</EPCISBody>\n</epcis:EPCISDocument>",
+                "options": {
+                  "raw": {
+                    "language": "xml"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/epcis/capture/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "capture",
+                  "events"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "103 - DM Packing Items to Boxes (GTIN + Qty)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                },
+                {
+                  "key": "X-EPCIS-Source-ID",
+                  "value": "{{source_id}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "<epcis:EPCISDocument xmlns:epcis=\"urn:epcglobal:epcis:xsd:1\" schemaVersion=\"1.2\" creationDate=\"2021-10-21T09:16:27.317Z\">\n  <EPCISBody>\n    <EventList>\n        <AggregationEvent>\n            <eventTime>2021-10-21T00:00:00.000+02:00</eventTime>\n            <eventTimeZoneOffset>+02:00</eventTimeZoneOffset>\n            <baseExtension>\n                <eventID>urn:uuid:f4347f5e-a5cc-4f0a-9efe-8fcfda96bb7e</eventID>\n            </baseExtension>\n            <parentID>urn:epc:id:sscc:3047113.0000005249</parentID>\n            <childEPCs/>\n            <action>ADD</action>\n            <bizStep>urn:epcglobal:cbv:bizstep:packing</bizStep>\n            <disposition>urn:epcglobal:cbv:disp:in_progress</disposition>\n            <readPoint>\n                <id>http://epcis.example.com</id>\n            </readPoint>\n            <bizLocation>\n                <id>http://epcis.example.com</id>\n            </bizLocation>\n            <bizTransactionList>\n                <bizTransaction type=\"urn:epcglobal:cbv:btt:po\">urn:epc:id:gdti:082213300010</bizTransaction>\n            </bizTransactionList>\n            <extension>\n              <childQuantityList>\n                  <quantityElement>\n                      <epcClass>urn:epc:idpat:sgtin:4060983.016853.*</epcClass>\n                      <quantity>10</quantity>\n                  </quantityElement>\n              </childQuantityList>\n            </extension>\n        </AggregationEvent>\n      </EventList>\n  </EPCISBody>\n</epcis:EPCISDocument>",
+                "options": {
+                  "raw": {
+                    "language": "xml"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/epcis/capture/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "capture",
+                  "events"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "105 - DM Shipping Boxes Event",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                },
+                {
+                  "key": "X-EPCIS-Source-ID",
+                  "value": "{{source_id}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "<epcis:EPCISDocument xmlns:epcis=\"urn:epcglobal:epcis:xsd:1\" schemaVersion=\"1.2\" creationDate=\"2021-10-21T09:16:27.317Z\">\n  <EPCISBody>\n    <EventList>\n      <ObjectEvent>\n          <eventTime>2021-10-21T00:00:00.000+02:00</eventTime>\n          <eventTimeZoneOffset>+02:00</eventTimeZoneOffset>\n          <baseExtension>\n              <eventID>urn:uuid:0fa09b7d-89a1-46e2-9e04-68b351f6a461</eventID>\n          </baseExtension>\n          <epcList>\n              <epc>urn:epc:id:sscc:3047113.0000004565</epc>\n              <epc>urn:epc:id:sscc:3047113.0000004567</epc>\n              <epc>urn:epc:id:sscc:3047113.0000004568</epc>\n              <epc>urn:epc:id:sscc:3047113.0000004569</epc>\n              <epc>urn:epc:id:sscc:3047113.0000004570</epc>\n          </epcList>\n          <action>OBSERVE</action>\n          <bizStep>urn:epcglobal:cbv:bizstep:shipping</bizStep>\n          <disposition>urn:epcglobal:cbv:disp:in_transit</disposition>\n          <readPoint>\n              <id>http://epcis.canda.com/advice/sapBusinessPartnerId/123456</id>\n          </readPoint>\n          <bizTransactionList>\n              <bizTransaction type=\"urn:epcglobal:cbv:btt:po\">urn:epc:id:gdti:082213300010</bizTransaction>\n          </bizTransactionList>\n          <extension>\n              <sourceList>\n                  <source type=\"urn:epcglobal:cbv:sdt:location\">http://epcis.canda.com/advice/sapBusinessPartnerId/123456</source>\n              </sourceList>\n              <destinationList>\n                  <destination type=\"urn:epcglobal:cbv:sdt:location\">urn:epc:id:sgln:4062847.00067.0</destination>\n              </destinationList>\n          </extension>\n        </ObjectEvent>\n      </EventList>\n  </EPCISBody>\n</epcis:EPCISDocument>",
+                "options": {
+                  "raw": {
+                    "language": "xml"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/epcis/capture/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "capture",
+                  "events"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "106 - DM Delete Boxes Event",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                },
+                {
+                  "key": "X-EPCIS-Source-ID",
+                  "value": "{{source_id}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "<?xml version=\"1.0\"?>\n<epcis:EPCISDocument xmlns:epcis=\"urn:epcglobal:epcis:xsd:1\" schemaVersion=\"1.2\" creationDate=\"2021-10-21T09:16:27.317Z\">\n  <EPCISBody>\n    <EventList>\n        <AggregationEvent>\n            <eventTime>2021-10-21T00:00:00.000+02:00</eventTime>\n            <eventTimeZoneOffset>+02:00</eventTimeZoneOffset>\n            <baseExtension>\n                <eventID>urn:uuid:06254b9b-8f3e-4707-a237-dee7b10bf700</eventID>\n            </baseExtension>\n            <parentID>urn:epc:id:sscc:3047113.0000004458</parentID>\n            <childEPCs/>\n            <action>DELETE</action>\n            <bizStep>urn:epcglobal:cbv:bizstep:unpacking</bizStep>\n            <disposition>urn:epcglobal:cbv:disp:in_progress</disposition>\n            <readPoint>\n                <id>http://epcis.example.com</id>\n            </readPoint>\n            <bizLocation>\n                <id>http://epcis.example.com</id>\n            </bizLocation>\n        </AggregationEvent>\n    </EventList>\n  </EPCISBody>\n</epcis:EPCISDocument>",
+                "options": {
+                  "raw": {
+                    "language": "xml"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/epcis/capture/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "capture",
+                  "events"
+                ]
+              }
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "200 - DC Events",
+        "item": [
+          {
+            "name": "201 - DM DC Receiving Event",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                },
+                {
+                  "key": "X-EPCIS-Source-ID",
+                  "value": "{{source_id}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "<epcis:EPCISDocument xmlns:epcis=\"urn:epcglobal:epcis:xsd:1\" schemaVersion=\"1.1\" creationDate=\"2015-04-14T10:35:38.116-04:00\">\n\t<EPCISBody>\n\t\t<EventList>\n\t\t\t<ObjectEvent>\n\t\t\t\t<eventTime>2021-03-18T08:08:10Z</eventTime>\n\t\t\t\t<eventTimeZoneOffset>+01:00</eventTimeZoneOffset>\n\t\t\t\t<baseExtension>\n\t\t\t\t\t<eventID>urn:uuid:3d540b14-fafb-4266-a018-34d6addb5212</eventID>\n\t\t\t\t</baseExtension>\n\t\t\t\t<epcList>\n\t\t\t\t\t<epc>urn:epc:id:sscc:4711000.0000004711</epc>\n\t\t\t\t</epcList>\n\t\t\t\t<action>OBSERVE</action>\n\t\t\t\t<bizStep>urn:epcglobal:cbv:bizstep:receiving</bizStep>\n\t\t\t\t<disposition>urn:epcglobal:cbv:disp:in_progress</disposition>\n\t\t\t\t<bizLocation>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.00033.0</id>\n\t\t\t\t</bizLocation>\n\t\t\t\t<bizTransactionList>\n\t\t\t\t\t<bizTransaction type=\"urn:epcglobal:cbv:btt:po\">9000000020</bizTransaction>\n\t\t\t\t</bizTransactionList>\n\t\t\t</ObjectEvent>\n\t\t</EventList>\n\t</EPCISBody>\n</epcis:EPCISDocument>",
+                "options": {
+                  "raw": {
+                    "language": "xml"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/epcis/capture/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "capture",
+                  "events"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "202 - DM Stock Correction Increase (CCC)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                },
+                {
+                  "key": "X-EPCIS-Source-ID",
+                  "value": "{{source_id}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "<epcis:EPCISDocument xmlns:epcis=\"urn:epcglobal:epcis:xsd:1\" schemaVersion=\"1.1\" creationDate=\"2015-04-14T10:35:38.116-04:00\">\n\t<EPCISBody>\n\t\t<EventList>\n\t\t\t<ObjectEvent>\n\t\t\t\t<eventTime>2015-07-15T10:00:00.000-04:00</eventTime>\n\t\t\t\t<eventTimeZoneOffset>-04:00</eventTimeZoneOffset>\n\t\t\t\t<baseExtension>\n\t\t\t\t\t<eventID>urn:uuid:70fcfa6a-62e9-4479-8022-a07a89cbe68e</eventID>\n\t\t\t\t</baseExtension>\n\t\t\t\t<epcList/>\n\t\t\t\t<action>ADD</action>\n\t\t\t\t<bizStep>urn:epcglobal:cbv:bizstep:creating_class_instance</bizStep>\n\t\t\t\t<disposition>urn:epcglobal:cbv:disp:active</disposition>\n\t\t\t\t<readPoint>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.XXXXX.0</id>\n\t\t\t\t\t<!--statt der XXXXX die DC GLN -->\n\t\t\t\t</readPoint>\n\t\t\t\t<bizLocation>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.XXXXX.0</id>\n\t\t\t\t\t<!--statt der XXXXX die DC GLN -->\n\t\t\t\t</bizLocation>\n\t\t\t\t<extension>\n\t\t\t\t\t<quantityList>\n\t\t\t\t\t\t<quantityElement>\n\t\t\t\t\t\t\t<epcClass>urn:epc:idpat:sgtin:4060983.016853.*</epcClass>\n\t\t\t\t\t\t\t<quantity>20</quantity>\n\t\t\t\t\t\t</quantityElement>\n\t\t\t\t\t</quantityList>\n\t\t\t\t</extension>\n\t\t\t</ObjectEvent>\n\t\t</EventList>\n\t</EPCISBody>\n</epcis:EPCISDocument>",
+                "options": {
+                  "raw": {
+                    "language": "xml"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/epcis/capture/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "capture",
+                  "events"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "203 - DM Stock Correction Decrease (CCC)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                },
+                {
+                  "key": "X-EPCIS-Source-ID",
+                  "value": "{{source_id}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "<epcis:EPCISDocument xmlns:epcis=\"urn:epcglobal:epcis:xsd:1\" schemaVersion=\"1.2\" creationDate=\"2015-04-14T10:24:01.152-04:00\">\n<EPCISBody>\n<EventList>\n<ObjectEvent>\n\t<eventTime>2016-07-15T10:00:00.000-04:00</eventTime>\n\t<eventTimeZoneOffset>-04:00</eventTimeZoneOffset>\n\t<baseExtension>\n\t\t<eventID>urn:uuid:70fcfa6a-62e9-4479-8022-a07a89cbe68e</eventID>\n\t</baseExtension>\n\t<epcList/>\n\t\t<action>DELETE</action>\n\t\t\t<bizStep>urn:epcglobal:cbv:bizstep:destroying</bizStep>\n\t\t\t<disposition>urn:epcglobal:cbv:disp:destroyed</disposition>\n\t\t<readPoint>\n\t\t\t<id>urn:epc:id:sgln:4056019.XXXXX.0</id> <!--statt der XXXXX die DC GLN -->\n\t\t</readPoint>\n\t\t<extension>\n\t\t\t<quantityList>\n\t\t\t\t<quantitiyElement>\n\t\t\t\t\t<epcClass>urn:epc:idpat:sgtin:060983.016853.*</epcClass>\n\t\t\t\t\t<quantity>20</quantitiy>\n\t\t\t\t</quantitiyElement>\n\t\t\t</quantityList>\n\t\t</extension>\n</ObjectEvent>\n</EventList>\n</EPCISBody>\n</epcis:EPCISDocument>",
+                "options": {
+                  "raw": {
+                    "language": "xml"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/epcis/capture/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "capture",
+                  "events"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "204 - DM DC Tunnel Read Event",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                },
+                {
+                  "key": "X-EPCIS-Source-ID",
+                  "value": "{{source_id}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "<epcis:EPCISDocument xmlns:epcis=\"urn:epcglobal:epcis:xsd:1\" schemaVersion=\"1.1\" creationDate=\"2015-04-14T10:35:38.116-04:00\">\n\t<EPCISBody>\n\t\t<EventList>\n\t\t\t<AggregationEvent>\n\t\t\t\t<eventTime>2021-05-27T06:45:09.637Z</eventTime>\n\t\t\t\t<eventTimeZoneOffset>+00:00</eventTimeZoneOffset>\n\t\t\t\t<baseExtension>\n\t\t\t\t\t<eventID>urn:uuid:e4768bdf-0272-46f0-9d58-ce092aa02193</eventID>\n\t\t\t\t</baseExtension>\n\t\t\t\t<parentID>urn:epc:id:sscc:4062847.0008428553</parentID>\n\t\t\t\t<childEPCs>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4061505.001996.8589934597</epc>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4061505.001996.8589934601</epc>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4061505.001998.8589934615</epc>\n\t\t\t\t</childEPCs>\n\t\t\t\t<action>ADD</action>\n\t\t\t\t<bizStep>urn:epcglobal:cbv:bizstep:staging_outbound</bizStep>\n\t\t\t\t<disposition>urn:epcglobal:cbv:disp:in_progress</disposition>\n\t\t\t\t<readPoint>\n\t\t\t\t\t<id>urn:epc:id:sgln:4062847.00044.TUNNEL_02</id>\n\t\t\t\t</readPoint>\n\t\t\t\t<bizLocation>\n\t\t\t\t\t<id>urn:epc:id:sgln:4062847.00044.0</id>\n\t\t\t\t</bizLocation>\n\t\t\t</AggregationEvent>\n\t\t</EventList>\n\t</EPCISBody>\n</epcis:EPCISDocument>",
+                "options": {
+                  "raw": {
+                    "language": "xml"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/epcis/capture/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "capture",
+                  "events"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "205 - DM DC Trolley Read Event",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                },
+                {
+                  "key": "X-EPCIS-Source-ID",
+                  "value": "{{source_id}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "<epcis:EPCISDocument xmlns:epcis=\"urn:epcglobal:epcis:xsd:1\" schemaVersion=\"1.1\" creationDate=\"2015-04-14T10:35:38.116-04:00\">\n\t<EPCISBody>\n\t\t<EventList>\n\t\t\t<ObjectEvent>\n\t\t\t\t<eventTime>2021-06-01T12:19:41.726Z</eventTime>\n\t\t\t\t<eventTimeZoneOffset>+00:00</eventTimeZoneOffset>\n\t\t\t\t<baseExtension>\n\t\t\t\t\t<eventID>urn:uuid:67fd193f-6abf-466f-82f4-d8d13a835017</eventID>\n\t\t\t\t</baseExtension>\n\t\t\t\t<epcList>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:7061599.076300.4293919076</epc>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:7061599.076300.4293919077</epc>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:7061599.076300.4293919078</epc>\n\t\t\t\t</epcList>\n\t\t\t\t<action>OBSERVE</action>\n\t\t\t\t<bizStep>urn:epcglobal:cbv:bizstep:staging_outbound</bizStep>\n\t\t\t\t<disposition>urn:epcglobal:cbv:disp:in_progress</disposition>\n\t\t\t\t<readPoint>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.02001.TROLLEY_01</id>\n\t\t\t\t</readPoint>\n\t\t\t\t<bizLocation>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.02001.0</id>\n\t\t\t\t</bizLocation>\n\t\t\t\t<canda:trolleyID xmlns:canda=\"http://ns.canda.com/epcis\">235487909</canda:trolleyID>\n\t\t\t</ObjectEvent>\n\t\t</EventList>\n\t</EPCISBody>\n</epcis:EPCISDocument>",
+                "options": {
+                  "raw": {
+                    "language": "xml"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/epcis/capture/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "capture",
+                  "events"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "206 - DM Loading Event (SAP Goods Issue)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                },
+                {
+                  "key": "X-EPCIS-Source-ID",
+                  "value": "{{source_id}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "<epcis:EPCISDocument xmlns:epcis=\"urn:epcglobal:epcis:xsd:1\" schemaVersion=\"1.1\" creationDate=\"2015-04-14T10:35:38.116-04:00\">\n<EPCISBody>\n<EventList>\n        <ObjectEvent>\n                  <eventTime>2021-06-01T16:51:28Z</eventTime>\n                  <eventTimeZoneOffset>+01:00</eventTimeZoneOffset>\n                  <baseExtension>\n                     <eventID>urn:uuid:aa986601-22a8-4fc8-9a9f-c44c4b391b34</eventID>\n                  </baseExtension>\n                  <epcList>\n                     <epc>urn:epc:id:sscc:4025019.0340000029</epc>\n                  </epcList>\n                  <action>OBSERVE</action>\n                  <bizStep>urn:epcglobal:cbv:bizstep:loading</bizStep>\n                  <disposition>urn:epcglobal:cbv:disp:container_closed</disposition>\n                  <readPoint>\n                     <id>urn:epc:id:sgln:4062847.00022.0</id>\n                  </readPoint>\n                  <bizTransactionList>\n                     <bizTransaction type=\"http://epcis.canda.com/btt/stock_transfer_order\">9000000653</bizTransaction> <!-- either this or sales order number -->\n                     <!-- <bizTransaction type=\"http://epcis.canda.com/btt/sales_order_number\">9000000653</bizTransaction> --> <!-- either this or stock transfer order number -->\n                     <bizTransaction type=\"http://epcis.canda.com/btt/transportation_unit\">6100000163-01</bizTransaction>\n                  </bizTransactionList>\n                  <extension>\n                     <sourceList>\n                        <source type=\"urn:epcglobal:cbv:sdt:location\">urn:epc:id:sgln:4062847.00022.0</source>\n                     </sourceList>\n                     <destinationList>\n                        <destination type=\"urn:epcglobal:cbv:sdt:location\">urn:epc:id:sgln:4056019.00632.0</destination>\n                     </destinationList>\n                  </extension>\n        </ObjectEvent>\n</EventList>\n</EPCISBody>\n</epcis:EPCISDocument>",
+                "options": {
+                  "raw": {
+                    "language": "xml"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/epcis/capture/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "capture",
+                  "events"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "207 - DM Departing Event",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                },
+                {
+                  "key": "X-EPCIS-Source-ID",
+                  "value": "{{source_id}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "<epcis:EPCISDocument xmlns:epcis=\"urn:epcglobal:epcis:xsd:1\" schemaVersion=\"1.1\" creationDate=\"2015-04-14T10:35:38.116-04:00\">\n<EPCISBody>\n<EventList>\n\t<AggregationEvent>\n                  <eventTime>2021-05-12T12:40:00.04152Z</eventTime>                \n                  <eventTimeZoneOffset>+01:00</eventTimeZoneOffset>\n                  <baseExtension>\n\t\t\t\t\t<eventID>urn:uuid:83e30e95-0f4d-45e6-bfff-ccf2d0780a43</eventID>\n                  </baseExtension>\n                  <parentID>urn:epc:id:sscc:7110000.4000004741</parentID>\n                  <childEPCs>\n                     <epc>urn:epc:id:sgtin:4063958.085500.91728566115</epc>\n                     <epc>urn:epc:id:sgtin:4063958.085500.235562241701</epc>\n                     <epc>urn:epc:id:sgtin:4063958.085497.13362553469</epc>\n                     <epc>urn:epc:id:sgtin:4063958.085497.219709869046</epc>\n                  </childEPCs>\n                  <action>OBSERVE</action>\n                  <bizStep>urn:epcglobal:cbv:bizstep:departing</bizStep>\n                  <disposition>urn:epcglobal:cbv:disp:in_transit</disposition>\n                  <readPoint>\n                     <id>urn:epc:id:sgln:4062847.00022.0</id>\n                  </readPoint>\n                  <bizTransactionList>\n                     <bizTransaction type=\"http://epcis.canda.com/btt/stock_transfer_order\">4711000001</bizTransaction>\n                  </bizTransactionList>\n                  <extension>\n                     <sourceList>\n                        <source type=\"urn:epcglobal:cbv:sdt:location\">urn:epc:id:sgln:4062847.00022.0</source>\n                     </sourceList>\n                     <destinationList>\n                        <destination type=\"urn:epcglobal:cbv:sdt:location\">urn:epc:id:sgln:4056019.00044.0</destination>\n                     </destinationList>\n                  </extension>\n    </AggregationEvent>\n</EventList>\n</EPCISBody>\n</epcis:EPCISDocument>",
+                "options": {
+                  "raw": {
+                    "language": "xml"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/epcis/capture/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "capture",
+                  "events"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "208 - DM Online DC Event",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                },
+                {
+                  "key": "X-EPCIS-Source-ID",
+                  "value": "{{source_id}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "<epcis:EPCISDocument schemaVersion=\"1.2\" creationDate=\"2019-07-04T08:56:37.967Z\" xmlns:epcis=\"urn:epcglobal:epcis:xsd:1\" xmlns:epcismd=\"urn:epcglobal:epcis-masterdata:xsd:1\" xmlns:sbdh=\"http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader\" xmlns:canda=\"http://ns.canda.com/epcis\" xmlns:epcisq=\"urn:epcglobal:epcis-query:xsd:1\" xmlns:epcglobal=\"urn:epcglobal:xsd:1\" xmlns:eecc=\"http://ns.eecc.info/epcis\">\n\t<EPCISBody>\n\t\t<EventList>\n\t\t\t<ObjectEvent>\n\t\t\t\t<eventTime>2021-05-04T20:53:55.718+05:30</eventTime>\n\t\t\t\t<eventTimeZoneOffset>+05:30</eventTimeZoneOffset>\n\t\t\t\t<baseExtension>\n\t\t\t\t\t<eventID xmlns:canda=\"http://ns.canda.com/epcis\">urn:uuid:17a78a5f-377c-4c6c-93cc-fd8e91f1064a</eventID>\n\t\t\t\t</baseExtension>\n\t\t\t\t<epcList>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4056019.010532.4293918790</epc>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4056019.010532.42939187912</epc>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4056019.010532.42939187923/epc>\n\t\t\t\t</epcList>\n\t\t\t\t<action>OBSERVE</action>\n\t\t\t\t<bizStep>urn:epcglobal:cbv:bizstep:storing</bizStep>\n\t\t\t\t<disposition>urn:epcglobal:cbv:disp:non_sellable_other</disposition>\n\t\t\t\t<readPoint>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.00115.0</id> <!--TBC: <https://epcis.nbedap.com/id/loc/DCIdentifier>-->\n\t\t\t\t</readPoint>\n\t\t\t\t<bizLocation>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.00115.0</id> <!--TBC: <https://epcis.nbedap.com/id/loc/DCIdentifier>-->\n\t\t\t\t</bizLocation>\n\t\t\t</ObjectEvent>\n\t\t</EventList>\n\t</EPCISBody>\n</epcis:EPCISDocument>",
+                "options": {
+                  "raw": {
+                    "language": "xml"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/epcis/capture/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "capture",
+                  "events"
+                ]
+              }
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "300 - Store Events",
+        "item": [
+          {
+            "name": "301 - DM Receiving Event",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                },
+                {
+                  "key": "X-EPCIS-Source-ID",
+                  "value": "{{source_id}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "<epcis:EPCISQueryDocument schemaVersion=\"1.2\" creationDate=\"2019-07-04T08:56:37.967Z\" xmlns:epcis=\"urn:epcglobal:epcis:xsd:1\" xmlns:epcismd=\"urn:epcglobal:epcis-masterdata:xsd:1\" xmlns:sbdh=\"http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader\" xmlns:canda=\"http://ns.canda.com/epcis\" xmlns:epcisq=\"urn:epcglobal:epcis-query:xsd:1\" xmlns:epcglobal=\"urn:epcglobal:xsd:1\" xmlns:eecc=\"http://ns.eecc.info/epcis\">\n\t<EPCISBody>\n\t\t<EventList>\n\t\t\t<ObjectEvent>\n\t\t\t\t<eventTime>2021-03-29T10:24:18.47Z</eventTime>\n\t\t\t\t<eventTimeZoneOffset>+01:00</eventTimeZoneOffset>\n\t\t\t\t<baseExtension>\n\t\t\t\t\t<eventID>urn:uuid:0d9a7b81-cf69-4135-99bc-a8c2393ce079</eventID>\n\t\t\t\t</baseExtension>\n\t\t\t\t<epcList>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4061505.078699.1113</epc>\n                    <epc>urn:epc:id:sscc:4132462.1222574848</epc>\n                    <epc>FFFFFFFFFFFFFFFFFFFFFFFFF</epc>\n\t\t\t\t</epcList>\n\t\t\t\t<action>OBSERVE</action>\n\t\t\t\t<bizStep>urn:epcglobal:cbv:bizstep:receiving</bizStep>\n\t\t\t\t<disposition>urn:epcglobal:cbv:disp:sellable_not_accessible</disposition>\n\t\t\t\t<readPoint>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.00334.BACKROOM</id>\n\t\t\t\t</readPoint>\n\t\t\t\t<bizLocation>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.00334.BACKROOM</id>\n\t\t\t\t</bizLocation>\n\t\t\t\t<extension>\n\t\t\t\t\t<destinationList>\n\t\t\t\t\t\t<destination type=\"urn:epcglobal:cbv:sdt:location\">urn:epc:id:sgln:4056019.00334.BACKROOM</destination>\n\t\t\t\t\t</destinationList>\n\t\t\t\t</extension>\n\t\t\t\t<canda:receivingType xmlns:canda=\"http://ns.canda.com/epcis\">read</canda:receivingType>\n\t\t\t</ObjectEvent>\n\t\t</EventList>\n\t</EPCISBody>\n</epcis:EPCISQueryDocument>",
+                "options": {
+                  "raw": {
+                    "language": "xml"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/epcis/capture/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "capture",
+                  "events"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "302 - DM Cycle Counting Event",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                },
+                {
+                  "key": "X-EPCIS-Source-ID",
+                  "value": "{{source_id}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "<epcis:EPCISDocument schemaVersion=\"1.2\" creationDate=\"2019-07-04T08:56:37.967Z\" xmlns:epcis=\"urn:epcglobal:epcis:xsd:1\" xmlns:epcismd=\"urn:epcglobal:epcis-masterdata:xsd:1\" xmlns:sbdh=\"http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader\" xmlns:canda=\"http://ns.canda.com/epcis\" xmlns:epcisq=\"urn:epcglobal:epcis-query:xsd:1\" xmlns:epcglobal=\"urn:epcglobal:xsd:1\" xmlns:eecc=\"http://ns.eecc.info/epcis\">\n\t<EPCISBody>\n\t\t<EventList>\n\t\t\t<ObjectEvent>\n\t\t\t\t<eventTime>2021-05-04T20:53:55.718+05:30</eventTime>\n\t\t\t\t<recordTime>2021-05-04T15:15:47.511Z</recordTime>\n\t\t\t\t<eventTimeZoneOffset>+05:30</eventTimeZoneOffset>\n\t\t\t\t<baseExtension>\n\t\t\t\t\t<eventID xmlns:canda=\"http://ns.canda.com/epcis\">urn:uuid:17a78a5f-377c-4c6c-93cc-fd8e91f1064a</eventID>\n\t\t\t\t</baseExtension>\n\t\t\t\t<epcList>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4056019.010532.4293918790</epc>\n\t\t\t\t</epcList>\n\t\t\t\t<action>OBSERVE</action>\n\t\t\t\t<bizStep>urn:epcglobal:cbv:bizstep:cycle_counting</bizStep>\n\t\t\t\t<disposition>urn:epcglobal:cbv:disp:sellable_accessible</disposition>\n\t\t\t\t<readPoint>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.00115.SALESFLOOR</id>\n\t\t\t\t</readPoint>\n\t\t\t\t<bizLocation>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.00115.SALESFLOOR</id>\n\t\t\t\t</bizLocation>\n\t\t\t\t<canda:serviceProvider xmlns:canda=\"http://ns.canda.com/epcis\">Service,Provider</canda:serviceProvider>\n\t\t\t</ObjectEvent>\n\t\t</EventList>\n\t</EPCISBody>\n</epcis:EPCISDocument>",
+                "options": {
+                  "raw": {
+                    "language": "xml"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/epcis/capture/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "capture",
+                  "events"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "303 - DM Moving Event",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                },
+                {
+                  "key": "X-EPCIS-Source-ID",
+                  "value": "{{source_id}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "<epcis:EPCISDocument schemaVersion=\"1.2\" creationDate=\"2019-07-04T08:56:37.967Z\" xmlns:epcis=\"urn:epcglobal:epcis:xsd:1\" xmlns:epcismd=\"urn:epcglobal:epcis-masterdata:xsd:1\" xmlns:sbdh=\"http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader\" xmlns:canda=\"http://ns.canda.com/epcis\" xmlns:epcisq=\"urn:epcglobal:epcis-query:xsd:1\" xmlns:epcglobal=\"urn:epcglobal:xsd:1\" xmlns:eecc=\"http://ns.eecc.info/epcis\">\n\t<EPCISBody>\n\t\t<EventList>\n\t\t\t<ObjectEvent>\n\t\t\t\t<eventTime>2021-05-04T20:53:55.718+05:30</eventTime>\n\t\t\t\t<recordTime>2021-05-04T15:15:47.511Z</recordTime>\n\t\t\t\t<eventTimeZoneOffset>+05:30</eventTimeZoneOffset>\n\t\t\t\t<baseExtension>\n\t\t\t\t\t<eventID xmlns:canda=\"http://ns.canda.com/epcis\">urn:uuid:17a78a5f-377c-4c6c-93cc-fd8e91f1064a</eventID>\n\t\t\t\t</baseExtension>\n\t\t\t\t<epcList>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4056019.010532.4293918790</epc>\n\t\t\t\t</epcList>\n\t\t\t\t<action>OBSERVE</action>\n\t\t\t\t<bizStep>urn:epcglobal:cbv:bizstep:storing</bizStep>\n\t\t\t\t<disposition>urn:epcglobal:cbv:disp:sellable_accessible</disposition>\n\t\t\t\t<readPoint>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.00115.SALESFLOOR</id>\n\t\t\t\t</readPoint>\n\t\t\t\t<bizLocation>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.00115.SALESFLOOR</id>\n\t\t\t\t</bizLocation>\n\t\t\t</ObjectEvent>\n\t\t</EventList>\n\t</EPCISBody>\n</epcis:EPCISDocument>",
+                "options": {
+                  "raw": {
+                    "language": "xml"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/epcis/capture/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "capture",
+                  "events"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "304 - DM Handheld Retirement Event",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                },
+                {
+                  "key": "X-EPCIS-Source-ID",
+                  "value": "{{source_id}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "<epcis:EPCISDocument schemaVersion=\"1.2\" creationDate=\"2019-07-04T08:56:37.967Z\" xmlns:epcis=\"urn:epcglobal:epcis:xsd:1\" xmlns:epcismd=\"urn:epcglobal:epcis-masterdata:xsd:1\" xmlns:sbdh=\"http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader\" xmlns:canda=\"http://ns.canda.com/epcis\" xmlns:epcisq=\"urn:epcglobal:epcis-query:xsd:1\" xmlns:epcglobal=\"urn:epcglobal:xsd:1\" xmlns:eecc=\"http://ns.eecc.info/epcis\">\n\t<EPCISBody>\n\t\t<EventList>\n\t\t\t<ObjectEvent>\n\t\t\t\t<eventTime>2021-05-04T20:53:55.718+05:30</eventTime>\n\t\t\t\t<eventTimeZoneOffset>+05:30</eventTimeZoneOffset>\n\t\t\t\t<baseExtension>\n\t\t\t\t\t<eventID xmlns:canda=\"http://ns.canda.com/epcis\">urn:uuid:17a78a5f-377c-4c6c-93cc-fd8e91f1064a</eventID>\n\t\t\t\t</baseExtension>\n\t\t\t\t<epcList>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4056019.010532.4293918790</epc>\n\t\t\t\t</epcList>\n\t\t\t\t<action>OBSERVE</action>\n\t\t\t\t<bizStep>urn:epcglobal:cbv:bizstep:inspecting</bizStep>\n\t\t\t\t<disposition>urn:epcglobal:cbv:disp:damaged</disposition>\n\t\t\t\t<readPoint>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.00115.0</id>\n\t\t\t\t</readPoint>\n\t\t\t\t<bizLocation>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.00115.0</id>\n\t\t\t\t</bizLocation>\n\t\t\t</ObjectEvent>\n\t\t</EventList>\n\t</EPCISBody>\n</epcis:EPCISDocument>",
+                "options": {
+                  "raw": {
+                    "language": "xml"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/epcis/capture/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "capture",
+                  "events"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "305 - DM Multi-Retirement Event",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                },
+                {
+                  "key": "X-EPCIS-Source-ID",
+                  "value": "{{source_id}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "<epcis:EPCISDocument schemaVersion=\"1.2\" creationDate=\"2019-07-04T08:56:37.967Z\" xmlns:epcis=\"urn:epcglobal:epcis:xsd:1\" xmlns:epcismd=\"urn:epcglobal:epcis-masterdata:xsd:1\" xmlns:sbdh=\"http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader\" xmlns:canda=\"http://ns.canda.com/epcis\" xmlns:epcisq=\"urn:epcglobal:epcis-query:xsd:1\" xmlns:epcglobal=\"urn:epcglobal:xsd:1\" xmlns:eecc=\"http://ns.eecc.info/epcis\">\n\t<EPCISBody>\n\t\t<EventList>\n\t\t\t<ObjectEvent>\n\t\t\t\t<eventTime>2021-05-04T20:53:55.718+05:30</eventTime>\n\t\t\t\t<eventTimeZoneOffset>+05:30</eventTimeZoneOffset>\n\t\t\t\t<baseExtension>\n\t\t\t\t\t<eventID xmlns:canda=\"http://ns.canda.com/epcis\">urn:uuid:17a78a5f-377c-4c6c-93cc-fd8e91f1064a</eventID>\n\t\t\t\t</baseExtension>\n\t\t\t\t<epcList>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4056019.010532.4293918790</epc>\n\t\t\t\t</epcList>\n\t\t\t\t<action>OBSERVE</action>\n\t\t\t\t<bizStep>urn:epcglobal:cbv:bizstep:cycle_counting</bizStep>\n\t\t\t\t<disposition>urn:epcglobal:cbv:disp:stolen</disposition>\t\t\t\t\n\t\t\t\t<bizLocation>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.00115.0</id>\n\t\t\t\t</bizLocation>\n\t\t\t\t<canda:confirmer xmlns:canda=\"http://ns.canda.com/epcis\">uCandAUser</canda:confirmer>\n\t\t\t</ObjectEvent>\n\t\t</EventList>\n\t</EPCISBody>\n</epcis:EPCISDocument>",
+                "options": {
+                  "raw": {
+                    "language": "xml"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/epcis/capture/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "capture",
+                  "events"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "306 - DM Observed by EAS Event",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                },
+                {
+                  "key": "X-EPCIS-Source-ID",
+                  "value": "{{source_id}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "<epcis:EPCISDocument schemaVersion=\"1.2\" creationDate=\"2019-07-04T08:56:37.967Z\" xmlns:epcis=\"urn:epcglobal:epcis:xsd:1\" xmlns:epcismd=\"urn:epcglobal:epcis-masterdata:xsd:1\" xmlns:sbdh=\"http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader\" xmlns:canda=\"http://ns.canda.com/epcis\" xmlns:epcisq=\"urn:epcglobal:epcis-query:xsd:1\" xmlns:epcglobal=\"urn:epcglobal:xsd:1\" xmlns:eecc=\"http://ns.eecc.info/epcis\">\n\t<EPCISBody>\n\t\t<EventList>\n\t\t\t<ObjectEvent>\n\t\t\t\t<eventTime>2021-05-04T20:53:55.718+05:30</eventTime>\n\t\t\t\t<recordTime>2021-05-04T15:15:47.511Z</recordTime>\n\t\t\t\t<eventTimeZoneOffset>+05:30</eventTimeZoneOffset>\n\t\t\t\t<baseExtension>\n\t\t\t\t\t<eventID xmlns:canda=\"http://ns.canda.com/epcis\">urn:uuid:17a78a5f-377c-4c6c-93cc-fd8e91f1064a</eventID>\n\t\t\t\t</baseExtension>\n\t\t\t\t<epcList>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4056019.010532.4293918790</epc>\n\t\t\t\t</epcList>\n\t\t\t\t<action>OBSERVE</action>\n\t\t\t\t<bizStep>urn:epcglobal:cbv:bizstep:entering_exiting</bizStep>\n\t\t\t\t<disposition>urn:epcglobal:cbv:disp:stolen</disposition>\n\t\t\t\t<readPoint>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.00115.SALESFLOOR</id>\n\t\t\t\t</readPoint>\n\t\t\t\t<bizLocation>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.00115.SALESFLOOR</id>\n\t\t\t\t</bizLocation>\n\t\t\t</ObjectEvent>\n\t\t</EventList>\n\t</EPCISBody>\n</epcis:EPCISDocument>",
+                "options": {
+                  "raw": {
+                    "language": "xml"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/epcis/capture/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "capture",
+                  "events"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "307 - DM Reserving Event",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                },
+                {
+                  "key": "X-EPCIS-Source-ID",
+                  "value": "{{source_id}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "<epcis:EPCISDocument schemaVersion=\"1.2\" creationDate=\"2019-07-04T08:56:37.967Z\" xmlns:epcis=\"urn:epcglobal:epcis:xsd:1\" xmlns:epcismd=\"urn:epcglobal:epcis-masterdata:xsd:1\" xmlns:sbdh=\"http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader\" xmlns:canda=\"http://ns.canda.com/epcis\" xmlns:epcisq=\"urn:epcglobal:epcis-query:xsd:1\" xmlns:epcglobal=\"urn:epcglobal:xsd:1\" xmlns:eecc=\"http://ns.eecc.info/epcis\">\n\t<EPCISBody>\n\t\t<EventList>\n\t\t\t<ObjectEvent>\n\t\t\t\t<eventTime>2021-05-04T20:53:55.718+02:00</eventTime>\n\t\t\t\t<eventTimeZoneOffset>+02:00</eventTimeZoneOffset>\n\t\t\t\t<baseExtension>\n\t\t\t\t\t<eventID>urn:uuid:17a78a5f-377c-4c6c-93cc-fd8e91f1064a</eventID>\n\t\t\t\t</baseExtension>\n\t\t\t\t<epcList>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4056019.010532.4293918790</epc>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4056019.010532.42939187912</epc>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4056019.010532.42939187923/epc>\n\t\t\t\t</epcList>\n\t\t\t\t<action>OBSERVE</action>\n\t\t\t\t<bizStep>urn:epcglobal:cbv:bizstep:storing</bizStep>\n\t\t\t\t<disposition>urn:epcglobal:cbv:disp:non_sellable_other</disposition>\n\t\t\t\t<readPoint>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.00115.RESERVATIONAREA</id>\n\t\t\t\t</readPoint>\n\t\t\t\t<bizLocation>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.00115.RESERVATIONAREA</id>\n\t\t\t\t</bizLocation>\n\t\t\t</ObjectEvent>\n\t\t</EventList>\n\t</EPCISBody>\n</epcis:EPCISDocument>",
+                "options": {
+                  "raw": {
+                    "language": "xml"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/epcis/capture/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "capture",
+                  "events"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "308 - DM Unreserving Event",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                },
+                {
+                  "key": "X-EPCIS-Source-ID",
+                  "value": "{{source_id}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "<epcis:EPCISDocument schemaVersion=\"1.2\" creationDate=\"2019-07-04T08:56:37.967Z\" xmlns:epcis=\"urn:epcglobal:epcis:xsd:1\" xmlns:epcismd=\"urn:epcglobal:epcis-masterdata:xsd:1\" xmlns:sbdh=\"http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader\" xmlns:canda=\"http://ns.canda.com/epcis\" xmlns:epcisq=\"urn:epcglobal:epcis-query:xsd:1\" xmlns:epcglobal=\"urn:epcglobal:xsd:1\" xmlns:eecc=\"http://ns.eecc.info/epcis\">\n\t<EPCISBody>\n\t\t<EventList>\n\t\t\t<ObjectEvent>\n\t\t\t\t<eventTime>2021-05-04T20:53:55.718+05:30</eventTime>\n\t\t\t\t<recordTime>2021-05-04T15:15:47.511Z</recordTime>\n\t\t\t\t<eventTimeZoneOffset>+05:30</eventTimeZoneOffset>\n\t\t\t\t<baseExtension>\n\t\t\t\t\t<eventID xmlns:canda=\"http://ns.canda.com/epcis\">urn:uuid:17a78a5f-377c-4c6c-93cc-fd8e91f1064a</eventID>\n\t\t\t\t</baseExtension>\n\t\t\t\t<epcList>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4056019.010532.4293918790</epc>\n\t\t\t\t</epcList>\n\t\t\t\t<action>OBSERVE</action>\n\t\t\t\t<bizStep>urn:epcglobal:cbv:bizstep:storing</bizStep>\n\t\t\t\t<disposition>urn:epcglobal:cbv:disp:sellable_accessible</disposition>\n\t\t\t\t<bizLocation>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.00115.SALESFLOOR</id>\n\t\t\t\t</bizLocation>\n\t\t\t</ObjectEvent>\n\t\t</EventList>\n\t</EPCISBody>\n</epcis:EPCISDocument>",
+                "options": {
+                  "raw": {
+                    "language": "xml"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/epcis/capture/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "capture",
+                  "events"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "309 - DM Retagging Event",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                },
+                {
+                  "key": "X-EPCIS-Source-ID",
+                  "value": "{{source_id}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "<epcis:EPCISDocument schemaVersion=\"1.2\" creationDate=\"2019-07-04T08:56:37.967Z\" xmlns:epcis=\"urn:epcglobal:epcis:xsd:1\" xmlns:epcismd=\"urn:epcglobal:epcis-masterdata:xsd:1\" xmlns:sbdh=\"http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader\" xmlns:canda=\"http://ns.canda.com/epcis\" xmlns:epcisq=\"urn:epcglobal:epcis-query:xsd:1\" xmlns:epcglobal=\"urn:epcglobal:xsd:1\" xmlns:eecc=\"http://ns.eecc.info/epcis\">\n\t<EPCISBody>\n\t\t<EventList>\n\t\t\t<ObjectEvent>\n\t\t\t\t<eventTime>2021-05-04T20:53:55.718+05:30</eventTime>\n\t\t\t\t<recordTime>2021-05-04T15:15:47.511Z</recordTime>\n\t\t\t\t<eventTimeZoneOffset>+05:30</eventTimeZoneOffset>\n\t\t\t\t<baseExtension>\n\t\t\t\t\t<eventID xmlns:canda=\"http://ns.canda.com/epcis\">urn:uuid:17a78a5f-377c-4c6c-93cc-fd8e91f1064a</eventID>\n\t\t\t\t</baseExtension>\n\t\t\t\t<epcList>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4056019.010532.4293918790</epc>\n\t\t\t\t</epcList>\n\t\t\t\t<action>ADD</action>\n\t\t\t\t<bizStep>urn:epcglobal:cbv:bizstep:commissioning</bizStep>\n\t\t\t\t<disposition>urn:epcglobal:cbv:disp:sellable_accessible</disposition>\n\t\t\t\t<readPoint>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.00115.SALESFLOOR</id>\n\t\t\t\t</readPoint>\n\t\t\t\t<bizLocation>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.00115.SALESFLOOR</id>\n\t\t\t\t</bizLocation>\n\t\t\t\t<canda:retagReason xmlns:canda=\"http://ns.canda.com/epcis\">missingTag</canda:retagReason>\n\t\t\t</ObjectEvent>\n\t\t</EventList>\n\t</EPCISBody>\n</epcis:EPCISDocument>",
+                "options": {
+                  "raw": {
+                    "language": "xml"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/epcis/capture/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "capture",
+                  "events"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "310 - DM Selling Event",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                },
+                {
+                  "key": "X-EPCIS-Source-ID",
+                  "value": "{{source_id}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "<epcis:EPCISDocument schemaVersion=\"1.2\" creationDate=\"2019-04-01T07:40:32.715Z\" xmlns:epcis=\"urn:epcglobal:epcis:xsd:1\" xmlns:epcismd=\"urn:epcglobal:epcis-masterdata:xsd:1\" xmlns:sbdh=\"http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader\" xmlns:canda=\"http://ns.canda.com/epcis\" xmlns:epcisq=\"urn:epcglobal:epcis-query:xsd:1\" xmlns:epcglobal=\"urn:epcglobal:xsd:1\" xmlns:eecc=\"http://ns.eecc.info/epcis\">\n\t<EPCISBody>\n\t\t<EventList>\n\t\t\t<ObjectEvent>\n\t\t\t\t<eventTime>2021-03-29T10:24:18.47Z</eventTime>\n\t\t\t\t<eventTimeZoneOffset>+01:00</eventTimeZoneOffset>\n\t\t\t\t<baseExtension>\n\t\t\t\t\t<eventID>urn:uuid:0d9a7b81-cf69-4135-99bc-a8c2393ce079</eventID>\n                </baseExtension>\n\t\t\t\t<epcList>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4061505.078699.111</epc>\n\t\t\t\t</epcList>\n\t\t\t\t<action>OBSERVE</action>\n\t\t\t\t<bizStep>urn:epcglobal:cbv:bizstep:retail_selling</bizStep>\n\t\t\t\t<disposition>urn:epcglobal:cbv:disp:retail_sold</disposition>\n\t\t\t\t<readPoint>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.00334.0</id>\n\t\t\t\t</readPoint>\n\t\t\t\t<bizTransactionList>\n\t\t\t\t\t<bizTransaction type=\"urn:epcglobal:cbv:btt:inv\">urn:epcglobal:cbv:bt:4399901779365:438001_1_100_20210305172131</bizTransaction>\n\t\t\t\t</bizTransactionList>\n\t\t\t\t<canda:POSid>7</canda:POSid>\n\t\t\t</ObjectEvent>\n\t\t</EventList>\n\t</EPCISBody>\n</epcis:EPCISDocument>",
+                "options": {
+                  "raw": {
+                    "language": "xml"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/epcis/capture/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "capture",
+                  "events"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "311 - DM Returning Event",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                },
+                {
+                  "key": "X-EPCIS-Source-ID",
+                  "value": "{{source_id}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "<epcis:EPCISDocument schemaVersion=\"1.2\" creationDate=\"2019-07-04T08:56:37.967Z\" xmlns:epcis=\"urn:epcglobal:epcis:xsd:1\" xmlns:epcismd=\"urn:epcglobal:epcis-masterdata:xsd:1\" xmlns:sbdh=\"http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader\" xmlns:canda=\"http://ns.canda.com/epcis\" xmlns:epcisq=\"urn:epcglobal:epcis-query:xsd:1\" xmlns:epcglobal=\"urn:epcglobal:xsd:1\" xmlns:eecc=\"http://ns.eecc.info/epcis\">\n\t<EPCISBody>\n\t\t<EventList>\n\t\t\t<ObjectEvent>\n\t\t\t\t<eventTime>2021-05-04T20:53:55.718+05:30</eventTime>\n\t\t\t\t<eventTimeZoneOffset>+05:30</eventTimeZoneOffset>\n\t\t\t\t<baseExtension>\n\t\t\t\t\t<eventID>urn:uuid:17a78a5f-377c-4c6c-93cc-fd8e91f1064a</eventID>\n\t\t\t\t</baseExtension>\n\t\t\t\t<epcList>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4056019.010532.4293918790</epc>\n\t\t\t\t</epcList>\n\t\t\t\t<action>OBSERVE</action>\n\t\t\t\t<bizStep>urn:epcglobal:cbv:bizstep:accepting</bizStep>\n\t\t\t\t<disposition>urn:epcglobal:cbv:disp:sellable_not_accessible</disposition>\n\t\t\t\t<readPoint>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.00115.BACKROOM</id>\n\t\t\t\t</readPoint>\n\t\t\t\t<bizLocation>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.00115.BACKROOM</id>\n\t\t\t\t</bizLocation>\n\t\t\t\t<canda:POSid>1</canda:POSid>\n\t\t\t\t<canda:serviceProvider>Service,Provider</canda:serviceProvider>\n\t\t\t</ObjectEvent>\n\t\t</EventList>\n\t</EPCISBody>\n</epcis:EPCISDocument>",
+                "options": {
+                  "raw": {
+                    "language": "xml"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/epcis/capture/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "capture",
+                  "events"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "312 - DM Void Sale Event",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                },
+                {
+                  "key": "X-EPCIS-Source-ID",
+                  "value": "{{source_id}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "<epcis:EPCISDocument schemaVersion=\"1.2\" creationDate=\"2019-04-01T07:40:32.715Z\" xmlns:epcis=\"urn:epcglobal:epcis:xsd:1\" xmlns:epcismd=\"urn:epcglobal:epcis-masterdata:xsd:1\" xmlns:sbdh=\"http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader\" xmlns:canda=\"http://ns.canda.com/epcis\" xmlns:epcisq=\"urn:epcglobal:epcis-query:xsd:1\" xmlns:epcglobal=\"urn:epcglobal:xsd:1\" xmlns:eecc=\"http://ns.eecc.info/epcis\">\n\t<EPCISBody>\n\t\t<EventList>\n\t\t\t<ObjectEvent>\n\t\t\t\t<eventTime>2021-03-29T10:24:18.47Z</eventTime>\n\t\t\t\t<eventTimeZoneOffset>+01:00</eventTimeZoneOffset>\n\t\t\t\t<baseExtension>\n\t\t\t\t\t<eventID>urn:uuid:0d9a7b81-cf69-4135-99bc-a8c2393ce079</eventID>\n\t\t\t\t\t<errorDeclaration>\n\t\t\t\t\t\t<declarationTime>2021-03-29T10:27:07.417Z</declarationTime>\n\t\t\t\t\t\t<reason>urn:epcglobal:cbv:er:did_not_occur</reason>\n\t\t\t\t\t</errorDeclaration>\n\t\t\t\t</baseExtension>\n\t\t\t\t<epcList>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4061505.078699.111</epc>\n\t\t\t\t</epcList>\n\t\t\t\t<action>OBSERVE</action>\n\t\t\t\t<bizStep>urn:epcglobal:cbv:bizstep:retail_selling</bizStep>\n\t\t\t\t<disposition>urn:epcglobal:cbv:disp:retail_sold</disposition>\n\t\t\t\t<readPoint>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.00334.0</id>\n\t\t\t\t</readPoint>\n\t\t\t\t<bizTransactionList>\n\t\t\t\t\t<bizTransaction type=\"urn:epcglobal:cbv:btt:inv\">urn:epcglobal:cbv:bt:4399901779365:438001_1_100_20210305172131</bizTransaction>\n\t\t\t\t</bizTransactionList>\n\t\t\t\t<canda:POSid>7</canda:POSid>\n\t\t\t</ObjectEvent>\n\t\t</EventList>\n\t</EPCISBody>\n</epcis:EPCISDocument>",
+                "options": {
+                  "raw": {
+                    "language": "xml"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/epcis/capture/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "capture",
+                  "events"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "313 - DM Branch Transfer Event",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                },
+                {
+                  "key": "X-EPCIS-Source-ID",
+                  "value": "{{source_id}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "<epcis:EPCISDocument schemaVersion=\"1.2\" creationDate=\"2019-07-04T08:56:37.967Z\" xmlns:epcis=\"urn:epcglobal:epcis:xsd:1\" xmlns:epcismd=\"urn:epcglobal:epcis-masterdata:xsd:1\" xmlns:sbdh=\"http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader\" xmlns:canda=\"http://ns.canda.com/epcis\" xmlns:epcisq=\"urn:epcglobal:epcis-query:xsd:1\" xmlns:epcglobal=\"urn:epcglobal:xsd:1\" xmlns:eecc=\"http://ns.eecc.info/epcis\">\n\t<EPCISBody>\n\t\t<EventList>\n\t\t\t<AggregationEvent>\n\t\t\t\t<eventTime>2021-05-04T10:31:37Z</eventTime>\n\t\t\t\t<eventTimeZoneOffset>+03:00</eventTimeZoneOffset>\n\t\t\t\t<baseExtension>\n\t\t\t\t\t<eventID>urn:uuid:7d9a2c48-2788-4ab6-8342-6bde47efdf0e</eventID>\n\t\t\t\t</baseExtension>\n\t\t\t\t<parentID>urn:epc:id:sscc:3047113.0000005249</parentID>\n\t\t\t\t<childEPCs>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4060983.016853.166094658494</epc>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4060983.016853.220771359293</epc>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4060983.016853.241831158098</epc>\n\t\t\t\t\t<epc>urn:epc:id:sgtin:4060983.016853.69446406956</epc>\n\t\t\t\t</childEPCs>\n\t\t\t\t<action>ADD</action>\n\t\t\t\t<bizStep>urn:epcglobal:cbv:bizstep:shipping</bizStep>\n\t\t\t\t<disposition>urn:epcglobal:cbv:disp:in_transit</disposition>\n\t\t\t\t<readPoint>\n\t\t\t\t\t<id>urn:epc:id:sgln:4056019.00663.0</id>\n\t\t\t\t</readPoint>\n\t\t\t\t<bizTransactionList>\n\t\t\t\t\t<bizTransaction type=\"http://epcis.canda.com/btt/workOrder\">123456789</bizTransaction>\n\t\t\t\t</bizTransactionList>\n\t\t\t\t<extension>\n\t\t\t\t\t<sourceList>\n\t\t\t\t\t\t<source type=\"urn:epcglobal:cbv:sdt:location\">urn:epc:id:sgln:4056019.00663.0</source>\n\t\t\t\t\t</sourceList>\n\t\t\t\t\t<destinationList>\n\t\t\t\t\t\t<destination type=\"urn:epcglobal:cbv:sdt:location\">urn:epc:id:sgln:4056019.00033.0</destination>\n\t\t\t\t\t</destinationList>\n\t\t\t\t</extension>\n\t\t\t\t<canda:packingReason xmlns:canda=\"http://ns.canda.com/epcis\">Merchandise Return</canda:packingReason>\n\t\t\t\t<canda:transportType xmlns:canda=\"http://ns.canda.com/epcis\">laid</canda:transportType>\n\t\t\t</AggregationEvent>\n\t\t</EventList>\n\t</EPCISBody>\n</epcis:EPCISDocument>",
+                "options": {
+                  "raw": {
+                    "language": "xml"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/epcis/capture/events",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "epcis",
+                  "capture",
+                  "events"
+                ]
+              }
+            },
+            "response": []
+          }
+        ]
+      }
+    ]
+  }
+}

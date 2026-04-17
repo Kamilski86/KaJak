@@ -29,7 +29,7 @@ public interface EpcisEventRepository extends JpaRepository<EpcisEventEntity, Lo
                                                 OR e.payload::jsonb -> 'extension' -> 'destinationList' ->> 'destination' = :gln)
         AND (cast(:from AS timestamptz) IS NULL OR e.event_time >= cast(:from AS timestamptz))
         AND (cast(:to AS timestamptz)   IS NULL OR e.event_time <= cast(:to AS timestamptz))
-        ORDER BY e.event_time ASC, e.id ASC
+        ORDER BY e.event_time DESC, e.id DESC
         """,
             countQuery = """
         SELECT count(*) FROM epcis_event e
