@@ -1,10 +1,15 @@
 package com.canda.epcis.application.capture;
 
+import com.canda.epcis.application.cbv.CbvValidationService;
 import com.canda.epcis.application.downstream.subscription.SubscriptionDispatcher;
 import com.canda.epcis.application.inventory.InventoryProcessorService;
+import com.canda.epcis.config.CbvConfig;
 import com.canda.epcis.domain.model.AggregationEvent;
 import com.canda.epcis.domain.model.CaptureResult;
 import com.canda.epcis.domain.model.ObjectEvent;
+import com.canda.epcis.domain.model.cbv.CbvValidationResult;
+import com.canda.epcis.domain.service.CbvValidationException;
+import com.canda.epcis.domain.service.CbvVocabularyValidator;
 import com.canda.epcis.infrastructure.json.Epcis2JsonRenderer;
 import com.canda.epcis.infrastructure.persistence.JsonDatabaseWriter;
 import com.canda.epcis.infrastructure.persistence.JsonFileWriter;
@@ -28,6 +33,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -42,6 +48,9 @@ class CaptureEventUseCaseTest {
     @Mock CaptureAuditRepository    auditRepository;
     @Mock InventoryProcessorService inventoryProcessorService;
     @Mock SubscriptionDispatcher    subscriptionDispatcher;
+    @Mock CbvVocabularyValidator    cbvVocabularyValidator;
+    @Mock CbvValidationService      cbvValidationService;
+    @Mock CbvConfig                 cbvConfig;
 
     // Real EpcFilterService — pure domain logic, no mocking needed
     private EpcFilterService epcFilterService;
@@ -56,11 +65,16 @@ class CaptureEventUseCaseTest {
         useCase = new CaptureEventUseCase(
                 xmlValidator, xmlParser, epcFilterService,
                 jsonRenderer, databaseWriter, fileWriter, auditRepository,
-                inventoryProcessorService, subscriptionDispatcher);
+                inventoryProcessorService, subscriptionDispatcher,
+                cbvVocabularyValidator, cbvValidationService, cbvConfig);
 
         lenient().when(auditRepository.save(any(CaptureAuditEntity.class)))
                 .thenAnswer(inv -> inv.getArgument(0));
         lenient().when(jsonRenderer.renderEvent(any())).thenReturn("{\"type\":\"ObjectEvent\"}");
+        lenient().when(cbvValidationService.validate(any()))
+                .thenReturn(CbvValidationResult.builder().valid(true).build());
+        lenient().when(cbvConfig.isStrictMode()).thenReturn(true);
+        lenient().doNothing().when(cbvVocabularyValidator).validate(any());
     }
 
     // ─────────────────────────────────────────────
@@ -113,6 +127,97 @@ class CaptureEventUseCaseTest {
         assertThat(result.getTotalReceived()).isEqualTo(2);
         assertThat(result.getTotalAccepted()).isEqualTo(2);
         assertThat(result.getTotalDropped()).isEqualTo(0);
+    }
+
+    // ─────────────────────────────────────────────
+    // CBV validation — Stage 5a (hardcoded allowlist)
+    // ─────────────────────────────────────────────
+
+    @Test
+    void capture_invalidBizStep_eventNotStoredAndCbvViolationReported() {
+        ObjectEvent invalidEvent = ObjectEvent.builder()
+                .eventTime(OffsetDateTime.now())
+                .eventId("urn:uuid:bad-cbv")
+                .epcList(List.of("urn:epc:id:sgtin:0614141.107346.0001"))
+                .bizStep("urn:epcglobal:cbv:bizstep:INVALID_STEP")
+                .build();
+        when(xmlParser.parse(DUMMY_XML)).thenReturn(List.of(invalidEvent));
+        lenient().doThrow(new CbvValidationException("Unrecognized bizStep: INVALID_STEP"))
+                .when(cbvVocabularyValidator).validate(invalidEvent);
+
+        CaptureResult result = useCase.capture(DUMMY_XML, SOURCE_ID);
+
+        assertThat(result.getTotalReceived()).isEqualTo(1);
+        assertThat(result.getTotalAccepted()).isEqualTo(0);
+        assertThat(result.getErrors()).hasSize(1);
+        assertThat(result.getErrors().get(0).getErrorCode()).isEqualTo("CBV_VIOLATION");
+        verify(databaseWriter, never()).save(any(), anyString());
+    }
+
+    @Test
+    void capture_emptyBizStepUri_eventNotStoredAndCbvViolationReported() {
+        ObjectEvent invalidEvent = ObjectEvent.builder()
+                .eventTime(OffsetDateTime.now())
+                .eventId("urn:uuid:empty-bizstep")
+                .epcList(List.of("urn:epc:id:sgtin:0614141.107346.0001"))
+                .bizStep("urn:epcglobal:cbv:bizstep:")
+                .build();
+        when(xmlParser.parse(DUMMY_XML)).thenReturn(List.of(invalidEvent));
+        doThrow(new CbvValidationException("Unrecognized bizStep: (empty suffix)"))
+                .when(cbvVocabularyValidator).validate(invalidEvent);
+
+        CaptureResult result = useCase.capture(DUMMY_XML, SOURCE_ID);
+
+        assertThat(result.getTotalAccepted()).isEqualTo(0);
+        assertThat(result.getErrors()).hasSize(1);
+        assertThat(result.getErrors().get(0).getErrorCode()).isEqualTo("CBV_VIOLATION");
+        verify(databaseWriter, never()).save(any(), anyString());
+    }
+
+    @Test
+    void capture_cbvViolationInOneEvent_otherEventsStillProcessed() {
+        ObjectEvent validEvent   = validObjectEvent("urn:uuid:good");
+        ObjectEvent invalidEvent = ObjectEvent.builder()
+                .eventTime(OffsetDateTime.now())
+                .eventId("urn:uuid:bad")
+                .epcList(List.of("urn:epc:id:sgtin:0614141.107346.0002"))
+                .bizStep("urn:epcglobal:cbv:bizstep:NONSENSE")
+                .build();
+        when(xmlParser.parse(DUMMY_XML)).thenReturn(List.of(validEvent, invalidEvent));
+        doThrow(new CbvValidationException("Invalid bizStep"))
+                .when(cbvVocabularyValidator).validate(invalidEvent);
+
+        CaptureResult result = useCase.capture(DUMMY_XML, SOURCE_ID);
+
+        assertThat(result.getTotalReceived()).isEqualTo(2);
+        assertThat(result.getTotalAccepted()).isEqualTo(1);
+        assertThat(result.getErrors()).hasSize(1);
+        verify(databaseWriter).save(any(), anyString()); // only the valid event
+    }
+
+    // ─────────────────────────────────────────────
+    // CBV validation — Stage 5b (DB-backed, strict-mode)
+    // ─────────────────────────────────────────────
+
+    @Test
+    void capture_dbCbvViolationStrictMode_eventNotStored() {
+        ObjectEvent event = validObjectEvent("urn:uuid:db-cbv-fail");
+        when(xmlParser.parse(DUMMY_XML)).thenReturn(List.of(event));
+        CbvValidationResult violation = CbvValidationResult.invalid(List.of(
+                CbvValidationResult.CbvViolation.builder()
+                        .errorCode("CBV_UNKNOWN_BIZ_STEP")
+                        .field("bizStep")
+                        .message("Not in CBV 2.0 vocabulary")
+                        .build()));
+        when(cbvValidationService.validate(event)).thenReturn(violation);
+        when(cbvConfig.isStrictMode()).thenReturn(true);
+
+        CaptureResult result = useCase.capture(DUMMY_XML, SOURCE_ID);
+
+        assertThat(result.getTotalAccepted()).isEqualTo(0);
+        assertThat(result.getErrors()).hasSize(1);
+        assertThat(result.getErrors().get(0).getErrorCode()).isEqualTo("CBV_VIOLATION");
+        verify(databaseWriter, never()).save(any(), anyString());
     }
 
     // ─────────────────────────────────────────────

@@ -1,12 +1,17 @@
 package com.canda.epcis.application.capture;
 
+import com.canda.epcis.application.cbv.CbvValidationService;
 import com.canda.epcis.application.downstream.subscription.SubscriptionDispatcher;
 import com.canda.epcis.application.inventory.InventoryProcessorService;
+import com.canda.epcis.config.CbvConfig;
 import com.canda.epcis.domain.model.AggregationEvent;
 import com.canda.epcis.domain.model.CaptureResult;
 import com.canda.epcis.domain.model.EpcisEvent;
 import com.canda.epcis.domain.model.FilterResult;
 import com.canda.epcis.domain.model.ObjectEvent;
+import com.canda.epcis.domain.model.cbv.CbvValidationResult;
+import com.canda.epcis.domain.service.CbvValidationException;
+import com.canda.epcis.domain.service.CbvVocabularyValidator;
 import com.canda.epcis.infrastructure.persistence.audit.CaptureAuditEntity;
 import com.canda.epcis.infrastructure.persistence.audit.CaptureAuditRepository;
 import com.canda.epcis.infrastructure.xml.EpcisXmlParser;
@@ -52,6 +57,9 @@ public class CaptureEventUseCase {
     private final CaptureAuditRepository auditRepository;
     private final InventoryProcessorService inventoryProcessorService;
     private final SubscriptionDispatcher subscriptionDispatcher;
+    private final CbvVocabularyValidator cbvVocabularyValidator;
+    private final CbvValidationService cbvValidationService;
+    private final CbvConfig cbvConfig;
 
     public CaptureEventUseCase(EpcisXmlValidator xmlValidator,
                                EpcisXmlParser xmlParser,
@@ -61,7 +69,10 @@ public class CaptureEventUseCase {
                                JsonFileWriter fileWriter,
                                CaptureAuditRepository auditRepository,
                                InventoryProcessorService inventoryProcessorService,
-                               SubscriptionDispatcher subscriptionDispatcher) {
+                               SubscriptionDispatcher subscriptionDispatcher,
+                               CbvVocabularyValidator cbvVocabularyValidator,
+                               CbvValidationService cbvValidationService,
+                               CbvConfig cbvConfig) {
         this.xmlValidator = xmlValidator;
         this.xmlParser = xmlParser;
         this.epcFilterService = epcFilterService;
@@ -71,6 +82,9 @@ public class CaptureEventUseCase {
         this.auditRepository = auditRepository;
         this.inventoryProcessorService = inventoryProcessorService;
         this.subscriptionDispatcher = subscriptionDispatcher;
+        this.cbvVocabularyValidator = cbvVocabularyValidator;
+        this.cbvValidationService = cbvValidationService;
+        this.cbvConfig = cbvConfig;
     }
 
     /**
@@ -108,6 +122,34 @@ public class CaptureEventUseCase {
         for (EpcisEvent event : events) {
             String eventId = event.getEventId();
             try {
+                // Stage 5a: hardcoded CBV allowlist — always enforced
+                try {
+                    cbvVocabularyValidator.validate(event);
+                } catch (CbvValidationException e) {
+                    log.warn("CAPTURE_CBV_VIOLATION_5A sessionId={} eventId={} reason={}", sessionId, eventId, e.getMessage());
+                    errors.add(CaptureResult.CaptureError.builder()
+                            .eventId(eventId)
+                            .errorCode("CBV_VIOLATION")
+                            .message(e.getMessage())
+                            .build());
+                    continue;
+                }
+
+                // Stage 5b: DB-backed CBV validation — enforced when strict-mode=true
+                if (cbvConfig.isStrictMode()) {
+                    CbvValidationResult cbvResult = cbvValidationService.validate(event);
+                    if (!cbvResult.isValid()) {
+                        cbvValidationService.quarantine(event, xml, sourceId, cbvResult);
+                        log.warn("CAPTURE_CBV_VIOLATION_5B sessionId={} eventId={} violations={}", sessionId, eventId, cbvResult.getViolations().size());
+                        errors.add(CaptureResult.CaptureError.builder()
+                                .eventId(eventId)
+                                .errorCode("CBV_VIOLATION")
+                                .message("CBV 2.0 violation: " + cbvResult.getViolations())
+                                .build());
+                        continue;
+                    }
+                }
+
                 FilterResult filterResult = applyEpcFilter(event);
 
                 if (filterResult.isEventShouldBeDropped()) {
