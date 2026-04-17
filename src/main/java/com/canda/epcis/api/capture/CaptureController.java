@@ -49,12 +49,23 @@ public class CaptureController {
 
         log.info("POST /epcis/capture/events sourceId={}", sourceId);
         CaptureResult result = captureEventUseCase.capture(xml, sourceId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(toResponse(result));
+        HttpStatus status = resolveStatus(result);
+        return ResponseEntity.status(status).body(toResponse(result));
     }
 
     // ─────────────────────────────────────────────
     // PRIVATE
     // ─────────────────────────────────────────────
+
+    private HttpStatus resolveStatus(CaptureResult result) {
+        if (result.getTotalAccepted() == 0 && result.getTotalReceived() > 0) {
+            return HttpStatus.UNPROCESSABLE_ENTITY; // 422 — all events rejected
+        }
+        if (result.getTotalAccepted() < result.getTotalReceived()) {
+            return HttpStatus.MULTI_STATUS; // 207 — partial success
+        }
+        return HttpStatus.CREATED; // 201 — all accepted
+    }
 
     private CaptureResponse toResponse(CaptureResult result) {
         return CaptureResponse.builder()
