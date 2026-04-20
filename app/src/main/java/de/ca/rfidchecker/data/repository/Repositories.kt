@@ -57,10 +57,13 @@ class MismatchRepository @Inject constructor(private val db: AppDatabase) {
 
             val tsFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
             val csvContent = buildString {
-                appendLine("Timestamp,SGTIN,SGTIN Tag,QR Raw")
+                appendLine("Timestamp,SGTIN,SGTIN Tag,QR Raw,Status")
                 items.forEach {
                     val rowTs = tsFormat.format(Date(it.timestamp))
-                    appendLine("$rowTs,${it.sgtinQr.csvEscape()},${it.sgtinTag.csvEscape()},${it.qrRaw.csvEscape()}")
+                    val status = if (it.isMatch) "Match" else "Mismatch"
+                    appendLine(
+                        "$rowTs,${it.sgtinQr.csvEscape()},${it.sgtinTag.csvEscape()},${it.qrRaw.csvEscape()},${status.csvEscape()}"
+                    )
                 }
             }
 
