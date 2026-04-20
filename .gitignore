@@ -1,0 +1,18 @@
+.gradle/
+/local.properties
+/.idea/
+.DS_Store
+/build/
+/captures/
+.externalNativeBuild/
+.cxx/
+*.iml
+/app/build/
+app/src.zip
+# ignore vendor sample apps (large, not needed for build)
+vendor/honeywell/HEDC_DemoApp2/
+vendor/honeywell/Honeywell_MobilitySDK_Android_v1.00.00.0188/
+vendor/honeywell/Honeywell-Android-OS-SDK-v1.00.00.0039 1 (1)/
+vendor/honeywell/SimpleFirmwareReplace/
+vendor/zebra/HHSampleApp/
+vendor/zebra/ZIOTCSampleApp/

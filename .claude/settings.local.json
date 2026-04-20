@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//private/tmp/hon_sdk/**)",
+      "Bash(jar xf:*)",
+      "Bash(javap -p 'honeywell/hedc/EngineCommunication$OnHedc.class')",
+      "Bash(javap -p -verbose honeywell/hedc/HsmCompatActivity.class)",
+      "Bash(jar tf:*)",
+      "Bash(javap -p honeywell/hedc/GuiHelpers.class)",
+      "Read(//private/tmp/**)",
+      "Bash(mkdir -p hax)",
+      "Bash(cp \"/Users/kamiljasinski/CaRfidChecker/vendor/honeywell/Honeywell-Android-OS-SDK-v1.00.00.0039 1 \\(1\\)/libs/hax-os-sdk-01.04.00.1404.jar\" hax/)",
+      "Bash(unzip -l /Users/kamiljasinski/CaRfidChecker/vendor/honeywell/Honeywell_MobilitySDK_Android_v1.00.00.0188/honeywell-android-data-collection-sdk/honeywell-android-data-collection-sdk/libs/DataCollection.aar)",
+      "Bash(grep \"\\\\.class$\")",
+      "Bash(unzip -q classes.jar)",
+      "Bash(javap -public com.honeywell.aidc.AidcManager)",
+      "Bash(javap -public honeywell/hedc/EngineCommunication)",
+      "Bash(sips -z 48 48 '/Users/kamiljasinski/CaRfidChecker/Bildschirmfoto 2026-04-07 um 19.24.09.png' --out /Users/kamiljasinski/CaRfidChecker/app/src/main/res/mipmap-mdpi/ic_logo.png)",
+      "Bash(sips -z 72 72 '/Users/kamiljasinski/CaRfidChecker/Bildschirmfoto 2026-04-07 um 19.24.09.png' --out /Users/kamiljasinski/CaRfidChecker/app/src/main/res/mipmap-hdpi/ic_logo.png)",
+      "Bash(sips -z 96 96 '/Users/kamiljasinski/CaRfidChecker/Bildschirmfoto 2026-04-07 um 19.24.09.png' --out /Users/kamiljasinski/CaRfidChecker/app/src/main/res/mipmap-xhdpi/ic_logo.png)",
+      "Bash(sips -z 144 144 '/Users/kamiljasinski/CaRfidChecker/Bildschirmfoto 2026-04-07 um 19.24.09.png' --out /Users/kamiljasinski/CaRfidChecker/app/src/main/res/mipmap-xxhdpi/ic_logo.png)",
+      "Bash(sips -z 192 192 '/Users/kamiljasinski/CaRfidChecker/Bildschirmfoto 2026-04-07 um 19.24.09.png' --out /Users/kamiljasinski/CaRfidChecker/app/src/main/res/mipmap-xxxhdpi/ic_logo.png)",
+      "Bash(xargs ls:*)",
+      "Bash(./gradlew :app:compileDebugKotlin)"
+    ]
+  }
+}
