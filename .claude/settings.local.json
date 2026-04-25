@@ -21,7 +21,11 @@
       "Bash(sips -z 144 144 '/Users/kamiljasinski/CaRfidChecker/Bildschirmfoto 2026-04-07 um 19.24.09.png' --out /Users/kamiljasinski/CaRfidChecker/app/src/main/res/mipmap-xxhdpi/ic_logo.png)",
       "Bash(sips -z 192 192 '/Users/kamiljasinski/CaRfidChecker/Bildschirmfoto 2026-04-07 um 19.24.09.png' --out /Users/kamiljasinski/CaRfidChecker/app/src/main/res/mipmap-xxxhdpi/ic_logo.png)",
       "Bash(xargs ls:*)",
-      "Bash(./gradlew :app:compileDebugKotlin)"
+      "Bash(./gradlew :app:compileDebugKotlin)",
+      "Bash(mkdir -p ~/.claude/plugins/marketplaces/thedotmack/plugin)",
+      "Bash(cp -r ~/.claude/claude-mem/plugin/scripts ~/.claude/plugins/marketplaces/thedotmack/plugin/)",
+      "Bash(cp -r ~/.claude/claude-mem/plugin/skills ~/.claude/plugins/marketplaces/thedotmack/plugin/)",
+      "Read(//root/.claude/plugins/marketplaces/thedotmack/**)"
     ]
   }
 }
