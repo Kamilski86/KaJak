@@ -9,7 +9,7 @@
 
 ## 1) Produktauftrag und Vision
 
-CaRfidChecker reduziert Fehlzuordnungen zwischen physischem RFID-Tag und gedruckter QR-Kennzeichnung.
+QCC reduziert Fehlzuordnungen zwischen physischem RFID-Tag und gedruckter QR-Kennzeichnung.
 Das Produkt soll am Shopfloor in Sekunden eine verlaessliche Ja/Nein-Entscheidung liefern und gleichzeitig alle Entscheidungen nachvollziehbar dokumentieren.
 
 Leitprinzipien:

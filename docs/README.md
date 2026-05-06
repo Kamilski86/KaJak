@@ -1,8 +1,8 @@
-# CaRfidChecker Dokumentation
+# QCC Dokumentation
 
 Diese Dokumentation beschreibt das bestehende Projekt aus 5 Senior-Rollenperspektiven.
 Sie basiert auf:
-- Projektcode unter `app/src/main/java/de/ca/rfidchecker/`
+- Projektcode unter `app/src/main/java/de/ca/qcc/`
 - Projektleitfaden `CLAUDE.md` und `AGENTS.md`
 - Rollenleitfaeden im Ordner `agents/`
 

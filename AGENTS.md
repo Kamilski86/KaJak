@@ -1,10 +1,10 @@
 # AGENTS.md
 
-Guidance for AI coding agents working with the CaRfidChecker codebase.
+Guidance for AI coding agents working with the QCC codebase.
 
 ## Project Overview
 
-**CaRfidChecker** is an Android quality-control app for RFID and QR code verification. It compares GTIN/serial from QR scans (barcode via Honeywell CT37) against RFID tags (EPC via Zebra RFD8500), using GS1 standard encoding to detect mismatches.
+**QCC** is an Android quality-control app for RFID and QR code verification. It compares GTIN/serial from QR scans (barcode via Honeywell CT37) against RFID tags (EPC via Zebra RFD8500), using GS1 standard encoding to detect mismatches.
 
 **Stack:** Kotlin + Jetpack Compose + Material3 · MVVM + Hilt DI · Room DB · Min SDK 28, Target SDK 34
 
@@ -74,7 +74,7 @@ Hard-coded string routes (`"reader"`, `"language"`, `"about"`) also exist in `Ma
 - **Schema version 6** (see `Migrations.kt`)
 - **Tables:** `scans` (all results), `mismatches` (mismatch subset)
 - **Migration constraint:** SQLite API < 35 has no `DROP COLUMN` → use recreate-table pattern (see `MIGRATION_5_6`)
-- DB file: `ca-rfid-checker.db`
+- DB file: `qcc.db`
 
 ---
 
@@ -122,7 +122,7 @@ rfidReader.observeTagScans().onEach { epc ->
 ./gradlew assembleDebug          # Debug APK
 ./gradlew assembleRelease        # Release APK
 ./gradlew test                   # All unit tests
-./gradlew :app:testDebugUnitTest --tests "de.ca.rfidchecker.SomeClass" # Single test
+./gradlew :app:testDebugUnitTest --tests "de.ca.qcc.SomeClass" # Single test
 ./gradlew lint                   # Lint report
 ./gradlew clean                  # Clean build
 ```

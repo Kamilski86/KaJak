@@ -143,7 +143,7 @@ Releasefreigabe nur wenn:
 
 ```bash
 ./gradlew test
-./gradlew :app:testDebugUnitTest --tests "de.ca.rfidchecker.SomeTestClass"
+./gradlew :app:testDebugUnitTest --tests "de.ca.qcc.SomeTestClass"
 ./gradlew lint
 ```
 

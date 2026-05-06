@@ -1,4 +1,4 @@
-# SETUP.md — CaRfidChecker: Erste Schritte
+# SETUP.md — QCC: Erste Schritte
 
 Diese Anleitung erklärt, wie du das Projekt lokal zum Laufen bringst.
 
@@ -28,7 +28,7 @@ Diese Anleitung erklärt, wie du das Projekt lokal zum Laufen bringst.
 
 ```bash
 git clone <REPO_URL>
-cd CaRfidChecker
+cd QCC
 ```
 
 ---
@@ -36,7 +36,7 @@ cd CaRfidChecker
 ## Projekt in Android Studio öffnen
 
 1. Android Studio starten
-2. **File → Open** → Ordner `CaRfidChecker` auswählen
+2. **File → Open** → Ordner `QCC` auswählen
 3. Gradle-Sync abwarten (kann einige Minuten dauern beim ersten Mal)
 
 > Falls der Sync fehlschlägt: **File → Invalidate Caches / Restart** probieren.
@@ -124,7 +124,7 @@ Splash → Dashboard
 
 ## Datenbank
 
-- Room-Datenbank: `ca-rfid-checker.db`
+- Room-Datenbank: `qcc.db`
 - Schema Version: **6**
 - Liegt lokal auf dem Gerät unter dem App-Datenpfad
 - **Kein manuelles Setup nötig** — wird beim ersten App-Start automatisch angelegt

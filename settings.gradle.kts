@@ -17,5 +17,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "CaRfidChecker"
+rootProject.name = "QCC"
 include(":app")

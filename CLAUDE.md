@@ -17,7 +17,7 @@ This is an Android project built with Gradle. All commands run from the repo roo
 ./gradlew test
 
 # Run a single test class
-./gradlew :app:testDebugUnitTest --tests "de.ca.rfidchecker.SomeTestClass"
+./gradlew :app:testDebugUnitTest --tests "de.ca.qcc.SomeTestClass"
 
 # Lint
 ./gradlew lint
@@ -72,7 +72,7 @@ Routes are defined in `navigation/Nav.kt` as a sealed class. Hard-coded string r
 
 ### Database
 
-Room DB (`ca-rfid-checker.db`) is currently at schema version 6. Two tables: `scans` (every comparison result) and `mismatches` (mismatch-only subset). Migrations live in `data/local/Migrations.kt`. SQLite on API < 35 has no `DROP COLUMN` — recreate-table pattern is used (see `MIGRATION_5_6`).
+Room DB (`qcc.db`) is currently at schema version 6. Two tables: `scans` (every comparison result) and `mismatches` (mismatch-only subset). Migrations live in `data/local/Migrations.kt`. SQLite on API < 35 has no `DROP COLUMN` — recreate-table pattern is used (see `MIGRATION_5_6`).
 
 ### String localization
 

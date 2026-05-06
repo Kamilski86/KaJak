@@ -8,7 +8,7 @@
 
 ## 1) Kurzueberblick
 
-CaRfidChecker ist eine Android-App zur Pruefung von QR/RFID-Paaren im Einzelartikelmodus.
+QCC ist eine Android-App zur Pruefung von QR/RFID-Paaren im Einzelartikelmodus.
 Der Kernfluss liegt in `ScanViewModel`: Daten empfangen -> parsen -> vergleichen -> persistieren -> rueckmelden.
 
 ## 2) Tech Stack
@@ -23,7 +23,7 @@ Der Kernfluss liegt in `ScanViewModel`: Daten empfangen -> parsen -> vergleichen
 ## 3) Projektlayout
 
 ```text
-app/src/main/java/de/ca/rfidchecker/
+app/src/main/java/de/ca/qcc/
   app/                 MainActivity, App
   feature/             UI Screens + ViewModels
   domain/model/        Datenmodelle

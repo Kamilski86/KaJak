@@ -4,7 +4,7 @@
 
 - Version: 1.1
 - Perspektive: Solution/Business Architecture (As-Is + Zielbild)
-- Quellen: `AGENTS.md`, `CLAUDE.md`, `app/src/main/java/de/ca/rfidchecker/`
+- Quellen: `AGENTS.md`, `CLAUDE.md`, `app/src/main/java/de/ca/qcc/`
 
 ## 1) Architekturziele
 
@@ -25,7 +25,7 @@
 
 ```mermaid
 flowchart LR
-    U[Operator] --> APP[CaRfidChecker App]
+    U[Operator] --> APP[QCC App]
     H[Honeywell CT37 Scanner SDK] --> APP
     Z[Zebra RFD8500 SDK] --> APP
     APP --> DB[(Room SQLite)]

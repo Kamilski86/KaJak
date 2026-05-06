@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "de.ca.rfidchecker"
+    namespace = "de.ca.qcc"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "de.ca.rfidchecker"
+        applicationId = "de.ca.qcc"
         minSdk = 28
         targetSdk = 34
         versionCode = 1

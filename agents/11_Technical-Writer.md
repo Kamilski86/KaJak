@@ -19,10 +19,10 @@ Documentation expert focused on creating clear, comprehensive technical document
 
 ## Android-Specific Documentation
 ```markdown
-# CaRfidChecker Android App
+# QCC Android App
 
 ## Overview
-CaRfidChecker is an Android quality-control application for RFID and QR code verification in retail environments.
+QCC is an Android quality-control application for RFID and QR code verification in retail environments.
 
 ## Architecture
 
@@ -80,7 +80,7 @@ fun parseQr(rawData: String): QrScanResult {
 
 ### From Google Play Store
 1. Open Google Play Store on your Android device
-2. Search for "CaRfidChecker"
+2. Search for "QCC"
 3. Tap "Install" and wait for download to complete
 
 ### Manual APK Installation
@@ -92,7 +92,7 @@ fun parseQr(rawData: String): QrScanResult {
 
 ### Honeywell CT37 Scanner
 1. Pair the scanner via Bluetooth in device settings
-2. Launch CaRfidChecker app
+2. Launch QCC app
 3. Scanner will auto-connect on first use
 
 ### Zebra RFD8500 Reader

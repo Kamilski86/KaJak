@@ -16,13 +16,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_logo"
         android:supportsRtl="true"
-        android:theme="@style/Theme.CaRfidChecker"
+        android:theme="@style/Theme.QCC"
         tools:replace="android:allowBackup">
 
         <activity
-            android:name="de.ca.rfidchecker.app.MainActivity"
+            android:name="de.ca.qcc.app.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.CaRfidChecker"
+            android:theme="@style/Theme.QCC"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

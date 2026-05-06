@@ -4,11 +4,11 @@
 
 - Version: 1.1 (Rueckwirkende Konsolidierung)
 - Geltungsbereich: Aktueller QCC-Use-Case im Projektstand April 2026
-- Quellen: `AGENTS.md`, `CLAUDE.md`, `app/src/main/java/de/ca/rfidchecker/`
+- Quellen: `AGENTS.md`, `CLAUDE.md`, `app/src/main/java/de/ca/qcc/`
 
 ## 1) Zielbild und Scope (As-Is)
 
-CaRfidChecker ist eine Android-Anwendung zur Identitaetspruefung einzelner Artikel.
+QCC ist eine Android-Anwendung zur Identitaetspruefung einzelner Artikel.
 Pro Pruefzyklus werden QR-Daten (GS1 DataMatrix oder manuelle GTIN) und RFID-Daten (EPC SGTIN-96) zusammengefuehrt und verglichen.
 
 Ergebnis des Zyklus:
