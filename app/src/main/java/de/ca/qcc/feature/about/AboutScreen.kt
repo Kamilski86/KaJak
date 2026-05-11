@@ -1,15 +1,13 @@
 package de.ca.qcc.feature.about
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,12 +21,10 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import de.ca.qcc.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,15 +51,11 @@ fun AboutScreen(onOpenDrawer: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Box(
-                modifier = Modifier
-                    .size(100.dp)
-                    .clip(CircleShape)
-                    .background(Color.Black),
-                contentAlignment = Alignment.Center
-            ) {
-                Text("QCC", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 24.sp)
-            }
+            Image(
+                painter = painterResource(R.mipmap.ic_logo),
+                contentDescription = null,
+                modifier = Modifier.size(120.dp)
+            )
             Spacer(Modifier.height(24.dp))
             Text("QCC", style = MaterialTheme.typography.headlineSmall, color = Color.Black)
             Text("Version 0.1.0", color = Color.Black)
